@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Keith O'Hara</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Keith O'Hara</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="bmr.html">BMR</a>
+                            </li>
+                            <li>
+                                <a href="trame.html">TraME</a>
+                            </li>
+                            <li>
+                                <a href="other_code.html">Other</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="research.html">Research</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teaching <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="phd_metrics.html">Econometrics</a>
+                            </li>
+                            <li>
+                                <a href="fin_econ.html">Financial Economics</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="links.html">Links</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a>
+                    </li>
+                    <li class="active">TraME</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+
+
+<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Transportation Methods for Econometrics</u></strong></h3>
+<p> </p>
+
+<p>TraME (<b><i>Tra</i></b>nsportation <b><i>M</i></b>ethods for <b><i>E</i></b>conometrics) is a C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
+
+<b>Features</b>
+<br>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>Flexible, templated library</li>
+        <li>Built on Armadillo</li>
+        <li>Can link with Gurobi or GLPK</li>
+        </ul>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td class="line" style="vertical-align: top;">
+        <br>
+        </td>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+            <li>The library includes several random utility model specifications;</li>
+            <li>as well as transferable, non-transferable, and imperfectly transferable utility</li>
+            <li>MLE- and moment-matching-based estimation</li>
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
+
+<hr>
+
+<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
+
+<p>Current version: 2017-03-15.</p>
+<ul>
+    <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
+    <li>GLPK performs significantly worse than Gurobi.</li>
+</ul>
+
+<pre class="brush: js; toolbar: false">
+./configure
+make
+make install</pre>
+
+<p><strong>Documentation.</strong></p>
+
+<ul>
+ <li>Accompanying vignette: <a href="http://bayes.squarespace.com/storage/bmr/BMR.pdf" target="_blank">link</a>.</li>
+ <li> PDF of BMR help files: <a href="http://bayes.squarespace.com/storage/bmr/BMR-manual.pdf" target="_blank">link</a>. The help files can also be accessed in the R environment using '?chosen_function'; for example, ?BVARM.</li>
+</ul>
+
+<p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
+
+<p> After installing BMR, the user can check if everything is working as intended by typing:</p>
+<pre class="brush: js; toolbar: false">
+library(BMR)
+data(BMRVARData)</pre>
+<p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
+
+
+    <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Keith O'Hara 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

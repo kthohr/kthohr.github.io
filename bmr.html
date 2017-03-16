@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Keith O'Hara</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Keith O'Hara</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="bmr.html">BMR</a>
+                            </li>
+                            <li>
+                                <a href="trame.html">TraME</a>
+                            </li>
+                            <li>
+                                <a href="other_code.html">Other</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="research.html">Research</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teaching <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="phd_metrics.html">Econometrics</a>
+                            </li>
+                            <li>
+                                <a href="fin_econ.html">Financial Economics</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="links.html">Links</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a>
+                    </li>
+                    <li class="active">BMR</li>
+                    <li><a href="bmr-replication-files.html">Replication Files</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+
+
+<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Bayesian Macroeconometrics in R</u></strong></h3>
+<p> </p>
+
+<p>BMR (Bayesian Macroeconometrics in R) is a collection of R and C++ routines for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models in the R statistical environment.</p>
+
+<b>Features</b>
+<br>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>For BVARs, BMR supports:</li>
+        <ul>
+            <li>normal-inverse-Wishart prior,</li>
+            <li>Minnesota prior, and</li>
+            <li>Mattias Villani's steady-state prior.</li>
+        </ul>
+        <li>The BMR package can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
+        </ul>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td class="line" style="vertical-align: top;">
+        <br>
+        </td>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>For DSGE models, the package can
+            <ul>
+                <li>solve models using either Harald Uhlig's method of undetermined coefficients or Chris Sims' canonical decomposition;</li>
+                <li>estimate models using MCMC by means of a Kalman filter or the Chandrasekhar recursions; and</li>
+                <li>estimate a hybrid DSGE-VAR model.</li>
+            </ul>
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<p><strong>Important License Information</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
+
+<p>
+By downloading, installing, and/or using the software, you agree to these terms, to the terms of the GPL v2, and release me from any liability whatsoever arising from use of this software.</p>
+
+<p><strong>Package requirements</strong>: the latest versions of R (v3.20, or above), Rcpp, RcppArmadillo (>= v0.5.300.4), ggplot2, doParallel, and grid (this comes pre-packaged with new R releases). </p>
+
+<p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
+<pre class="brush: js; toolbar: false">
+install.packages("RcppArmadillo")
+install.packages("ggplot2")
+install.packages("doParallel")</pre>
+
+<hr>
+
+<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="BMR Build"></a> <a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></h3>
+
+<p>Current version: 0.5.4, 2016-06-18.</p>
+<ul>
+ <li>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. You need to install BMR from source.</li>
+ <ul>
+  <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
+  <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
+  <ul>
+   <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
+   <pre class="brush: js; toolbar: false">
+   curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
+   sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
+  </ul>
+  <li>Then simply run the following commands in R:</li>
+  <pre class="brush: js; toolbar: false">
+   install.packages("devtools")
+   library(devtools)
+   install_github("kthohr/BMR")</pre>
+  <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li>
+ </ul>
+</ul>
+
+<p><strong>Documentation.</strong></p>
+
+<ul>
+ <li>Accompanying vignette: <a href="http://bayes.squarespace.com/storage/bmr/BMR.pdf" target="_blank">link</a>.</li>
+ <li> PDF of BMR help files: <a href="http://bayes.squarespace.com/storage/bmr/BMR-manual.pdf" target="_blank">link</a>. The help files can also be accessed in the R environment using '?chosen_function'; for example, ?BVARM.</li>
+</ul>
+
+<p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
+
+<p> After installing BMR, the user can check if everything is working as intended by typing:</p>
+<pre class="brush: js; toolbar: false">
+library(BMR)
+data(BMRVARData)</pre>
+<p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
+
+<p> <strong>Replication files/models</strong>.</p>
+
+<p> Replication files can be found on a separate page: <a href="bmr-replication-files.html" target="_blank">link</a>.</p>
+
+<hr>
+
+<h3 style="text-align: left;"><strong style="font-size: 110%;">Release notes</strong></h3>
+
+<ul>
+ <li>Version 0.5.1, 07/2015:</li>
+  <ul>
+    <li> Bug fix release for Windows systems;</li>
+    <li> Rlapack does not possess the necessary routines to perform a QZ decomposition, a feature that  will be available in future release of Armadillo, nor can it invert complex-valued matrices via a LU decomposition. For now, 'gensys' will return an error on Windows-based machines.</li>
+  </ul>
+ <li>Version 0.5.0, 07/2015:</li>
+  <ul>
+    <li> BMR now includes a C++ implementation of Chris Sims' 'gensys' solver;</li>
+    <li> speed and stability improvements;</li>
+    <li> the package should pass all CRAN checks;</li>
+    <li> minor bug fixes; and</li>
+    <li> updates to the example and help files. </li>
+  </ul>
+ <li>Version 0.4.3, 02/2015:</li>
+  <ul>
+    <li> Improved error handling between R and compiled C++ code;</li>
+    <li> new state plotting function for estimated DSGE and DSGE-VAR models (see ?states);
+    <li> general improvements to plotting style; and</li>
+    <li> updated the example and help files. </li>
+  </ul>
+ <li>Version 0.4.2, 01/2015:</li>
+  <ul>
+    <li> Primarily a patch update;</li>
+    <li> new forecast function for estimated DSGE models;
+    <li> revamped plotting style;</li>
+    <li> changed terminal output format to 'message';</li>
+    <li> better error catching in the C++ code to avoid fatal errors;</li>
+    <li> bug fix for BVARTVP models with more than 3 variables;</li>
+    <li> minor bug fixes; and </li>
+    <li> updated the documentation and help files. </li>
+  </ul>
+ <li>Version 0.4.0, 07/2014:</li>
+  <ul>
+    <li> Better support for larger DSGE models;</li>
+    <li> intercept terms in the measurement equation and measurement equation error-variances are now required inputs to the EDSGE and DSGEVAR functions, which is done through 'partomats' (see the updated example files linked above);
+    <li> code for the An and Schorfheide (2007) and Lubik and Schorfheide (2007) models;</li>
+    <li> a new function ('prior') to plot prior distributions and print first and second moments;</li>
+    <li> a new simple wrapper function ('gtsplot') to plot time-series data;</li>
+    <li> DSGEVAR function input changed to include a constant (intercept) term; and </li>
+    <li> updated the documentation and help files. </li>
+  </ul>
+ <li>Version 0.3.0:</li>
+  <ul>
+    <li> DSGEVAR function now supports multiple MCMC chains running in parallel;</li>
+    <li> better posterior mode estimation for DSGE and DSGEVAR models via sequential optimization using multiple optimization routines;</li>
+    <li> faster estimation of large DSGE models using the Chandrasekhar Recursions; </li>
+    <li> setting keep = 0 in EDSGE and DSGEVAR will return the posterior mode approximation only; </li>
+    <li> EDSGE and DSGEVAR functions now return a Laplace approximation to the marginal likelihood; </li>
+    <li> updated the help documentation and vignette; and</li>
+    <li> minor bug fixes.</li>
+  </ul>
+  <li>Version 0.2.0:</li>
+  <ul>
+    <li> BMR now supports some DSGE-VAR functionality (see ?DSGEVAR);</li>
+    <li> parallel processing options are available for BVARW and EDSGE when running multiple MCMC chains;</li>
+    <li> speed improvements for most core functions, particularly BVARW, BVARTVP, and EDSGE; </li>
+    <li> updated the help documentation;</li>
+    <li> fixed some weird pathologies when the BVAR lag order was set to 1 (p=1); and</li>
+    <li> other bug fixes.</li>
+  </ul>
+  <li>Version 0.1.1:</li>
+  <ul>
+    <li> Several minor bug fixes;</li>
+    <li> improvements to the help documentation; and</li>
+    <li> inclusion of the artificial VAR data used in sections 6.1 and 6.3 of the vignette.</li>
+  </ul>
+  <li>Version 0.1: First release, August 2012.</li>
+</ul>
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Keith O'Hara 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
