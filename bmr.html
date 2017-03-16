@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+h3:target { padding-top: 60px; margin-top: -60px;}
+</style>
+
 <head>
 
     <meta charset="utf-8">
@@ -111,7 +115,20 @@
 
 
 <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Bayesian Macroeconometrics in R</u></strong></h3>
-<p> </p>
+<p> &nbsp </p>
+
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#DL">Download</a> <br>
+        <a href="#Doc">Documentation</a> <br>
+        <a href="#RepFiles">Replication Files</a> <br>
+        <a href="#RN">Release Notes</a>
+    </div>
+    </div>
+</div>
+</div>
 
 <p>BMR (Bayesian Macroeconometrics in R) is a collection of R and C++ routines for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models in the R statistical environment.</p>
 
@@ -168,7 +185,7 @@ install.packages("doParallel")</pre>
 
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="BMR Build"></a> <a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></h3>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="BMR Build"></a> <a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></h3>
 
 <p>Current version: 0.5.4, 2016-06-18.</p>
 <ul>
@@ -191,7 +208,9 @@ install.packages("doParallel")</pre>
  </ul>
 </ul>
 
-<p><strong>Documentation.</strong></p>
+<hr>
+
+<h3 style="text-align: left;" id="Doc"><strong style="font-size: 110%;">Documentation</strong></h3>
 
 <ul>
  <li>Accompanying vignette: <a href="http://bayes.squarespace.com/storage/bmr/BMR.pdf" target="_blank">link</a>.</li>
@@ -206,13 +225,13 @@ library(BMR)
 data(BMRVARData)</pre>
 <p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
 
-<p> <strong>Replication files/models</strong>.</p>
+<h3 style="text-align: left;" id="RepFiles"><strong style="font-size: 110%;">Replication Files</strong></h3>
 
 <p> Replication files can be found on a separate page: <a href="bmr-replication-files.html" target="_blank">link</a>.</p>
 
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 110%;">Release notes</strong></h3>
+<h3 style="text-align: left;" id="RN"><strong style="font-size: 110%;">Release notes</strong></h3>
 
 <ul>
  <li>Version 0.5.1, 07/2015:</li>
