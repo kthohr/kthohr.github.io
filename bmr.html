@@ -33,6 +33,12 @@ h3:target { padding-top: 60px; margin-top: -60px;}
 
 </head>
 
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
 <body>
 
     <!-- Navigation -->
@@ -178,7 +184,7 @@ By downloading, installing, and/or using the software, you agree to these terms,
 <p><strong>Package requirements</strong>: the latest versions of R (v3.20, or above), Rcpp, RcppArmadillo (>= v0.5.300.4), ggplot2, doParallel, and grid (this comes pre-packaged with new R releases). </p>
 
 <p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
-<pre class="brush: js; toolbar: false">
+<pre>
 install.packages("RcppArmadillo")
 install.packages("ggplot2")
 install.packages("doParallel")</pre>
@@ -195,15 +201,15 @@ install.packages("doParallel")</pre>
   <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
   <ul>
    <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-   <pre class="brush: js; toolbar: false">
-   curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
-   sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
+   <pre>
+curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
+sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
   </ul>
   <li>Then simply run the following commands in R:</li>
-  <pre class="brush: js; toolbar: false">
-   install.packages("devtools")
-   library(devtools)
-   install_github("kthohr/BMR")</pre>
+  <pre width="20">
+install.packages("devtools")
+library(devtools)
+install_github("kthohr/BMR")</pre>
   <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li>
  </ul>
 </ul>
