@@ -147,12 +147,18 @@
 
 <p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
 
+<p><strong>Authors</strong>:</p>
+<ul>
+    <li>TraME Team: Alfred Galichon (R), Keith O'Hara (C++), and Simon Weber (R)</li>
+</ul>
+
 <hr>
 
 <h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
 
 <p>Current version: 2017-03-15.</p>
 <ul>
+    <li>The source code is available on <a href="https://github.com/TraME-Project/TraME" target="_blank">GitHub</a>.</li>
     <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
     <li>GLPK performs significantly worse than Gurobi.</li>
 </ul>
@@ -161,22 +167,6 @@
 ./configure
 make
 make install</pre>
-
-<p><strong>Documentation.</strong></p>
-
-<ul>
- <li>Accompanying vignette: <a href="http://bayes.squarespace.com/storage/bmr/BMR.pdf" target="_blank">link</a>.</li>
- <li> PDF of BMR help files: <a href="http://bayes.squarespace.com/storage/bmr/BMR-manual.pdf" target="_blank">link</a>. The help files can also be accessed in the R environment using '?chosen_function'; for example, ?BVARM.</li>
-</ul>
-
-<p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
-
-<p> After installing BMR, the user can check if everything is working as intended by typing:</p>
-<pre class="brush: js; toolbar: false">
-library(BMR)
-data(BMRVARData)</pre>
-<p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
-
 
     <hr>
 
