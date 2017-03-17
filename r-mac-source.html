@@ -42,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Keith O'Hara</a>
+                <a class="navbar-brand" href="http://www.kthohr.com">Keith O'Hara</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -100,7 +100,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="http://www.kthohr.com">Home</a></li>
                     <li><a href="r-code.html">R</a></li>
                     <li class="active">R-devel</li>
                 </ol>
@@ -160,7 +160,7 @@ tar -zxvf R-devel.tar.gz</pre>
 
 <p>We then need to modify the config.site file in the R-devel directory.</p>
 
-<pre class="brush: js; toolbar: false">
+<pre>
 #! /bin/sh
 
 CC=clang
@@ -181,19 +181,25 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<pre class="brush: js; toolbar: false">
+<p>To link against OpenBLAS, run</p>
+<pre>
 ./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-framework Accelerate" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
-
-<pre class="brush: js; toolbar: false">
+<p>or, to link against the Accelerate framework, run</p>
+<pre>
 ./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-lopenblas" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
 
-
+<p>Then</p>
+<pre>
+make
+make check
+sudo make prefix=/Builds/R-devel install
+</pre>
 
 <hr>
 
