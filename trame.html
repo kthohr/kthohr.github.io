@@ -83,7 +83,7 @@ pre {
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="r-mac-source.html">Build R-devel</a>
+                                <a href="r-mac-source.html">Building R-devel</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -161,9 +161,10 @@ pre {
         </td>
         <td style="text-align: left; vertical-align: top; width: 50%;">
         <ul>
-            <li>The library includes several random utility specifications,
-                as well as transferable, non-transferable, and imperfectly transferable utility</li>
-            <li>MLE- and moment-matching-based estimation</li>
+            <li>Several popular random utility specifications,
+                as well as models with transferable, non-transferable, and imperfectly transferable utility</li>
+            <li>Numerous equilibrium solvers, including iterated fixed-point and deferred acceptance algorithms
+            <li>Maximum likelihood- and moment matching-based estimation</li>
         </ul>
         </td>
     </tr>
@@ -187,14 +188,16 @@ pre {
 <ul>
     <li>The source code is available on <a href="https://github.com/TraME-Project/TraME" target="_blank">GitHub</a>.</li>
     <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
-    <li>GLPK performs significantly worse than Gurobi.</li>
+    <li><strong>Note:</strong> Gurobi performs significantly better than GLPK.</li>
 </ul>
 
-<p>TraME can be installed in the standard way.</p>
+<p>TraME can be installed in the standard way:</p>
 <pre>
 ./configure
 make
 make install</pre>
+
+<p>This will install the library into /opt/local</p>
 
     <hr>
 
