@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+h3:target { padding-top: 60px; margin-top: -60px;}
+</style>
+
 <head>
 
     <meta charset="utf-8">
@@ -28,6 +32,12 @@
     <![endif]-->
 
 </head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
 
 <body>
 
@@ -58,6 +68,10 @@
                             </li>
                             <li>
                                 <a href="trame.html">TraME</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="r-mac-source.html">Build R-devel</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -110,44 +124,66 @@
         <!-- /.row -->
 
 
-<h3 style="text-align: center;"><strong style="font-size: 130%;">Building R from Source in OSX 10.12.3</strong></h3>
+<h3 style="text-align: center;"><strong style="font-size: 130%;">Building R-devel from Source on OSX 10.12.3</strong></h3>
 </br>
 
-<p>This page will guide you through the process of compiling the R-devel on a Mac computer (OSX v10.10.4).</p>
+<p>This page describes the steps involved in compiling R-devel on a Mac (OSX v10.12.3).</p>
 
 <hr>
 
-<strong style="font-size: 120%;">Preliminaries</strong>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Preliminaries</strong></h3>
 
-<p>First we need to install some tools.</p>
+<p>First we need to install some tools and libraries.</p>
 
 <ul>
-    <li> Get Xcode from the App Store. (The page should look something like <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">this</a>.) New versions of Xcode should come with  the <b>command line tools</b> pre-installed.</li>
+    <li> Get Xcode from the App Store. (The page should look something like <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">this</a>.) The latest version of Xcode should install the <b>command line tools</b> by default.</li>
     <ul>
-        <li>Open a terminal window&#8212;search for 'terminal' if you've never needed terminal/bash before&#8212;and type:
+        <li>Open a terminal window&#8212;search spotlight for 'terminal' if you've never needed terminal/bash before&#8212;and type:</li>
         <pre>
 clang++ -v</pre>
-        you should then see something like 
+        <li>You should see something similar to</li>
         <pre>
 Apple LLVM version 8.0.0 (clang-800.0.42.1)
 Target: x86_64-apple-darwin16.4.0
 Thread model: posix</pre>
-        </li>
     </ul>
-    <li>Unfortunately, Xcode does not come with a Fortran compiler, which we will need. The simplest way to obtain an R-compatible version of <b>gfortran</b> is to open a terminal window and type:
+    <li> Download and install <a href="https://www.xquartz.org/" target="_blank">XQuartz</a>. (You might need to restart your computer to complete the installation process.)</li>
+    <li> Download and install the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java SDK</a>. (No need for the 'demos and samples' pack.)</li>
+</ul>
+<p>The following items are from the <a href="https://r.research.att.com/libs/" target="_blank">R-devel optional library list</a>.</p>
+<ul>
+        <li>Unfortunately, Xcode does not include a Fortran compiler, which we will need. The simplest way to obtain an R-compatible version of <b>gfortran</b> is to open a terminal window and type:</li>
     <pre>
 cd ~/Desktop
 curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /</pre>
-    </li>
-    The 'sudo' command above will request that you enter your password; this is because we are placing files in what are usually restricted folders (/usr/).
+
+    <p>(The 'sudo' command requires you to enter your password&#8212;this is because we are placing files into areas that are password restricted (/usr/local).)</p>
+    <li>We also need pkg-config, xz, and pcre:</li>
+<pre>
+cd ~/Desktop
+curl -O http://r.research.att.com/libs/pkgconfig-0.28-darwin.13-x86_64.tar.gz
+sudo tar fvxz pkgconfig-0.28-darwin.13-x86_64.tar.gz -C /
+curl -O http://r.research.att.com/libs/xz-5.2.1-darwin.13-x86_64.tar.gz
+sudo tar fvxz xz-5.2.1-darwin.13-x86_64.tar.gz -C /
+curl -O http://r.research.att.com/libs/pcre-8.36-darwin.13-x86_64.tar.gz
+sudo tar fvxz pcre-8.36-darwin.13-x86_64.tar.gz -C /</pre>
+    <li>Finally, for creating images, we need JPEG, PNG, and TIFF libraries:</li>
+<pre>
+cd ~/Desktop
+curl -O http://r.research.att.com/libs/jpeg-9-darwin.13-x86_64.tar.gz
+sudo tar fvxz jpeg-9-darwin.13-x86_64.tar.gz -C /
+curl -O http://r.research.att.com/libs/libpng-1.6.17-darwin.13-x86_64.tar.gz
+sudo tar fvxz libpng-1.6.17-darwin.13-x86_64.tar.gz -C /
+curl -O http://r.research.att.com/libs/tiff-4.0.3-darwin.13-x86_64.tar.gz
+sudo tar fvxz tiff-4.0.3-darwin.13-x86_64.tar.gz -C /</pre>
 </ul>
 
 <hr>
 
-<strong style="font-size: 120%;">Download and Unpack</strong>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Download and Unpack</strong></h3>
 
-<p>First, create an R folder on your Desktop.</p>
+<p>Create a folder to work in. For example,</p>
 
 <pre>
 cd ~/Desktop
@@ -159,7 +195,11 @@ cd ~/Desktop/R
 curl -O ftp://ftp.stat.math.ethz.ch/Software/R/R-devel.tar.gz
 tar -zxvf R-devel.tar.gz</pre>
 
-<p>We then need to modify the config.site file in the R-devel directory.</p>
+<hr>
+
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Configure</strong></h3>
+
+<p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following:</p>
 
 <pre>
 #! /bin/sh
@@ -182,29 +222,60 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<p>To link against OpenBLAS, run</p>
+<p>Open a terminal window and switch to the R-devel folder:</p>
 <pre>
-./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
-	--with-blas="-framework Accelerate" --with-lapack \
-		--enable-R-shlib --enable-memory-profiling
-</pre>
-<p>or, to link against the Accelerate framework, run</p>
+cd ~/Desktop/R/R-devel</pre>
+<p>Set the pkg-config path as follows:</p>
+<pre>
+export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig</pre>
+
+<p>Now we have two choices. If you want to link against the OpenBLAS library (assuming you have it...) run</p>
 <pre>
 ./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-lopenblas" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
-
-<p>Then</p>
+<p>or, to link against the Accelerate framework (which is pre-installed on all Macs), run</p>
 <pre>
-make
-make check
-sudo make prefix=/Builds/R-devel install
+./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
+	--with-blas="-framework Accelerate" --with-lapack \
+		--enable-R-shlib --enable-memory-profiling
 </pre>
+
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Build and Install</strong></h3>
+
+<p>To build R-devel, use</p>
+<pre>
+cd ~/Desktop/R/R-devel
+make</pre>
+
+<p>The build checks are run using:</p>
+<pre>
+make check</pre>
+
+<p>Finally, we need to choose an install location for R-devel; I use /Builds/R-devel, but I recommend installing to somewhere that doesn't require sudo privileges.</p>
+<pre>
+sudo make prefix=/Builds/R-devel install</pre>
 
 <hr>
 
-<strong style="font-size: 120%;">Configure</strong>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Calling R-devel</strong></h3>
+
+<p>For easy access to R-devel from a terminal window, add the following lines of code to your bash profile:</p>
+<pre>
+alias Rdevel="/where/I/installed/to/bin/R"</pre>
+<p>For example,</p>
+<pre>
+alias Rdevel="/Builds/R-devel/bin/R"</pre>
+<p>To run R-devel with sudo privileges, you need to also add</p>
+<pre>
+alias sudo='sudo '</pre>
+
+<p>To run R-devel from <a href"https://www.rstudio.com/" target="_blank">RStudio</a>, use</p>
+<pre>
+export RSTUDIO_WHICH_R=/where/I/installed/to/bin/R
+open -n -a RStudio</pre>
+
 
     <hr>
 
