@@ -132,11 +132,25 @@ pre {
 <h3 style="text-align: center;"><strong style="font-size: 130%;">Building R-devel from Source on OSX 10.12.3</strong></h3>
 </br>
 
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#Prelim">Preliminaries</a> <br>
+        <a href="#DL">Download and Unpack</a> <br>
+        <a href="#Config">Configure</a> <br>
+        <a href="#Build">Build and Install</a> <br>
+        <a href="#Call">Calling R-devel</a>
+    </div>
+    </div>
+</div>
+</div>
+
 <p>This page describes the steps involved in compiling R-devel on a Mac (OSX v10.12.3).</p>
 
 <hr>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Preliminaries</strong></h3>
+<h3 style="text-align: left;" id="Prelim"><strong style="font-size: 120%;">Preliminaries</strong></h3>
 
 <p>First we need to install some tools and libraries.</p>
 
@@ -202,7 +216,7 @@ tar -zxvf R-devel.tar.gz</pre>
 
 <hr>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Configure</strong></h3>
+<h3 style="text-align: left;" id="Config"><strong style="font-size: 120%;">Configure</strong></h3>
 
 <p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following:</p>
 
@@ -247,7 +261,7 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 		--enable-R-shlib --enable-memory-profiling
 </pre>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Build and Install</strong></h3>
+<h3 style="text-align: left;" id="Build"><strong style="font-size: 120%;">Build and Install</strong></h3>
 
 <p>To build R-devel, use</p>
 <pre>
@@ -264,7 +278,7 @@ sudo make prefix=/Builds/R-devel install</pre>
 
 <hr>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Calling R-devel</strong></h3>
+<h3 style="text-align: left;" id="Call"><strong style="font-size: 120%;">Calling R-devel</strong></h3>
 
 <p>For easy access to R-devel from a terminal window, add the following lines of code to your bash profile:</p>
 <pre>
