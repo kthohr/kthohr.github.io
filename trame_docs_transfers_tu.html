@@ -126,7 +126,7 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="http://www.kthohr.com">Home</a></li>
-                    <li class="active">TraME</li>
+                    <li><a href="trame.html">TraME</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ARUMs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -144,7 +144,7 @@
                             <li><a href="trame_docs_transfers_etu.html">ETU</a></li>
                             <li><a href="trame_docs_transfers_ltu.html">LTU</a></li>
                             <li><a href="trame_docs_transfers_ntu.html">NTU</a></li>
-                            <li><a href="trame_docs_transfers_tu.html">TU</a></li>
+                            <li class="active"><a href="trame_docs_transfers_tu.html">TU</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -175,68 +175,121 @@
         <!-- /.row -->
 
 
-<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Transportation Methods for Econometrics</u></strong></h3>
+<h3 style="text-align: center;"><strong style="font-size: 130%;">Transfers</strong></h3>
+<hr>
+
 <p> &nbsp </p>
 
-<p>TraME (<b><i>Tra</i></b>nsportation <b><i>M</i></b>ethods for <b><i>E</i></b>conometrics) is a C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">Transferable Utility (TU) Class</strong></h3>
 
-<b>Features</b>
-<br>
-<table border="0" cellpadding="0" cellspacing="0">
-    <tbody>
-    <tr>
-        <td style="text-align: left; vertical-align: top; width: 50%;">
-        <ul>
-        <li>Flexible, templated library</li>
-        <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a></li>
-        <li>Can link with Gurobi or GLPK</li>
-        </ul>
-        </td>
-        <td>
-        &nbsp;
-        </td>
-        <td class="line" style="vertical-align: top;">
-        <br>
-        </td>
-        <td style="text-align: left; vertical-align: top; width: 50%;">
-        <ul>
-            <li>Several popular random utility specifications,
-                as well as models with transferable, non-transferable, and imperfectly transferable utility</li>
-            <li>Numerous equilibrium solvers, including the iterative proportional fitting procedure (IPFP) and the deferred acceptance algorithm
-            <li>Maximum likelihood- and moment matching-based estimation</li>
-        </ul>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<br>
-
-<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
-
-<p><strong>Authors</strong>:</p>
-<ul>
-    <li>TraME Team: <a href="http://alfredgalichon.com/" target="_blank">Alfred Galichon</a> (R), Keith O'Hara (C++), and <a href="https://sites.google.com/site/webersimonsite/home" target="_blank">Simon Weber</a> (R)</li>
-</ul>
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#CD">Class Definition</a> <br>
+        <a href="#MO">Member Objects</a> <br>
+        <a href="#MF">Member Functions</a> <br>
+        <a href="#NTS">Notes</a> <br>
+        <a href="#EX">Example</a> <br>
+    </div>
+    </div>
+</div>
+</div>
 
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">Class Definition</strong></h3>
 
-<p>Current version: 2017-03-15.</p>
-<ul>
-    <li>The source code is available on <a href="https://github.com/TraME-Project/TraME" target="_blank">GitHub</a>.</li>
-    <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
-    <li><strong>Note:</strong> Gurobi performs significantly better than GLPK.</li>
-</ul>
+<p>Definition:</p>
+<pre class="brush: cpp;"> 
+class tu
+{
+    public:
+        // build objects
+        bool need_norm;
 
-<p>TraME can be installed in the standard way:</p>
-<pre class="brush: bash;"> 
-./configure
-make
-make install</pre>
+        int transfers_type = 1;
+        int nbX;
+        int nbY;
+        int nbParams;
 
-<p>This will install the library into /opt/local</p>
+        arma::mat phi;
+        arma::mat aux_phi_exp; // exp(phi_inp/(2*sigma)), also labelled K_TU
+
+        // member functions
+        void build(const arma::mat& phi_TU, bool need_norm_TU);
+        
+        void trans();
+        
+        //
+        // MFE-related functions
+        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys) const;
+        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat M(const double& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat M(const arma::mat& a_xs, const double& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat Mx0(const arma::mat& a_x) const;
+        arma::mat M0y(const arma::mat& b_y) const;
+
+        //
+        // DSE-related functions
+        arma::mat Psi(const arma::mat& U, const arma::mat& V) const;
+        arma::mat Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+        double Psi(const double& U, const double& V, int x_ind, int y_ind) const;
+
+        arma::mat du_Psi(const arma::mat& U, const arma::mat& V) const;
+        arma::mat du_Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat du_Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat du_Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dtheta);
+        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dtheta);
+
+        arma::mat Ucal(const arma::mat& vs) const;
+        arma::mat Ucal(const arma::mat& vs, arma::uvec* xs, arma::uvec* ys) const;
+        double Ucal(const double& vs, int xs, int ys) const;
+        arma::mat Vcal(const arma::mat& us) const;
+        arma::mat Vcal(const arma::mat& us, arma::uvec* xs, arma::uvec* ys) const;
+        double Vcal(const double& us, int xs, int ys) const;
+
+        arma::mat UW(const arma::mat& Ws) const;
+        arma::mat UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        double UW(const double& Ws, int x_ind, int y_ind) const;
+        arma::mat VW(const arma::mat& Ws) const;
+        arma::mat VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        double VW(const double& Ws, int x_ind, int y_ind) const;
+
+        arma::mat dw_UW(const arma::mat& Ws) const;
+        arma::mat dw_UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat dw_VW(const arma::mat& Ws) const;
+        arma::mat dw_VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat WU(const arma::mat& Us);
+        arma::mat WU(const arma::mat& Us, arma::uvec* xs, arma::uvec* ys);
+        arma::mat WV(const arma::mat& Vs);
+        arma::mat WV(const arma::mat& Vs, arma::uvec* xs, arma::uvec* ys);
+};</pre>
+
+<hr>
+
+<h3 style="text-align: left;" id="MO"><strong style="font-size: 120%;">Member Objects</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="MF"><strong style="font-size: 120%;">Member Functions</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="NTS"><strong style="font-size: 120%;">Notes</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="EX"><strong style="font-size: 120%;">Examples</strong></h3>
+
+<p>Example:</p>
+
 
     <hr>
 

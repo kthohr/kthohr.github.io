@@ -126,11 +126,11 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="http://www.kthohr.com">Home</a></li>
-                    <li class="active">TraME</li>
+                    <li><a href="trame.html">TraME</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ARUMs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="trame_docs_arums_empirical.html">Empirical</a></li>
+                            <li class="active"><a href="trame_docs_arums_empirical.html">Empirical</a></li>
                             <li><a href="trame_docs_arums_logit.html">Logit</a></li>
                             <li><a href="trame_docs_arums_none.html">None</a></li>
                             <li><a href="trame_docs_arums_probit.html">Probit</a></li>
@@ -175,68 +175,119 @@
         <!-- /.row -->
 
 
-<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Transportation Methods for Econometrics</u></strong></h3>
+<h3 style="text-align: center;"><strong style="font-size: 130%;">Additive Random Utility Models (ARUMs)</strong></h3>
+<hr>
+
 <p> &nbsp </p>
 
-<p>TraME (<b><i>Tra</i></b>nsportation <b><i>M</i></b>ethods for <b><i>E</i></b>conometrics) is a C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">Empirical Class</strong></h3>
 
-<b>Features</b>
-<br>
-<table border="0" cellpadding="0" cellspacing="0">
-    <tbody>
-    <tr>
-        <td style="text-align: left; vertical-align: top; width: 50%;">
-        <ul>
-        <li>Flexible, templated library</li>
-        <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a></li>
-        <li>Can link with Gurobi or GLPK</li>
-        </ul>
-        </td>
-        <td>
-        &nbsp;
-        </td>
-        <td class="line" style="vertical-align: top;">
-        <br>
-        </td>
-        <td style="text-align: left; vertical-align: top; width: 50%;">
-        <ul>
-            <li>Several popular random utility specifications,
-                as well as models with transferable, non-transferable, and imperfectly transferable utility</li>
-            <li>Numerous equilibrium solvers, including the iterative proportional fitting procedure (IPFP) and the deferred acceptance algorithm
-            <li>Maximum likelihood- and moment matching-based estimation</li>
-        </ul>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<br>
-
-<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
-
-<p><strong>Authors</strong>:</p>
-<ul>
-    <li>TraME Team: <a href="http://alfredgalichon.com/" target="_blank">Alfred Galichon</a> (R), Keith O'Hara (C++), and <a href="https://sites.google.com/site/webersimonsite/home" target="_blank">Simon Weber</a> (R)</li>
-</ul>
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#CD">Class Definition</a> <br>
+        <a href="#MO">Member Objects</a> <br>
+        <a href="#MF">Member Functions</a> <br>
+        <a href="#NTS">Notes</a> <br>
+        <a href="#EX">Example</a> <br>
+    </div>
+    </div>
+</div>
+</div>
 
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Class Definition</strong></h3>
 
-<p>Current version: 2017-03-15.</p>
-<ul>
-    <li>The source code is available on <a href="https://github.com/TraME-Project/TraME" target="_blank">GitHub</a>.</li>
-    <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
-    <li><strong>Note:</strong> Gurobi performs significantly better than GLPK.</li>
-</ul>
+<p>Class Definition:</p>
+<pre class="brush: cpp;"> 
+class empirical
+{
+    public:
+        // build objects
+        int nbX;
+        int nbY;
 
-<p>TraME can be installed in the standard way:</p>
-<pre class="brush: bash;"> 
-./configure
-make
-make install</pre>
+        int nbParams;
+        int aux_nbDraws;
+        int nbOptions;
 
-<p>This will install the library into /opt/local</p>
+        bool xHomogenous;
+        bool outsideOption;
+
+        arma::cube atoms;
+
+        // input objects
+        arma::mat U;
+        arma::mat mu;
+
+        // equilibrium objects
+        arma::mat U_sol;
+        arma::mat mu_sol;
+
+        // member functions
+        ~empirical(){};
+         empirical(){};
+        explicit empirical(int nbX_inp, int nbY_inp);
+        explicit empirical(int nbX_inp, int nbY_inp, const arma::cube& atoms_inp, bool xHomogenous_inp, bool outsideOption_inp);
+
+        void build(int nbX_inp, int nbY_inp);
+        void build(int nbX_inp, int nbY_inp, const arma::cube& atoms_inp, bool xHomogenous_inp, bool outsideOption_inp);
+
+        double G(const arma::vec& n);
+        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out);
+        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x);
+
+        double Gstar(const arma::vec& n);
+        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out);
+        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x);
+
+        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out);
+        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x);
+
+    private:
+        /*
+         * these private member objects are mostly used by LP solvers
+         */
+        void presolve_LP_Gstar();
+        void presolve_LP_Gbar();
+
+        bool TRAME_PRESOLVED_GSTAR = false;
+        bool TRAME_PRESOLVED_GBAR  = false;
+
+        int k_Gstar;
+        int n_Gstar;
+        int numnz_Gstar;
+        int* vind_Gstar;
+        int* vbeg_Gstar;
+        double* vval_Gstar;
+
+        int k_Gbar;
+        int n_Gbar;
+        int numnz_Gbar;
+        int* vind_Gbar;
+        int* vbeg_Gbar;
+        double* vval_Gbar;
+};</pre>
+
+<hr>
+
+<h3 style="text-align: left;" id="MO"><strong style="font-size: 120%;">Member Objects</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="MF"><strong style="font-size: 120%;">Member Functions</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="NTS"><strong style="font-size: 120%;">Notes</strong></h3>
+
+<hr>
+
+<h3 style="text-align: left;" id="EX"><strong style="font-size: 120%;">Examples</strong></h3>
+
+
 
     <hr>
 
