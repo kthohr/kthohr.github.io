@@ -132,7 +132,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="trame_docs_arums_empirical.html">Empirical</a></li>
                             <li><a href="trame_docs_arums_logit.html">Logit</a></li>
-                            <li class="active"><a href="trame_docs_arums_none.html">None</a></li>
+                            <li><a href="trame_docs_arums_none.html">None</a></li>
                             <li><a href="trame_docs_arums_probit.html">Probit</a></li>
                             <li><a href="trame_docs_arums_rsc.html">RSC</a></li>
                             <li><a href="trame_docs_arums_rusc.html">RUSC</a></li>
@@ -143,7 +143,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="trame_docs_mmfs_etu.html">ETU</a></li>
                             <li><a href="trame_docs_mmfs_ltu.html">LTU</a></li>
-                            <li><a href="trame_docs_mmfs_ntu.html">NTU</a></li>
+                            <li class="active"><a href="trame_docs_mmfs_ntu.html">NTU</a></li>
                             <li><a href="trame_docs_mmfs_tu.html">TU</a></li>
                         </ul>
                     </li>
@@ -184,12 +184,12 @@
         <!-- /.row -->
 
 
-<h3 style="text-align: center;"><strong style="font-size: 130%;">Additive Random Utility Models (ARUMs)</strong></h3>
+<h3 style="text-align: center;"><strong style="font-size: 130%;">Transfers</strong></h3>
 <hr>
 
 <p> &nbsp </p>
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">None Class</strong></h3>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">Non-Transferable Utility (NTU) Class</strong></h3>
 
 <div class="row">
 <div class="col-md-4">
@@ -211,50 +211,78 @@
 
 <p>Definition:</p>
 <pre class="brush: cpp;"> 
-class none
+class ntu
 {
     public:
         // build objects
+        bool need_norm;
+        
+        int transfers_type = 1;
         int nbX;
         int nbY;
         int nbParams;
-        
-        // input objects
-        arma::mat mu;
-        arma::mat U;
-        
-        // equilibrium objects
-        arma::mat mu_sol;
-        arma::mat U_sol;
-        
-        // member functions
-        ~none(){};
-         none(){};
-        explicit none(int nbX_inp, int nbY_inp);
-        
-        void build(int nbX_inp, int nbY_inp);
-        
-        double G(const arma::vec& n);
-        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out);
-        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out);
-        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x);
 
-        double Gstar(const arma::vec& n);
-        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out);
-        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x);
+        arma::mat alpha;
+        arma::mat gamma;
+
+        arma::mat aux_alpha_exp; // exp(alpha_NTU / sigma), also labelled A_NTU
+        arma::mat aux_gamma_exp; // exp(gamma_NTU / sigma), also labelled B_NTU
+
+        // member functions
+        void build(const arma::mat& alpha_NTU, const arma::mat& gamma_NTU, bool need_norm_NTU);
         
-        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out);
-        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out);
-        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x);
+        void trans();
         
-        arma::vec dtheta_NablaGstar();
-        
-        empirical simul();
-        empirical simul(int* nbDraws, int* seed);
-        void simul(empirical& obj_out);
-        void simul(empirical& obj_out, int* nbDraws, int* seed);
-};
-</pre>
+        //
+        // MFE-related functions
+        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys) const;
+        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat M(const double& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat M(const arma::mat& a_xs, const double& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat Mx0(const arma::mat& a_x) const;
+        arma::mat M0y(const arma::mat& b_y) const;
+
+        //
+        // DSE-related functions
+        arma::mat Psi(const arma::mat& U, const arma::mat& V) const;
+        arma::mat Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+        double Psi(const double& U, const double& V, int x_ind, int y_ind) const;
+
+        arma::mat du_Psi(const arma::mat& U, const arma::mat& V) const;
+        arma::mat du_Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat du_Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat du_Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dtheta);
+        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dtheta);
+
+        arma::mat Ucal(const arma::mat& vs) const;
+        arma::mat Ucal(const arma::mat& vs, arma::uvec* xs, arma::uvec* ys) const;
+        double Ucal(const double& vs, int xs, int ys) const;
+        arma::mat Vcal(const arma::mat& us) const;
+        arma::mat Vcal(const arma::mat& us, arma::uvec* xs, arma::uvec* ys) const;
+        double Vcal(const double& us, int xs, int ys) const;
+
+        arma::mat UW(const arma::mat& Ws) const;
+        arma::mat UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        double UW(const double& Ws, int x_ind, int y_ind) const;
+        arma::mat VW(const arma::mat& Ws) const;
+        arma::mat VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        double VW(const double& Ws, int x_ind, int y_ind) const;
+
+        arma::mat dw_UW(const arma::mat& Ws) const;
+        arma::mat dw_UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat dw_VW(const arma::mat& Ws) const;
+        arma::mat dw_VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+
+        arma::mat WU(const arma::mat& Us);
+        arma::mat WU(const arma::mat& Us, arma::uvec* xs, arma::uvec* ys);
+        arma::mat WV(const arma::mat& Vs);
+        arma::mat WV(const arma::mat& Vs, arma::uvec* xs, arma::uvec* ys);
+};</pre>
 
 <hr>
 
@@ -274,39 +302,6 @@ class none
 
 <p>Example:</p>
 
-<pre class="brush: cpp;"> 
-    //
-    // inputs:
-    arma::mat U(2,3);
-    U  << 1.6 << 3.2 << 1.1 << arma::endr
-       << 2.9 << 1.0 << 3.1 << arma::endr;
-    
-    arma::mat mu(2,3);
-    mu << 1.0 << 3.0 << 1.0 << arma::endr
-       << 2.0 << 1.0 << 3.0 << arma::endr;
-    //
-    // setup none class object
-    int nbX = U.n_rows;
-    int nbY = U.n_cols;
-    
-    arma::vec n = arma::sum(mu,1);
-    //
-    trame::none none_obj(nbX,nbY);
-    
-    none_obj.U = U;
-    none_obj.mu = mu;
-    //
-    double val_G = none_obj.G(n);
-    std::cout << "G val: \n" << val_G << std::endl;
-    //
-    arma::mat mubar(2,3);
-    mubar.fill(2);
-
-    arma::mat Ubar_temp, mubar_temp;
-    double valGbar = none_obj.Gbar(U,mubar,n,Ubar_temp,mubar_temp);
-    
-    std::cout << "Gbar val: \n" << valGbar << std::endl;
-</pre>
 
     <hr>
 
