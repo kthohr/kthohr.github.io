@@ -130,6 +130,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ARUMs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="trame_docs_arums.html">ARUMs</a></li>
+                            <li class="divider"></li>
                             <li><a href="trame_docs_arums_empirical.html">Empirical</a></li>
                             <li><a href="trame_docs_arums_logit.html">Logit</a></li>
                             <li><a href="trame_docs_arums_none.html">None</a></li>
@@ -141,6 +143,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">MMFs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="trame_docs_mmfs.html">MMFs</a></li>
+                            <li class="divider"></li>
                             <li><a href="trame_docs_mmfs_etu.html">ETU</a></li>
                             <li><a href="trame_docs_mmfs_ltu.html">LTU</a></li>
                             <li class="active"><a href="trame_docs_mmfs_ntu.html">NTU</a></li>
@@ -150,6 +154,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="trame_docs_transfers.html">Transfers</a></li>
+                            <li class="divider"></li>
                             <li><a href="trame_docs_transfers_etu.html">ETU</a></li>
                             <li><a href="trame_docs_transfers_ltu.html">LTU</a></li>
                             <li><a href="trame_docs_transfers_ntu.html">NTU</a></li>
@@ -159,6 +165,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Markets <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="trame_docs_markets.html">Markets</a></li>
+                            <li class="divider"></li>
                             <li><a href="trame_docs_dse.html">DSE</a></li>
                             <li><a href="trame_docs_mfe.html">MFE</a></li>
                         </ul>
@@ -166,6 +174,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Solvers <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="trame_docs_solvers.html">Solvers</a></li>
+                            <li class="divider"></li>
                             <li><a href="trame_docs_solvers_arc_newton.html">Arc Newton</a></li>
                             <li><a href="trame_docs_solvers_cupids_lp.html">Cupids LP</a></li>
                             <li><a href="trame_docs_solvers_darum.html">DA RUM</a></li>
@@ -242,46 +252,6 @@ class ntu
 
         arma::mat Mx0(const arma::mat& a_x) const;
         arma::mat M0y(const arma::mat& b_y) const;
-
-        //
-        // DSE-related functions
-        arma::mat Psi(const arma::mat& U, const arma::mat& V) const;
-        arma::mat Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
-        double Psi(const double& U, const double& V, int x_ind, int y_ind) const;
-
-        arma::mat du_Psi(const arma::mat& U, const arma::mat& V) const;
-        arma::mat du_Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat du_Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat du_Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
-
-        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dtheta);
-        arma::mat dtheta_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dtheta);
-
-        arma::mat Ucal(const arma::mat& vs) const;
-        arma::mat Ucal(const arma::mat& vs, arma::uvec* xs, arma::uvec* ys) const;
-        double Ucal(const double& vs, int xs, int ys) const;
-        arma::mat Vcal(const arma::mat& us) const;
-        arma::mat Vcal(const arma::mat& us, arma::uvec* xs, arma::uvec* ys) const;
-        double Vcal(const double& us, int xs, int ys) const;
-
-        arma::mat UW(const arma::mat& Ws) const;
-        arma::mat UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
-        double UW(const double& Ws, int x_ind, int y_ind) const;
-        arma::mat VW(const arma::mat& Ws) const;
-        arma::mat VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
-        double VW(const double& Ws, int x_ind, int y_ind) const;
-
-        arma::mat dw_UW(const arma::mat& Ws) const;
-        arma::mat dw_UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat dw_VW(const arma::mat& Ws) const;
-        arma::mat dw_VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
-
-        arma::mat WU(const arma::mat& Us);
-        arma::mat WU(const arma::mat& Us, arma::uvec* xs, arma::uvec* ys);
-        arma::mat WV(const arma::mat& Vs);
-        arma::mat WV(const arma::mat& Vs, arma::uvec* xs, arma::uvec* ys);
 };</pre>
 
 <hr>
