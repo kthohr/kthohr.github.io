@@ -211,7 +211,9 @@
 <div class="col-md-4">
     <div class="panel panel-default">
     <div class="panel-body">
-        <a href="#CD">Introduction</a> <br>
+        <a href="#Intro">Introduction</a> <br>
+        <a href="#CP">Choice Problem</a> <br>
+        <a href="#IU">Indirect Utility</a>
     </div>
     </div>
 </div>
@@ -219,7 +221,15 @@
 
 <hr>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Class Definition</strong></h3>
+<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Introduction</strong></h3>
+
+Some notation
+<ul>
+    <li> $n_x$ denotes the number of agents of type $x$.</li>
+    <li> $m_y$ denotes the number of agents of type $y$.</li>
+	<li> $\mu_{xy}$ is the number of agents of type $x$ 'choosing' agents of type $y$.</li>
+	<li> $\Phi_{xy}$ is the total surplus of a match (between $x$ and $y$). We sometimes decompose this as $\Phi = \alpha + \gamma$.</li>
+</ul>
 
 If agent $x$ and agent $y$ match, they receive utilities
 $$U_{xy} + \varepsilon_{y} \ \text{ and } \ V_{xy} + \eta_{x}$$
@@ -228,7 +238,41 @@ respectively, where
     <li> agents bargain over systematic utilities within feasible set $(U_{xy},V_{xy}) \in \mathcal{F}_{xy}$, which will determine transfers.</li>
     <li> $(\varepsilon_y)_{y \in \mathcal{Y} \cup \{ 0 \}}$ and $(\eta_x)_{x \in \mathcal{X} \cup \{ 0 \}}$ are random utility terms with distributions $\mathbf{P}_x$ and $\mathbf{Q}_y$</li>
 </ul>
-    
+
+<hr>
+
+<h3 style="text-align: left;" id="CP"><strong style="font-size: 120%;">Choice Problem</strong></h3>
+
+For agent of type $x$, the random utility of alternative $y$ is given by $U_{xy} + \varepsilon_y$, where $\varepsilon \sim \mathbf{P}_x$ and $U_{x0} = 0$, hence agent $x$ solves
+$$
+	\max_{y \in \mathcal{Y}} \left\{ U_{xy} + \varepsilon_y, \varepsilon_0 \right\}
+$$
+Similarly, for an agent of type $y$, the random utility of alternative $x$ is given by $V_{xy} + \eta_x$, where $\eta \sim \mathbf{Q}_y$ and $V_{0y} = 0$, hence agent $y$ solves
+$$
+	\max_{x \in \mathcal{X}} \left\{ V_{xy} + \eta_x, \eta_0 \right\}
+$$
+
+<hr>
+
+<h3 style="text-align: left;" id="IU"><strong style="font-size: 120%;">Indirect Utility</strong></h3>
+
+$G$ is the indirect utility, or $Emax$ operator:
+$$
+G(U) = \sum_{x \in \mathcal{X}} n_x \mathbb{E}_{\mathbf{P}_x} \left[ \max_{y \in \mathcal{Y}} \left\{ U_{xy} + \varepsilon_y, \varepsilon_0 \right\} \right]
+$$
+with corresponding operator for $y$:
+$$
+	H(U) = \sum_{y \in \mathcal{Y}} m_y \mathbb{E}_{\mathbf{Q}_y} \left[ \max_{x \in \mathcal{X}} \left\{ V_{xy} + \eta_x, \eta_0 \right\} \right]
+$$
+
+By the Williams-Daly-Zachary theorem, the number of agents of type $x$ choosing agents of type $y$ is given by
+$$
+	\mu_{xy} = \frac{\partial G(U)}{\partial U_{xy}}
+$$
+or
+$$
+	\mu_{xy} = \frac{\partial H(U)}{\partial V_{xy}}
+$$
 
 
 
