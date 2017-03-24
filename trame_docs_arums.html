@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+h3:target { padding-top: 60px; margin-top: -60px;}
+</style>
+
 <head>
 
     <meta charset="utf-8">
@@ -213,7 +217,8 @@
     <div class="panel-body">
         <a href="#Intro">Introduction</a> <br>
         <a href="#CP">Choice Problem</a> <br>
-        <a href="#IU">Indirect Utility</a>
+        <a href="#IU">Indirect Utility</a> <br>
+        <a href="#IU">Legendre Transform</a>
     </div>
     </div>
 </div>
@@ -221,7 +226,7 @@
 
 <hr>
 
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 120%;">Introduction</strong></h3>
+<h3 style="text-align: left;" id="Intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
 Some notation
 <ul>
@@ -274,7 +279,27 @@ $$
 	\mu_{xy} = \frac{\partial H(U)}{\partial V_{xy}}
 $$
 
+<hr>
 
+<h3 style="text-align: left;" id="LT"><strong style="font-size: 120%;">Legendre Transform</strong></h3>
+
+If $\mathbf{P}_x$ has a nonvanishing density, the relation between $U$ and $\mu$ is invertible, and one has
+$$
+	\mu_{xy} = \frac{\partial G(U)}{\partial U_{xy}} \ \text{ if, and only if, } \ U_{xy} = \frac{\partial G^*(\mu)}{\partial \mu_{xy}}
+$$
+where $G^*$ is the Legendre transform:
+$$
+	G^*(\mu) = \max_{U} \left\{ \sum_{xy} \mu_{xy} U_{xy} - G(U) \right\}
+$$
+
+Similarly,
+$$
+	\mu_{xy} = \frac{\partial H(V)}{\partial V_{xy}} \ \text{ if, and only if, } \ V_{xy} = \frac{\partial H^*(\mu)}{\partial \mu_{xy}}
+$$
+where
+$$
+	H^*(\mu) = \max_{V} \left\{ \sum_{xy} \mu_{xy} V_{xy} - H(V) \right\}
+$$
 
     <hr>
 
