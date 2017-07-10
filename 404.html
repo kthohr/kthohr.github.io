@@ -35,76 +35,19 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+        });
+    </script>
+
 </head>
 
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="http://www.kthohr.com" style="color:white">Keith O'Hara</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="about.html">About</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="bmr.html">BMR</a>
-                            </li>
-                            <li>
-                                <a href="trame.html">TraME</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="r-mac-source.html">Building R-devel</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="other_code.html">Other</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="research.html">Research</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teaching <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="phd_metrics.html">Econometrics</a>
-                            </li>
-                            <li>
-                                <a href="fin_econ.html">Financial Economics</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="links.html">Links</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <div id="mynavbar"></div>
 
     <!-- Page Content -->
     <div class="container">
@@ -139,7 +82,7 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <!--<script src="js/jquery.js"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
