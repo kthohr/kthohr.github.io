@@ -149,13 +149,15 @@ pre {
 
 <hr>
 
-<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library of constexpr functions for compile-time computation of special functions.</p>
+<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library for compile-time computation of special functions.</p>
 
 <b>Features</b>
 <br>
 <ul>
-    <li>C++11 and C++14 compatible.</li>
-    <li>Accurate to machine precision.</li>
+    <li>Extensive use of <a href="http://en.cppreference.com/w/cpp/language/constexpr" target="_blank"> constexpr functions</a> and recursive templates enables compile-time computation of common operations that may dramatically reduce the overall run time of a program.</li>
+    <li>The library is written in concise C++11 constexpr format, and is C++14 compatible.</li>
+    <li>Continued fraction representions are used to obtain greater accuracy with a minimal number of template iterations.</li>
+    <li>Extensively tested and accurate to machine precision against the standard library.</li>
 </ul>
 
 <br>
