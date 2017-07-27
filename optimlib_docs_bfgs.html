@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="OptimLib: a lightweight C++ optimization library.">
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
     <meta name="author" content="Keith O'Hara">
 
     <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>OptimLib</title>
+    <title>OptimLib: BFGS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -51,6 +51,14 @@
 
     </script>
 
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <script src="js/jquery.js"></script>
@@ -81,11 +89,11 @@ pre {
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="http://www.kthohr.com">Home</a></li>
-                    <li class="active">OptimLib</li>
+                    <li><a href="optimlib">OptimLib</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Algorithms<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="optimlib_docs_bfgs.html">BFGS</a></li>
+                            <li class="active"><a href="optimlib_docs_bfgs.html">BFGS</a></li>
                             <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
                             <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
                             <li><a href="optimlib_docs_de.html">Differential Evolution</a></li>
@@ -99,51 +107,40 @@ pre {
         </div>
         <!-- /.row -->
 
+<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3>
 
-<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>OptimLib</u></strong></h3>
-<p> &nbsp </p>
+<hr>
+<!--<p> &nbsp </p>-->
 
-<p><a href="https://travis-ci.org/kthohr/optim" target="_blank"><img src="https://travis-ci.org/kthohr/optim.svg?branch=master" alt="optim Build"></a>
-<a href="https://codecov.io/github/kthohr/optim?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/optim/coverage.svg?branch=master" alt="Coverage Status"></a></p>
-<p><a class="github-button" href="https://github.com/kthohr/optim/subscription" data-icon="octicon-eye" data-count-href="/kthohr/optim/watchers" data-count-api="/repos/kthohr/optim#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/optim on GitHub">Watch</a>
-<a class="github-button" href="https://github.com/kthohr/optim" data-icon="octicon-star" data-count-href="/kthohr/optim/stargazers" data-count-api="/repos/kthohr/optim#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/optim on GitHub">Star</a>
-<a class="github-button" href="https://github.com/kthohr/optim/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/optim/network" data-count-api="/repos/kthohr/optim#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/optim on GitHub">Fork</a></p>
+<!--<h3 style="text-align: left;"><strong style="font-size: 100%;">Definition:</strong></h3>-->
+<strong>Definition:</strong>
+<pre class="brush: cpp;"> 
+bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, 
+              void* opt_data, double* value_out, optim_opt_settings* opt_params);
+</pre>
+<br>
+<ul>
+    <li>init_out_vals: a column vector of initial values; will contain the final values.</li>
+    <li>opt_objfn: the function to be minimized, taking three arguments: a vector of values, a vector to calcuate the gradient, and any additional function-related parameters.</li>
+    <li>opt_data: function-related parameters.</li>
+    <li>opt_params: parameters controlling the optimization routine, including tolerance, maximum iterations, etc.</li>
+</ul>
 
 <hr>
 
-<p>OptimLib is a lightweight C++ library for numerical nonlinear optimization and root finding.</p>
+<h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
 
-<b>Features</b>
-<br>
-<ul>
-    <li>C++11 library.</li>
-    <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a>.</li>
-</ul>
+<p>The BFGS algorithm is a member of the quasi-Newton class of optimization methods found in convex optimization.</p>
 
-<br>
+<p>BFGS updating rule:</p> 
+$$d_i = -W_i*\nabla f_{i}$$
+$$s := x_{i+1} - x_i$$
+$$y := \nabla f_{i+1} - \nabla f_{i}$$
+$$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
+$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
+<p>where $\alpha_i$ is found via line search.</p>
 
-<p><strong>Author</strong>: Keith O'Hara</p>
-
-<p><strong>License</strong>: OptimLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
-
-<hr>
-
-<p>Current version:</p>
-<ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/optim" target="_blank">GitHub</a>.</li>
-</ul>
-
-<p>OptimLib can be installed using:</p>
-<pre class="brush: bash;">
-# clone optim
-git clone -b master --single-branch https://github.com/kthohr/optim ./optim
-# build and install
-cd ./optim
-./configure
-make
-make install</pre>
-<p>The last line will install OptimLib into /usr/local</p>
-
+<p>When $\| \nabla f \|$ is less than err_tol, or the number of iterations exceeds a desired (or default) value, the algorithm stops.
         <hr>
 
         <!-- Footer -->
