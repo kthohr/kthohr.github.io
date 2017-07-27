@@ -102,6 +102,12 @@ pre {
                             <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Misc<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="optimlib_docs_settings.html">opt_settings</a></li>
+                        </ul>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -139,7 +145,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 <p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to the class of quasi-Newton optimization methods found in convex optimization.</p>
 
 <p>Let $x_i$ denote the values at stage $i$ of the algorithm. The BFGS updating rule:</p>
-$$d_i = -W_i*\nabla f_{i}$$
+$$d_i = -W_i \nabla f_{i}$$
 $$s := x_{i+1} - x_i$$
 $$y := \nabla f_{i+1} - \nabla f_{i}$$
 $$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
