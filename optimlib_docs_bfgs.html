@@ -114,9 +114,15 @@ pre {
 
 <!--<h3 style="text-align: left;"><strong style="font-size: 100%;">Definition:</strong></h3>-->
 <strong>Definition:</strong>
-<pre class="brush: cpp;"> 
-bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, 
-              void* opt_data, double* value_out, optim_opt_settings* opt_params);
+<pre class="brush: cpp;">
+// internal
+bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+
+// wrappers
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
 </pre>
 <br>
 <ul>
@@ -130,9 +136,9 @@ bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec
 
 <h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
 
-<p>The BFGS algorithm is a member of the quasi-Newton class of optimization methods found in convex optimization.</p>
+<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to the class of quasi-Newton optimization methods found in convex optimization.</p>
 
-<p>BFGS updating rule:</p> 
+<p>Let $x_i$ denote the values at stage $i$ of the algorithm. The BFGS updating rule:</p>
 $$d_i = -W_i*\nabla f_{i}$$
 $$s := x_{i+1} - x_i$$
 $$y := \nabla f_{i+1} - \nabla f_{i}$$
