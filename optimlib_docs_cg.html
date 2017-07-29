@@ -142,19 +142,22 @@ bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     <li><code>double err_tol</code> the value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
     <li><code>int method_cg</code> which updating formula to use; see the details section below.</li>
+    <li><code>double cg_restart_threshold</code> the value $\nu$ in the details section below.</li>
 </ul>
 
 <hr>
 
 <h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
 
-<p>Let $x_i$ denote the values at stage $i$ of the algorithm. The Conjugate Gradient updating rule is as follows.</p>
+<p>Let $x_i$ denote the values at stage $i$ of the algorithm. The Nonlinear Conjugate Gradient updating rule is as follows.</p>
 $$d_i = - \nabla f_{i} + \beta_i \times d_{i-1}$$
 $$x_{i+1} = x_i + \alpha_{i} d_{i}$$
 <p>where $\beta$ is based on one of the updating rules below, and $\alpha_i$ is found via line search:</p>
 $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
+<p>The Nonlinear CG method is known to perform better with periodic restarting (setting $\beta = 0$). In OptimLib, this occurs when</p>
+$$\dfrac{|\nabla f_i \cdot \nabla f_{i-1}|}{\nabla f_{i} \cdot \nabla f_{i}} > \nu$$
 
-<p>When $\| \nabla f \|$ is less than err_tol, or the number of iterations exceeds a desired (or default) value, the algorithm stops.</p>
+<p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
 
 <hr>
 <h3 style="text-align: left;"><strong style="font-size: 80%;">Updating Formula:</strong></h3>
@@ -174,7 +177,7 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
     <li> Dai-Yuan: (<code>method_cg = 5</code>):</li>
         $$\beta_{\text{DY}} = \dfrac{\nabla f_i \cdot \nabla f_i}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
     <li> Hager-Zhang: (<code>method_cg = 6</code>):</li>
-        $$\beta_{\text{DY}} = \left( y - 2 \times \dfrac{y \cdot y}{y \cdot d} \times d \right) \cdot \dfrac{\nabla f_i}{y \cdot d}, \ \ \ y := \nabla f_i - \nabla f_{i-1}$$
+        $$\beta_{\text{HZ}} = \left( y - 2 \times \dfrac{y \cdot y}{y \cdot d} \times d \right) \cdot \dfrac{\nabla f_i}{y \cdot d}, \ \ \ y := \nabla f_i - \nabla f_{i-1}$$
 </ul>
 
         <hr>
