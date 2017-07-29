@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>OptimLib: BFGS</title>
+    <title>OptimLib: CG</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -86,9 +86,9 @@ pre {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Algorithms<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="active"><a href="optimlib_docs_bfgs.html">BFGS</a></li>
+                            <li><a href="optimlib_docs_bfgs.html">BFGS</a></li>
                             <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
-                            <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
+                            <li class="active"><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
                             <li><a href="optimlib_docs_de.html">Differential Evolution</a></li>
                             <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
                             <li class="divider"></li>
@@ -106,23 +106,23 @@ pre {
         </div>
         <!-- /.row -->
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Nonlinear Conjugate Gradient Method</strong></h3>
 
 <hr>
 <!--<p> &nbsp </p>-->
 
-<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to a class of quasi-Newton-type optimization methods for convex optimization problems.</p>
+<p>The Nonlinear Conjugate Gradient (CG) method generalizes its <a href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">linear namesake</a> to a broader class of convex optimization problems.</p>
 
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
 // internal
-bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+bool cg_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
 
 // wrappers
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
+bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
+bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -141,28 +141,41 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 <ul>
     <li><code>double err_tol</code> the value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>int method_cg</code> which updating formula to use; see the details section below.</li>
 </ul>
-
 
 <hr>
 
 <h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
-
-<p>The descent directionis is computed using</p>
-$$d_i = -W_i \nabla f_{i}$$
-<p>where $W_i$ is the approximate <strong>inverse</strong> hessian and $\nabla f_i$ is the gradiant vector at values $x_i$.<p>
-
-<p>W_i is updated using</p>
-$$s := x_{i+1} - x_i$$
-$$y := \nabla f_{i+1} - \nabla f_{i}$$
-$$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
-<p>Next stage values are then computed using</p>
+<p>Let $x_i$ denote the values at stage $i$ of the algorithm. The Conjugate Gradient updating rule is as follows.</p>
+$$d_i = - \nabla f_{i} + \beta_i \times d_{i-1}$$
 $$x_{i+1} = x_i + \alpha_{i} d_{i}$$
-<p>where $\alpha_i$ is found via line search:</p>
+<p>where $\beta$ is based on one of the updating rules below, and $\alpha_i$ is found via line search:</p>
 $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
-<p>The line search method used in OptimLib is that of More and Thuente (1994).</p>
+
+<p>When $\| \nabla f \|$ is less than err_tol, or the number of iterations exceeds a desired (or default) value, the algorithm stops.</p>
+
+<hr>
+<h3 style="text-align: left;"><strong style="font-size: 80%;">Updating Formula:</strong></h3>
+<ul>
+    <li> Fletcher–Reeves (<code>method_cg = 1</code>):</li>
+        $$\beta_{\text{FR}} = \dfrac{\nabla f_i \cdot \nabla f_i}{\nabla f_{i-1} \cdot \nabla f_{i-1}}$$
+    <li> Polak-Ribiere (PR) '+' (<code>method_cg = 2</code>):</li>
+        $$\beta_{\text{PR+}} = \max \left\{ 0 , \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{\nabla f_{i-1} \cdot \nabla f_{i-1}} \right\}$$
+    <li> FR-PR Hybrid: (<code>method_cg = 3</code>):</li>
+    <ul>
+        <li>If $\beta_{\text{PR}} < - \beta_{\text{FR}}$, set $\beta = - \beta_{\text{FR}}$</li>
+        <li>If $|\beta_{\text{PR}}| < \beta_{\text{FR}}$, set $\beta = \beta_{\text{PR}}$</li>
+        <li>If $\beta_{\text{PR}} > \beta_{\text{FR}}$, set $\beta = \beta_{\text{FR}}$</li>
+    </ul>
+    <li> Hestenes-Stiefel: (<code>method_cg = 4</code>):</li>
+        $$\beta_{\text{HS}} = \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
+    <li> Dai-Yuan: (<code>method_cg = 5</code>):</li>
+        $$\beta_{\text{DY}} = \dfrac{\nabla f_i \cdot \nabla f_i}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
+    <li> Hager-Zhang: (<code>method_cg = 6</code>):</li>
+        $$\beta_{\text{DY}} = \left( y - 2 \times \dfrac{y \cdot y}{y \cdot d} \times d \right) \cdot \dfrac{\nabla f_i}{y \cdot d}, \ \ \ y := \nabla f_i - \nabla f_{i-1}$$
+</ul>
 
         <hr>
 
