@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>OptimLib: DE</title>
+    <title>OptimLib: Nelder-Mead</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -89,8 +89,8 @@ pre {
                             <li><a href="optimlib_docs_bfgs.html">BFGS</a></li>
                             <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
                             <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
-                            <li class="active"><a href="optimlib_docs_de.html">Differential Evolution</a></li>
-                            <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
+                            <li><a href="optimlib_docs_de.html">Differential Evolution</a></li>
+                            <li class="active"><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
                             <li class="divider"></li>
                             <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
                         </ul>
@@ -106,7 +106,7 @@ pre {
         </div>
         <!-- /.row -->
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Differential Evolution</strong></h3>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Nelder-Mead Simplex Method</strong></h3>
 
 <hr>
 <!--<p> &nbsp </p>-->
@@ -114,13 +114,13 @@ pre {
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
 // internal
-bool de_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+bool nm_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
 
 // wrappers
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
+bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
+bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -128,7 +128,7 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
-            <li><code>grad_out</code> an empty vector, as DE does not require a gradient vector as input; and</li>
+            <li><code>grad_out</code> an empty vector, as Nelder-Mead does not require a gradient vector as input; and</li>
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
@@ -137,24 +137,13 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
-    <li><code>int de_n_gen</code> number of vectors to generate.</li>
-    <li><code>int de_check_freq</code> how many generations between convergence checks.</li>
-    <li><code>double de_par_F</code> the value $F$ in the details section below.</li>
-    <li><code>double de_par_CR</code> the value $CR$ in the details section below.</li>
+    <li><code>double err_tol</code> the value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
+    <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>double nm_par_alpha</code> reflection parameter.</li>
+    <li><code>double nm_par_gamma</code> expansion parameter.</li>
+    <li><code>double nm_par_beta</code> contraction parameter.</li>
+    <li><code>double nm_par_alpha</code> shrikage parameter.</li>
 </ul>
-
-<hr>
-
-<h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
-
-<p>Let $x_{i}$ denote the values at stage $i$ of the algorithm. The mutation step:</p>
-$$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
-<p>The crossover step:</p>
-$$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
-<p>The update step:</p>
-$$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
-
-<p>The algorithm stops when the relative improvement in $f$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
 
         <hr>
 
