@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>OptimLib: BFGS</title>
+    <title>OptimLib: DE</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -86,10 +86,10 @@ pre {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Algorithms<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="active"><a href="optimlib_docs_bfgs.html">BFGS</a></li>
+                            <li><a href="optimlib_docs_bfgs.html">BFGS</a></li>
                             <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
                             <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
-                            <li><a href="optimlib_docs_de.html">Differential Evolution</a></li>
+                            <li class="active"><a href="optimlib_docs_de.html">Differential Evolution</a></li>
                             <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
                             <li class="divider"></li>
                             <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
@@ -106,23 +106,21 @@ pre {
         </div>
         <!-- /.row -->
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3>
+<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Differential Evolution</strong></h3>
 
 <hr>
 <!--<p> &nbsp </p>-->
 
-<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to a class of quasi-Newton-type optimization methods for convex optimization problems.</p>
-
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
 // internal
-bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+bool de_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
 
 // wrappers
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
+bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
+bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -130,7 +128,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
-            <li><code>grad_out</code> a vector to store the gradient values; and</li>
+            <li><code>grad_out</code> an empty vector, as DE does not require any gradient data; and</li>
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
@@ -139,32 +137,24 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
-    <li><code>double err_tol</code> the value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
-    <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>int de_n_gen</code> number of vectors to generate.</li>
+    <li><code>int de_check_freq</code> how many generations between convergence checks.</li>
+    <li><code>double de_par_F</code> the value $F$ in the details section below.</li>
+    <li><code>double de_par_CR</code> the value $CR$ in the details section below.</li>
 </ul>
-
 
 <hr>
 
 <h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
+<p>Let $x_{i}$ denote the values at stage $i$ of the algorithm. The mutation step:</p>
+$$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
+<p>The crossover step:</p>
+$$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
+<p>The update step:</p>
+$$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
 
-<p>The descent directionis is computed using</p>
-$$d_i = -W_i \nabla f_{i}$$
-<p>where $W_i$ is the approximate <strong>inverse</strong> hessian and $\nabla f_i$ is the gradiant vector at values $x_i$.<p>
-
-<p>W_i is updated using</p>
-$$s := x_{i+1} - x_i$$
-$$y := \nabla f_{i+1} - \nabla f_{i}$$
-$$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
-<p>Next stage values are then computed using</p>
-$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
-<p>where $\alpha_i$ is found via line search:</p>
-$$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
-<p>The line search method used in OptimLib is that of More and Thuente (1994).</p>
-
-<p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+<p>The algorithm stops when the relative improvement in $f$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
 
         <hr>
 
