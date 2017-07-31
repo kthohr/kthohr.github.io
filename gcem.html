@@ -149,32 +149,27 @@ pre {
 
 <hr>
 
-<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library for compile-time computation of special functions.</p>
+<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library for compile-time, efficient computation of special functions.</p>
 
-<b>Features</b>
-<br>
+<p><strong>Features:</strong></p>
 <ul>
-    <li>Extensive use of <a href="http://en.cppreference.com/w/cpp/language/constexpr" target="_blank">constexpr functions</a> and recursive templates.</li>
-    <li>Enables compile-time computation of common operations to reduce the overall runtime of a program.</li>
-    <li>The library is written in concise C++11 constexpr format, and is C++14 compatible.</li>
+    <li>Extensive use of <a href="http://en.cppreference.com/w/cpp/language/constexpr" target="_blank">constexpr functions</a> and recursive templates enables compile-time scientific computing.</li>
+    <!-- <li>Enables compile-time computation of important operations to reduce the overall runtime of a program.</li> -->
+    <li>The library is written in concise C++11 constexpr format, which is also C++14 compatible.</li>
     <li>Use of continued fraction representions obtain greater accuracy with a minimal number of template iterations.</li>
-    <li>Extensively tested and accurate to machine precision against the standard library.</li>
+    <li>Extensively tested and accurate to machine precision against the C++ standard library.</li>
 </ul>
-
-<br>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
 <p><strong>License</strong>: GCE-Math is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
 
 <hr>
-
-<p>Current version:</p>
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
 <ul>
     <li>The source code is available on <a href="https://github.com/kthohr/gcem" target="_blank">GitHub</a>.</li>
+    <li>GCE-Math is a header-only library. Simply include the gcem header files with your project.</li>
 </ul>
-
-<p>GCE-Math is a header-only library, so no installation is required. Simply include the gcem header files with your project.</p>
 
 <p>To build the test files:</p>
 <pre class="brush: bash;">
