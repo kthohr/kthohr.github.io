@@ -115,28 +115,28 @@ pre {
 <pre class="brush: cpp;">
 struct optim_opt_settings {
     // general
-    int conv_failure_switch = OPTIM_CONV_FAILURE_POLICY;
-    int iter_max = OPTIM_DEFAULT_ITER_MAX;
-    double err_tol = OPTIM_DEFAULT_ERR_TOL;
+    int conv_failure_switch;
+    int iter_max;
+    double err_tol;
 
     // SUMT parameter
-    double sumt_par_eta = OPTIM_DEFAULT_SUMT_PENALTY_GROWTH;
+    double sumt_par_eta;
 
     // Nelder-Mead
-    double nm_par_alpha = OPTIM_DEFAULT_NM_PAR_ALPHA;
-    double nm_par_beta  = OPTIM_DEFAULT_NM_PAR_BETA;
-    double nm_par_gamma = OPTIM_DEFAULT_NM_PAR_GAMMA;
-    double nm_par_delta = OPTIM_DEFAULT_NM_PAR_DELTA;
+    double nm_par_alpha;
+    double nm_par_beta;
+    double nm_par_gamma;
+    double nm_par_delta;
 
     // CG
-    int cg_method = OPTIM_DEFAULT_CG_METHOD;
-    double cg_restart_threshold = OPTIM_DEFAULT_CG_RESTART_THRESHOLD;
+    int cg_method;
+    double cg_restart_threshold;
 
     // DE
-    int de_n_gen = OPTIM_DEFAULT_DE_NGEN;
-    int de_check_freq = OPTIM_DEFAULT_DE_CHECK_FREQ;
-    double de_par_F = OPTIM_DEFAULT_DE_PAR_F;
-    double de_par_CR = OPTIM_DEFAULT_DE_PAR_CR;
+    int de_n_gen;
+    int de_check_freq;
+    double de_par_F;
+    double de_par_CR;
 };
 </pre>
 
