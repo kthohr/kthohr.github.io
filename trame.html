@@ -120,14 +120,14 @@
 
 <p><strong>Authors</strong>:</p>
 <ul>
-    <li>TraME Team: <a href="http://alfredgalichon.com/" target="_blank">Alfred Galichon</a> (R), Keith O'Hara (C++), and <a href="https://sites.google.com/site/webersimonsite/home" target="_blank">Simon Weber</a> (R)</li>
+    <li>TraME Team: <a href="http://alfredgalichon.com/" target="_blank">Alfred Galichon</a> (R) and <a href="http://alfredgalichon.com/" target="_blank">Keith O'Hara</a> (C++)
+    <li>Contributors: Yifei Sun, <a href="https://sites.google.com/site/webersimonsite/home" target="_blank">Simon Weber</a></li>
 </ul>
 
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 130%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
+<h3 style="text-align: left;"><strong style="font-size: 110%;">Download</strong> <a href="https://travis-ci.org/TraME-Project/TraME" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME.svg?branch=master" alt="BMR Build"></a></h3>
 
-<p>Current version: 2017-03-15.</p>
 <ul>
     <li>The source code is available on <a href="https://github.com/TraME-Project/TraME" target="_blank">GitHub</a>.</li>
     <li>To use the linear programming features, TraME requires an installation of Gurobi or GLPK.</li>
@@ -140,7 +140,16 @@
 make
 make install</pre>
 
-<p>This will install the library into /usr/local</p>
+<p>This will install the library into <samp>/usr/local</sampe></p>
+
+<p>Options for configure:</p>
+<ul>
+    <li><code>-b dev</code> a 'development' build</li>
+    <li><code>-c</code> a coverage build</li>
+    <li><code>-l</code> specify a linear programming library to use; for example <code>-l glpk</code> or <code>-l gurobi</code></li>
+    <li><code>-m</code> specify the BLAS and Lapack libraries to link the TraME shared library against; for example, <code>-m "-lopenblas"</code></li>
+    <li><code>-p</code> a parallelized build using OpenMP</li>
+</ul>
 
     <hr>
 
