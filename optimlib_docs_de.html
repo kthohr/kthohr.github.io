@@ -160,14 +160,32 @@ $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j))
 
 <h3 style="text-align: left;"><strong style="font-size: 100%;">Example</strong></h3>
 
-<p>In this example, we consider minimization of the Rastrigin function:</p>
+<p>As examples, we will use two well-known test functions from the numerical optimization literature: the Rastrigin function and Ackley's function; both functions are 'bumpy' and contain many local minima.</p>
+
+<p>The Rastrigin function:</p>
 $$\min_{x \in [-5,5]^n} \left\{ A n + \sum_{i=1}^n \left( x_i^2 - A \cos(2 \pi x_i) \right) \right\}$$
-<p>This is a well-known test function for numerical optimization software, as the objective function is 'bumpy' and contains many local minima.</p>
-<p>A contour plot of the two dimensional problem, with $A = 10$, is given below.</p>
+<p>Ackley's function:</p>
+$$\min_{x \in [-5,5]^2} \left\{ -20 \exp \left( -0.2 \sqrt{0.5(x_1^2 + x_2^2)} \right) - \exp \left(0.5[\cos(2 \pi x_1) + \cos(2 \pi x_2)]\right) + e + 20 \right\}$$
 
-<img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt="">
+<!-- <img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt=""> -->
 
-The solution to the minimization problem is the zero vector. Code implementing this in OptimLib is given below.</p>
+<!-- <img class="img-responsive pull-left" src="pics/rastrigin_fn.png" alt="">  <img class="img-responsive pull-right" src="pics/ackley_fn_3d.png" alt="">  -->
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Rastrigin</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt="">
+    </div>
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Ackley</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <!-- <img src="pics/rastrigin_fn.png" class="img-rounded pull-right" alt="Sphere" width="304" height="236"> -->
+        <img class="img-responsive center-block" src="pics/ackley_fn_3d.png" alt=""> 
+    </div>
+</div>
+
+<p>The solution to both minimization problems is the zero vector. Code implementing this in OptimLib is given below.</p>
 
 <pre class="brush: cpp;">
 #include "optim.hpp"
@@ -186,15 +204,26 @@ rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 
     double obj_val = A*n + arma::accu( arma::pow(vals_inp,2) - A*arma::cos(2*arma::datum::pi*vals_inp) );
     //
-    if (grad_out) {
-        *grad_out = 2*vals_inp + A*2*arma::datum::pi*arma::sin(2*arma::datum::pi*vals_inp);
-    }
+    return obj_val;
+}
+
+double
+ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    const double x = vals_inp(0);
+    const double y = vals_inp(1);
+    const double pi = arma::datum::pi;
+
+    double obj_val = -20*std::exp( -0.2*std::sqrt(0.5*(x*x + y*y)) ) - std::exp( 0.5*(std::cos(2*pi*x) + std::cos(2*pi*y)) ) + std::exp(1) + 20;
     //
     return obj_val;
 }
 
 int main()
 {
+    //
+    // Rastrigin function
+
     rastrigin_fn_data test_data;
     test_data.A = 10;
 
@@ -203,12 +232,27 @@ int main()
     bool success = optim::de(x,rastrigin_fn,&test_data);
 
     if (success) {
-        std::cout << "de: test completed successfully." << std::endl;
+        std::cout << "de: Rastrigin test completed successfully." << std::endl;
     } else {
-        std::cout << "de: test completed unsuccessfully." << std::endl;
+        std::cout << "de: Rastrigin test completed unsuccessfully." << std::endl;
     }
 
-    arma::cout << "de: solution to test:\n" << x << arma::endl;
+    arma::cout << "de: solution to Rastrigin test:\n" << x << arma::endl;
+
+    //
+    // Ackley function
+
+    arma::vec x_2 = arma::ones(2,1);
+
+    bool success_2 = optim::de(x_2,ackley_fn,nullptr);
+
+    if (success_2) {
+        std::cout << "de: Ackley test completed successfully." << std::endl;
+    } else {
+        std::cout << "de: Ackley test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "de: solution to Ackley test:\n" << x_2 << arma::endl;
 
     return 0;
 }
