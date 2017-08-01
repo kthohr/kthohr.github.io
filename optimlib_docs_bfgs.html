@@ -111,7 +111,7 @@ pre {
 <hr>
 <!--<p> &nbsp </p>-->
 
-<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to a class of quasi-Newton-type optimization methods for convex optimization problems.</p>
+<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to the quasi-Newton class of optimization methods for convex optimization problems.</p>
 
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
@@ -143,10 +143,9 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
 </ul>
 
-
 <hr>
 
-<h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
+<h3 style="text-align: left;"><strong style="font-size: 100%;">Details</strong></h3>
 
 <p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
 
@@ -165,6 +164,49 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
 <p>The line search method used in OptimLib is that of More and Thuente (1994).</p>
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+
+<hr>
+
+<h3 style="text-align: left;"><strong style="font-size: 100%;">Example</strong></h3>
+
+<p>In this example, we consider minimization of the sphere function:</p>
+$$\min_{x \in \mathbb{R}^n} \sum_{i=1}^n x_i^2$$
+<p>The solution is the zero vector. Code implementing this in OptimLib is given below.</p>
+
+<pre class="brush: cpp;">
+#include "optim.hpp"
+
+double
+unconstr_test_fn_3(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    double obj_val = arma::dot(vals_inp,vals_inp);
+    //
+    if (grad_out) {
+        *grad_out = 2.0*vals_inp;
+    }
+    //
+    return obj_val;
+}
+
+int main()
+{
+    const int test_dim = 5;
+
+    arma::vec x = arma::ones(test_dim,1); // initial values
+
+    bool success = optim::bfgs(x,unconstr_test_fn_3,nullptr);
+
+    if (success) {
+        std::cout << "bfgs: test_3 completed successfully." << std::endl;
+    } else {
+        std::cout << "bfgs: test_3 completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "bfgs: solution to test_3:\n" << x << arma::endl;
+
+    return 0;
+}
+</pre>
 
         <hr>
 

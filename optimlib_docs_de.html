@@ -156,6 +156,64 @@ $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j))
 
 <p>The algorithm stops when the relative improvement in $f$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
 
+<hr>
+
+<h3 style="text-align: left;"><strong style="font-size: 100%;">Example</strong></h3>
+
+<p>In this example, we consider minimization of the Rastrigin function:</p>
+$$\min_{x \in [-5,5]^n} \left\{ A n + \sum_{i=1}^n \left( x_i^2 - A \cos(2 \pi x_i) \right) \right\}$$
+<p>This is a well-known test function for numerical optimization software, as the objective function is 'bumpy' and contains many local minima.</p>
+<p>A contour plot of the two dimensional problem, with $A = 10$, is given below.</p>
+
+<img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt="">
+
+The solution to the minimization problem is the zero vector. Code implementing this in OptimLib is given below.</p>
+
+<pre class="brush: cpp;">
+#include "optim.hpp"
+
+struct rastrigin_fn_data {
+    double A;
+};
+
+double
+rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    const int n = vals_inp.n_elem;
+
+    rastrigin_fn_data* objfn_data = reinterpret_cast&lt;rastrigin_fn_data*&gt;(opt_data);
+    const double A = objfn_data->A;
+
+    double obj_val = A*n + arma::accu( arma::pow(vals_inp,2) - A*arma::cos(2*arma::datum::pi*vals_inp) );
+    //
+    if (grad_out) {
+        *grad_out = 2*vals_inp + A*2*arma::datum::pi*arma::sin(2*arma::datum::pi*vals_inp);
+    }
+    //
+    return obj_val;
+}
+
+int main()
+{
+    rastrigin_fn_data test_data;
+    test_data.A = 10;
+
+    arma::vec x = arma::ones(2,1);
+
+    bool success = optim::de(x,rastrigin_fn,&test_data);
+
+    if (success) {
+        std::cout << "de: test completed successfully." << std::endl;
+    } else {
+        std::cout << "de: test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "de: solution to test:\n" << x << arma::endl;
+
+    return 0;
+}
+</pre>
+
         <hr>
 
         <!-- Footer -->
