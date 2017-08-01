@@ -225,7 +225,7 @@ int main()
     rastrigin_fn_data test_data;
     test_data.A = 10;
 
-    arma::vec x = arma::ones(2,1);
+    arma::vec x = arma::ones(2,1) + 1.0; // initial values: (2,2)
 
     bool success = optim::de(x,rastrigin_fn,&test_data);
 
@@ -240,7 +240,7 @@ int main()
     //
     // Ackley function
 
-    arma::vec x_2 = arma::ones(2,1);
+    arma::vec x_2 = arma::ones(2,1) + 1.0; // initial values: (2,2)
 
     bool success_2 = optim::de(x_2,ackley_fn,nullptr);
 
