@@ -138,9 +138,9 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
     <li><code>int de_n_gen</code> number of vectors to generate.</li>
-    <li><code>int de_check_freq</code> how many generations between convergence checks.</li>
-    <li><code>double de_par_F</code> the value $F$ in the details section below.</li>
-    <li><code>double de_par_CR</code> the value $CR$ in the details section below.</li>
+    <li><code>int de_check_freq</code> number of generations between convergence checks.</li>
+    <li><code>double de_par_F</code> the mutation parameter $F$ in the details section below.</li>
+    <li><code>double de_par_CR</code> the crossover parameter $CR$ in the details section below.</li>
 </ul>
 
 <hr>
@@ -194,8 +194,7 @@ struct rastrigin_fn_data {
     double A;
 };
 
-double
-rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+double rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 {
     const int n = vals_inp.n_elem;
 
@@ -207,8 +206,7 @@ rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
     return obj_val;
 }
 
-double
-ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 {
     const double x = vals_inp(0);
     const double y = vals_inp(1);
