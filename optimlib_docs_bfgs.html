@@ -153,7 +153,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 $$d_i = -W_i \nabla f_{i}$$
 <p>where $W_i$ is the approximate <strong>inverse</strong> hessian and $\nabla f_i$ is the gradiant vector at values $x_i$.<p>
 
-<p>W_i is updated using</p>
+<p>$W_i$ is updated using</p>
 $$s := x_{i+1} - x_i$$
 $$y := \nabla f_{i+1} - \nabla f_{i}$$
 $$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
