@@ -128,7 +128,7 @@ bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
-            <li><code>grad_out</code> an empty vector, as Nelder-Mead does not require a gradient vector as input; and</li>
+            <li><code>grad_out</code> an empty vector, as Nelder-Mead does not require the gradient to be known/exist; and</li>
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
