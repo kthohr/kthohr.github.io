@@ -106,12 +106,34 @@ pre {
         </div>
         <!-- /.row -->
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Differential Evolution</strong></h3>
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: Differential Evolution</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Method Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is a quasi-Newton optimization method used to solve convex optimization problems.</p>
 
 <hr>
 <!--<p> &nbsp </p>-->
 
-<p><strong>Function definition:</strong></p>
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Method Definition</strong></h3>
+
 <pre class="brush: cpp;">
 // internal
 bool de_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
@@ -124,7 +146,7 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>init_out_vals</code> a column vector of initial values; will contain the final values.</li>
+    <li><code>init_out_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
@@ -144,9 +166,9 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     <li><code>bool de_rand_F</code> whether to randomize the mutation parameter $F$ between generations.</li>
 </ul>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;"><strong style="font-size: 100%;">Details:</strong></h3>
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
 <p>Let $x_{i}$ denote the values at stage $i$ of the algorithm. The mutation step:</p>
 $$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
@@ -157,16 +179,20 @@ $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j))
 
 <p>The algorithm stops when the relative improvement in $f$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="example"><strong style="font-size: 100%;">Example</strong></h3>
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
-<p>As examples, we will tackle two well-known performance tests from the numerical optimization literature: the Rastrigin function and Ackley's function; both functions are 'bumpy' and contain many local minima.</p>
+<p>To illustrate the effectiveness of DE, we will tackle two well-known performance tests from the numerical optimization literature:</p>
 
-<p>The Rastrigin function:</p>
-$$\min_{x \in [-5,5]^n} \left\{ A n + \sum_{i=1}^n \left( x_i^2 - A \cos(2 \pi x_i) \right) \right\}$$
-<p>Ackley's function:</p>
-$$\min_{x \in [-5,5]^2} \left\{ -20 \exp \left( -0.2 \sqrt{0.5(x_1^2 + x_2^2)} \right) - \exp \left(0.5[\cos(2 \pi x_1) + \cos(2 \pi x_2)]\right) + e + 20 \right\}$$
+<ul>
+    <li>The Rastrigin function:</li>
+    $$\min_{x \in [-5,5]^n} \left\{ A n + \sum_{i=1}^n \left( x_i^2 - A \cos(2 \pi x_i) \right) \right\}$$
+    <li>Ackley's function:</li>
+    $$\min_{x \in [-5,5]^2} \left\{ -20 \exp \left( -0.2 \sqrt{0.5(x_1^2 + x_2^2)} \right) - \exp \left(0.5[\cos(2 \pi x_1) + \cos(2 \pi x_2)]\right) + e + 20 \right\}$$
+</ul>
+
+<p>Both functions are 'bumpy' and contain many local minima. Plots of both functions are given below.</p>
 
 <!-- <img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt=""> -->
 
@@ -186,7 +212,9 @@ $$\min_{x \in [-5,5]^2} \left\{ -20 \exp \left( -0.2 \sqrt{0.5(x_1^2 + x_2^2)} \
     </div>
 </div>
 
-<p>Both minimization problems possess a unique global minimum: the zero vector. Code implementing this in OptimLib is given below.</p>
+<br>
+
+<p>Both minimization problems possess a unique global minimum: the zero vector. Code implementing these examples using OptimLib is given below.</p>
 
 <pre class="brush: cpp;">
 #include "optim.hpp"
