@@ -149,7 +149,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>init_out_vals</code> a column vector of initial values, which will be replaced by the solution values.</li>
+    <li><code>init_out_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
@@ -198,7 +198,7 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
     $$\min_{x \in \mathbb{R}^n} \sum_{i=1}^n x_i^2$$
     The solution is the zero vector</li>
     <li>Booth's function
-    $$\min_{x \in [-10,10]^2} (x_1 + 2x_2 - 7)^2 + (2 x_1 + x_2 - 5)^2$$
+    $$\min_{x \in [-10,10]^2} \left\{ (x_1 + 2x_2 - 7)^2 + (2 x_1 + x_2 - 5)^2 \right\}$$
     The global minimum is located at $(1,3)$.</li>
 </ul>
 <p>Below are plots of each example, restricted to the two-dimensional problem where relevant.</p>
