@@ -106,14 +106,36 @@ pre {
         </div>
         <!-- /.row -->
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3>
+<!-- <h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3> -->
 
-<hr>
-<!--<p> &nbsp </p>-->
+<!-- <hr> -->
+<br>
 
-<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm belongs to the quasi-Newton class of optimization methods for convex optimization problems.</p>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: BFGS</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Method Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p><strong>Function definition:</strong></p>
+<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is a quasi-Newton optimization method used to solve convex optimization problems.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Method Definition</strong></h3>
+
+<!-- <br> -->
+
 <pre class="brush: cpp;">
 // internal
 bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
@@ -124,9 +146,10 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
 </pre>
+
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>init_out_vals</code> a column vector of initial values; will contain the final values.</li>
+    <li><code>init_out_vals</code> a column vector of initial values, which will contain the output values.</li>
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
@@ -139,13 +162,13 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
-    <li><code>double err_tol</code> the value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
+    <li><code>double err_tol</code> the tolerance value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
 </ul>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;"><strong style="font-size: 100%;">Details</strong></h3>
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
 <p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
 
@@ -165,19 +188,43 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="example"><strong style="font-size: 100%;">Example</strong></h3>
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
-<p>As an example, consider minimization of the sphere function:</p>
-$$\min_{x \in \mathbb{R}^n} \sum_{i=1}^n x_i^2$$
-<p>The solution is the zero vector. Code implementing this in OptimLib is given below.</p>
+<p>As examples, consider minimization of:</p>
+<ul>
+    <li>the Sphere function
+    $$\min_{x \in \mathbb{R}^n} \sum_{i=1}^n x_i^2$$
+    The solution is the zero vector</li>
+    <li>Booth's function
+    $$\min_{x \in [-10,10]^2} (x_1 + 2x_2 - 7)^2 + (2 x_1 + x_2 - 5)^2$$
+    The global minimum is located at $(1,3)$.</li>
+</ul>
+<p>Below are plots of each example, restricted to the two-dimensional problem where relevant.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Sphere</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <img class="img-responsive center-block" src="pics/sphere_fn.png" alt="">
+    </div>
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Booth</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <!-- <img src="pics/rastrigin_fn.png" class="img-rounded pull-right" alt="Sphere" width="304" height="236"> -->
+        <img class="img-responsive center-block" src="pics/booth_fn_3d.png" alt=""> 
+    </div>
+</div>
+
+<br>
+
+<p>Code solving each example using OptimLib is given below.</p>
 
 <pre class="brush: cpp;">
 #include "optim.hpp"
 
-double
-unconstr_test_fn_3(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+double sphere_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 {
     double obj_val = arma::dot(vals_inp,vals_inp);
     //
@@ -188,21 +235,54 @@ unconstr_test_fn_3(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_dat
     return obj_val;
 }
 
+double booth_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    double x_1 = vals_inp(0);
+    double x_2 = vals_inp(1);
+
+    double obj_val = std::pow(x_1 + 2*x_2 - 7.0,2) + std::pow(2*x_1 + x_2 - 5.0,2);
+    //
+    if (grad_out) {
+        (*grad_out)(0) = 2*(x_1 + 2*x_2 - 7.0) + 2*(2*x_1 + x_2 - 5.0)*2;
+        (*grad_out)(1) = 2*(x_1 + 2*x_2 - 7.0)*2 + 2*(2*x_1 + x_2 - 5.0);
+    }
+    //
+    return obj_val;
+}
+
 int main()
 {
+    //
+    // sphere function
+
     const int test_dim = 5;
 
-    arma::vec x = arma::ones(test_dim,1); // initial values
+    arma::vec x = arma::ones(test_dim,1); // initial values (1,1,...,1)
 
-    bool success = optim::bfgs(x,unconstr_test_fn_3,nullptr);
+    bool success = optim::bfgs(x,sphere_fn,nullptr);
 
     if (success) {
-        std::cout << "bfgs: test_3 completed successfully." << std::endl;
+        std::cout << "bfgs: sphere test completed successfully." << std::endl;
     } else {
-        std::cout << "bfgs: test_3 completed unsuccessfully." << std::endl;
+        std::cout << "bfgs: sphere test completed unsuccessfully." << std::endl;
     }
 
-    arma::cout << "bfgs: solution to test_3:\n" << x << arma::endl;
+    arma::cout << "bfgs: solution to sphere test:\n" << x << arma::endl;
+
+    //
+    // Booth function
+
+    arma::vec x_2 = arma::zeros(2,1); // initial values (0,0)
+
+    bool success_2 = optim::bfgs(x,booth_fn,nullptr);
+
+    if (success_2) {
+        std::cout << "bfgs: Booth test completed successfully." << std::endl;
+    } else {
+        std::cout << "bfgs: Booth test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "bfgs: solution to Booth test:\n" << x_2 << arma::endl;
 
     return 0;
 }
