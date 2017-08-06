@@ -91,6 +91,7 @@ pre {
                             <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
                             <li class="active"><a href="optimlib_docs_de.html">Differential Evolution</a></li>
                             <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
+                            <li><a href="optimlib_docs_pso.html">Particle Swarm</a></li>
                             <li class="divider"></li>
                             <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
                         </ul>
@@ -156,25 +157,41 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
+    <li><code>int de_n_pop</code> population size of each generation.</li>
     <li><code>int de_n_gen</code> number of vectors to generate.</li>
     <li><code>int de_check_freq</code> number of generations between convergence checks.</li>
+    <li><code>int de_mutation_method</code> which method of mutation to apply:</li>
+    <ul>
+        <li><code>de_mutation_method = 1</code> applies the 'rand' policy.</li>
+        <li><code>de_mutation_method = 2</code> applies the 'best' policy.</li>
+    </ul>
     <li><code>double de_par_F</code> the mutation parameter $F$ in the details section below.</li>
     <li><code>double de_par_CR</code> the crossover parameter $CR$ in the details section below.</li>
-    <li><code>bool de_rand_F</code> whether to randomize the mutation parameter $F$ between generations.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $x_{i}$ denote the values at stage $i$ of the algorithm. The mutation step:</p>
-$$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
-<p>The crossover step:</p>
-$$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
-<p>The update step:</p>
-$$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
+<p>Let $X_{i}$ denote a $N \times d$-dimensional array of values at stage $i$ of the algorithm. The basic DE algorithm is comprised of three steps.</p>
+<ul>
+    <li><strong>The Mutation Step.</strong> Depending on the value of <code>mutation_method</code>, for random and unique indices $a,b,c$:</li>
+    <ul>
+        <li>if <code>de_mutation_method = 1</code>, use the 'rand' method:</li>
+        $$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
+        <li>if <code>de_mutation_method = 2</code>, use the 'best' method:</li>
+        $$X^* = X_i(\text{best},:) + F \times (X_i(a,:) - X_i(b,:))$$
+        where $X_i(\text{best},:) := \arg \min \{ f(X_i(1,:)), \ldots, f(X_i(N,:)) \}$.</li>
+    </ul>
+    <li><strong>The Crossover Step.</strong> For a random integer $r_k \in \{1, \ldots, d\}$,</li>
+    $$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
+    <li><strong>The Update Step.</strong></li>
+    $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
+</ul>
 
-<p>The algorithm stops when the relative improvement in $f$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
+<p>The algorithm stops when the relative improvement in the objective function is less than <code>err_tol</code> between <code>de_check_freq</code> number of generations, or when the total number of 'generations' exceeds a desired (or default) value.</p>
+
+<p>The DE method in OptimLib is the more robust and advanced method of Zamuda and Brest (2015).</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
