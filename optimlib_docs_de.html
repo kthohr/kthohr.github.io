@@ -60,6 +60,11 @@
             $("#mynavbar").load("navbar.html")
         });
     </script>
+    <script>
+        $(function(){
+            $("#optimhead").load("optimlib_header.html")
+        });
+    </script>
 
 </head>
 
@@ -78,34 +83,7 @@ pre {
     <div class="container">
 
         <!-- Page Heading/Breadcrumbs -->
-        <div class="row">
-            <div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li><a href="http://www.kthohr.com">Home</a></li>
-                    <li><a href="optimlib.html">OptimLib</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Algorithms<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="optimlib_docs_bfgs.html">BFGS</a></li>
-                            <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
-                            <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
-                            <li class="active"><a href="optimlib_docs_de.html">Differential Evolution</a></li>
-                            <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
-                            <li><a href="optimlib_docs_pso.html">Particle Swarm</a></li>
-                            <li class="divider"></li>
-                            <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Misc<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="optimlib_docs_settings.html">opt_settings</a></li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-        </div>
-        <!-- /.row -->
+        <div id="optimhead"></div>
 
 <br>
 
@@ -173,9 +151,15 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $X_{i}$ denote a $N \times d$-dimensional array of values at stage $i$ of the algorithm. The basic DE algorithm is comprised of three steps.</p>
+<p>The DE method in OptimLib comes in two varieties: the simple version, outlined first, and the more advanced method of Zamuda and Brest (2015).</p>
+
+<hr>
+
+<h4> Basic Differential Evolution (DE)</h4>
+
+<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic DE algorithm is comprised of three steps.</p>
 <ul>
-    <li><strong>The Mutation Step.</strong> Depending on the value of <code>mutation_method</code>, for random and unique indices $a,b,c$:</li>
+    <li><strong>The Mutation Step.</strong> For random and unique indices $a,b,c$:</li>
     <ul>
         <li>if <code>de_mutation_method = 1</code>, use the 'rand' method:</li>
         $$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
@@ -191,7 +175,57 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p>The algorithm stops when the relative improvement in the objective function is less than <code>err_tol</code> between <code>de_check_freq</code> number of generations, or when the total number of 'generations' exceeds a desired (or default) value.</p>
 
-<p>The DE method in OptimLib is the more robust and advanced method of Zamuda and Brest (2015).</p>
+<hr>
+
+<h4> Differential Evolution with Population Reduction and Multiple Mutation Strategies (DE-PRMM)</h4>
+
+<br>
+
+<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm.</p>
+<ul>
+    <li>Let $M$ denote the maximum number of function evaluations (of which there are $N_p$ per generation).</li>
+    <li>Each generation is split into two sub-populations of size $N_{p}^{(m)}$ and $N_{p}^{(b)} = N_p - N_{p}^{(m)}$, labelled the 'main' population and the 'best' population, respectively.</li>
+    <li>The population is reduced $p_{\text{max}}-1$ number of times.</li>
+</ul>
+
+<p>The steps are as follows.</p>
+
+<ul>
+    <li><strong>Population Reduction Step.</strong> <br>If
+    $$i = \dfrac{M}{p_{\text{max}} N_p}$$
+    reduce the population by half ($N_p /2$) and double the number of generations ($2 \times N_g$).
+    <br>
+    Values are chosen based on a simple pairwise comparison:
+    $$X_{i,\text{new}} (j,:) = \begin{cases} X_{i} (j,:) &\text{ if } f(X_{i} (j,:)) < f(X_{i} (j+N_p/2,:)) \\ X_{i} (j+N_p/2,:) & \text{ else} \end{cases}$$
+    Reset $i = 1$.</li>
+    <!-- <strong>Otherwise go to the Mutation Step.</strong></li> -->
+    <li><strong>The Mutation Step.</strong> <br>Sample $F_i$ and $CR_i$ values according to:
+    $$F_i = \begin{cases} F_l + (F_u - F_l) \times u_2 & \text{ if } u_1 < \tau_F \\ F_{i-1} & \text{ else} \end{cases}$$
+    $$CR_i = \begin{cases} u_4 & \text{ if } u_3 < \tau_{CR} \\ CR_{i-1} & \text{ else} \end{cases}$$
+    If $i \leq N_p - N_p^{(b)}$:
+    <ul>
+        <li>then for random and unique indices $a,b,c$:</li>
+        $$X^* = \begin{cases} X_i(c,:) + F_i \times (X_i(a,:) - X_i(b,:)) & \text{ if } r_s < 0.75 \text{ or } N_p \geq 100 \\ X_{i,\text{best}}^{(m)} + F_i \times (X_i(a,:) - X_i(b,:)) & \text{ else} \end{cases}$$
+    </ul>
+    Else, if $N_p - N_p^{(b)} < i \leq N_p$:
+    <ul>
+        <li>then for random and unique indices $a,b$:</li>
+        $$X^* = X_{i,\text{best}}^{(b)} + F_i \times (X_i(a,:) - X_i(b,:))$$
+    </ul>
+    <li><strong>The Crossover Step.</strong> <br>For a random integer $r_k \in \{1, \ldots, d\}$,</li>
+    $$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
+    <li><strong>The Update Step.</strong></li>
+    $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
+    <li><strong>Setting the 'best' vector.</strong> <br> Let $X_{i+1,\text{best}}^{(m)} := \arg \min \{ f(X_{i+1}(1,:)), \ldots, f(X_{i+1}(N_p^{(m)},:)) \}$ and $X_{i+1,\text{best}}^{(b)} := \arg \min \{ f(X_{i+1}(N_p^{(m)}+1,:)), \ldots, f(X_{i+1}(N_p,:)) \}$.
+    <ul>
+        <li>If $i = N_p^{(m)}$ and $f(X_{i+1,\text{best}}^{(m)}) < f(X_{i,\text{best}}^{(b)})$, set</li>
+        $$X_{\text{xchg}} := X_{i+1,\text{best}}^{(m)}$$
+        <li>If $i = N_p$ and $f(X_{i+1,\text{best}}^{(b)}) < f(X_{i+1,\text{best}}^{(m)})$, and</li>
+        $$\left| \frac{1}{d} \sum_{j=1}^d \frac{X_{i+1,\text{best}}^{(b)} (j) - X_{\text{min}}(j)}{X_{\text{xchg}} (j) - X_{\text{min}}(j)} - 1 \right| > 0.5$$
+        then
+        $$X_{i+1,\text{best}}^{(m)} := X_{i+1,\text{best}}^{(b)}$$
+    </ul>
+</ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
