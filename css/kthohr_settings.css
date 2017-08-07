@@ -8,6 +8,12 @@ h3:target
     margin-top: -60px;
 }
 
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "|\00a0";
+}
+
 /*
 <style>
 pre {
