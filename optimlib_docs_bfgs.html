@@ -60,6 +60,11 @@
             $("#mynavbar").load("navbar.html")
         });
     </script>
+    <script>
+        $(function(){
+            $("#optimhead").load("optimlib_header.html")
+        });
+    </script>
 
 </head>
 
@@ -78,34 +83,7 @@ pre {
     <div class="container">
 
         <!-- Page Heading/Breadcrumbs -->
-        <div class="row">
-            <div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li><a href="http://www.kthohr.com">Home</a></li>
-                    <li><a href="optimlib.html">OptimLib</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Algorithms<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li class="active"><a href="optimlib_docs_bfgs.html">BFGS</a></li>
-                            <li><a href="optimlib_docs_broyden.html">Broyden</a></li>
-                            <li><a href="optimlib_docs_cg.html">Conjugate Gradient</a></li>
-                            <li><a href="optimlib_docs_de.html">Differential Evolution</a></li>
-                            <li><a href="optimlib_docs_nm.html">Nelder-Mead</a></li>
-                            <li><a href="optimlib_docs_pso.html">Particle Swarm</a></li>
-                            <li class="divider"></li>
-                            <li><a href="optimlib_docs_sumt.html">SUMT</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Misc<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="optimlib_docs_settings.html">opt_settings</a></li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-        </div>
-        <!-- /.row -->
+        <div id="optimhead"></div>
 
 <!-- <h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3> -->
 
