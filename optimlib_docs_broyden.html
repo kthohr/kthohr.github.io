@@ -80,40 +80,48 @@ pre {
         <!-- Page Heading/Breadcrumbs -->
         <div id="optimhead"></div>
 
-<h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: Broyden Method</strong></h3>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: Broyden</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<hr>
-<!--<p> &nbsp </p>-->
+<p>Broyden's method for solving systems of nonlinear equations.</p>
 
-<p><strong>Function definition:</strong></p>
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
 <pre class="brush: cpp;">
 // classic Broyden, without jacobian
-bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, opt_settings* settings);
-
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, opt_settings& settings);
 
 // classic Broyden, with jacobian
-bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, opt_settings* settings);
-
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, opt_settings& settings);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out, opt_settings& settings);
 
 // derivative-free method of Li and Fukushima (2000)
-bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec* value_out, opt_settings* settings);
-
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec& value_out);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec& value_out, opt_settings& settings);
 
 // derivative-free method with jacobian
-bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, opt_settings* settings);
-
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, opt_settings& settings);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out);
@@ -143,6 +151,42 @@ bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma
     <li><code>double err_tol</code> the value controlling how small $\| f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
 </ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<p>There are two basic forms of Broyden's method available in OptimLib.</p>
+
+<hr>
+
+<h4> Basic Broyden's method</h4>
+
+<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The Broyden updating rule is as follows.</p>
+
+<p>Let</p>
+$$s_i = x_{i} - x_{i-1}$$
+$$y_i = F(x_{i}) - F(x_{i-1})$$
+<ul>
+    <li><strong>Update the inverse Jacobian matrix.</strong></li>
+    $$B_{i} = B_{i-1} + \frac{(s_i - B_{i-1}y_i)y_i'}{y_i \cdot y_i}$$
+    <li><strong>Compute the descent direction.</strong></li>
+    $$d_{i} = - B_{i} F(x_i)$$
+    <li><strong>Update the input values.</strong></li>
+    $$x_{i+1} = x_i + d_i$$
+</ul>
+
+<p>The algorithm stops when $\| F \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+
+<hr>
+
+<h4> Derivative-free Method of Li and Fukushima (2000)</h4>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
+
+
 
         <hr>
 

@@ -102,19 +102,15 @@ pre {
     </div>
 </div>
 
-<p>The Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is a quasi-Newton optimization method used to solve convex optimization problems.</p>
+<p>The Broyden–Fletcher–Goldfarb–Shanno (<a href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm" target="_blank">BFGS</a>) algorithm is a quasi-Newton method for convex optimization.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition</strong></h3>
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
 
 <!-- <br> -->
 
 <pre class="brush: cpp;">
-// internal
-bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, opt_settings* settings);
-
-// wrappers
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
@@ -131,10 +127,11 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
+    <li><code>value_out</code> the value of <code>opt_objfn</code> when evaulated at the output values.</li>
     <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
 </ul>
 
-<p><strong>Optimization control parameters:</strong></p>
+<p><strong>Optimization <a href="optimlib_docs_settings.html" target="_blank">control parameters</a>:</strong></p>
 <ul>
     <li><code>double err_tol</code> the tolerance value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
@@ -146,7 +143,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 
 <p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
 
-<p>The descent directionis is computed using</p>
+<p>The descent direction is computed using</p>
 $$d_i = -W_i \nabla f_{i}$$
 <p>where $W_i$ is the approximate <strong>inverse</strong> hessian and $\nabla f_i$ is the gradiant vector at values $x_i$.<p>
 
@@ -154,7 +151,7 @@ $$d_i = -W_i \nabla f_{i}$$
 $$s := x_{i+1} - x_i$$
 $$y := \nabla f_{i+1} - \nabla f_{i}$$
 $$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
-<p>Next stage values are then computed using</p>
+<p>The values are then updated:</p>
 $$x_{i+1} = x_i + \alpha_{i} d_{i}$$
 <p>where $\alpha_i$ is found via line search:</p>
 $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
@@ -191,7 +188,7 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
     </div>
 </div>
 
-<br>
+<hr>
 
 <p>Code solving each example using OptimLib is given below.</p>
 
