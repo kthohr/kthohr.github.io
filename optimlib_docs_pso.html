@@ -211,34 +211,28 @@ bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& val
 
 <br>
 
-<p>Both minimization problems possess a unique global minimum: the zero vector. Code implementing these examples using OptimLib is given below.</p>
+<p>Code implementing these examples using OptimLib is given below.</p>
 
 <pre class="brush: cpp;">
 #include "optim.hpp"
 
-struct rastrigin_fn_data {
-    double A;
-};
-
-double rastrigin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
-{
-    const int n = vals_inp.n_elem;
-
-    rastrigin_fn_data* objfn_data = reinterpret_cast&lt;rastrigin_fn_data*&gt;(opt_data);
-    const double A = objfn_data->A;
-
-    double obj_val = A*n + arma::accu( arma::pow(vals_inp,2) - A*arma::cos(2*arma::datum::pi*vals_inp) );
-    //
-    return obj_val;
-}
-
-double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+double table_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 {
     const double x = vals_inp(0);
     const double y = vals_inp(1);
     const double pi = arma::datum::pi;
 
-    double obj_val = -20*std::exp( -0.2*std::sqrt(0.5*(x*x + y*y)) ) - std::exp( 0.5*(std::cos(2*pi*x) + std::cos(2*pi*y)) ) + std::exp(1) + 20;
+    double obj_val = - std::abs( std::sin(x)*std::cos(y)*std::exp( std::abs(1.0 - std::sqrt(x*x + y*y)/pi) ) );
+    //
+    return obj_val;
+}
+
+double bukin_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    const double x = vals_inp(0);
+    const double y = vals_inp(1);
+
+    double obj_val = 100*std::sqrt(std::abs(y - 0.01*x*x)) + 0.01*std::abs(x + 10);
     //
     return obj_val;
 }
@@ -246,37 +240,45 @@ double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 int main()
 {
     //
-    // Rastrigin function
+    // Table function
 
-    rastrigin_fn_data test_data;
-    test_data.A = 10;
+    optim::opt_settings settings_1;
 
-    arma::vec x = arma::ones(2,1) + 1.0; // initial values: (2,2)
+    settings_1.pso_center_particle = false;
+    settings_1.pso_par_bounds = true;
 
-    bool success = optim::de(x,rastrigin_fn,&test_data);
+    arma::vec x_1 = arma::zeros(2,1);
 
-    if (success) {
-        std::cout << "de: Rastrigin test completed successfully." << std::endl;
+    settings_1.pso_lb = arma::zeros(2,1) - 10.0;
+    settings_1.pso_ub = arma::zeros(2,1) + 10.0;
+
+    settings_1.pso_n_pop = 5000;
+    settings_1.pso_n_gen = 4000;
+
+    bool success_1 = optim::pso(x_1,table_fn,nullptr,settings_1);
+
+    if (success_1) {
+        std::cout << "pso: Table test completed successfully." << std::endl;
     } else {
-        std::cout << "de: Rastrigin test completed unsuccessfully." << std::endl;
+        std::cout << "pso: Table test completed unsuccessfully." << std::endl;
     }
 
-    arma::cout << "de: solution to Rastrigin test:\n" << x << arma::endl;
+    arma::cout << "pso: solution to Table test:\n" << x_1 << arma::endl;
 
     //
-    // Ackley function
+    // Bukin function no. 6
 
     arma::vec x_2 = arma::ones(2,1) + 1.0; // initial values: (2,2)
 
-    bool success_2 = optim::de(x_2,ackley_fn,nullptr);
+    bool success_2 = optim::de(x_2,bukin_fn,nullptr);
 
     if (success_2) {
-        std::cout << "de: Ackley test completed successfully." << std::endl;
+        std::cout << "de: Bukin test completed successfully." << std::endl;
     } else {
-        std::cout << "de: Ackley test completed unsuccessfully." << std::endl;
+        std::cout << "de: Bukin test completed unsuccessfully." << std::endl;
     }
 
-    arma::cout << "de: solution to Ackley test:\n" << x_2 << arma::endl;
+    arma::cout << "de: solution to Bukin test:\n" << x_2 << arma::endl;
 
     return 0;
 }
