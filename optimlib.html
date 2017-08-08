@@ -53,13 +53,27 @@
         });
     </script>
 
-</head>
+    <!-- randomize between images -->
+    <script>
+    var image_list = new Array()
+    var link_list = new Array()
 
-<style>
-pre {
-    display: inline-block;
-}
-</style>
+    image_list[0] = 'pics/sphere_fn.png'
+    image_list[1] = 'pics/table_fn_3d.png'
+
+    link_list[0] = 'optimlib_docs_bfgs.html#examples'
+    link_list[1] = 'optimlib_docs_pso.html#examples'
+
+    var n_imag = image_list.length;
+
+    var which_image = Math.round(Math.random()*(n_imag-1));
+
+        function showImage(){
+            document.write('<a href="'+link_list[which_image]+'" target="_blank"><img src="'+image_list[which_image]+'" class="img-rounded pull-left" alt="Sphere" width="304" height="236"></a>');
+        }
+    </script>
+
+</head>
 
 <body>
 
@@ -74,9 +88,8 @@ pre {
 
 <div class="row">
     <div class="col-md-4">
-        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
-        <!-- <a href="optimlib_docs_bfgs.html#examples" target="_blank"><img src="pics/sphere_fn.png" class="img-rounded pull-left" alt="Sphere" width="304" height="236"></a> -->
-         <a href="optimlib_docs_pso.html#examples" target="_blank"><img src="pics/table_fn_3d.png" class="img-rounded pull-left" alt="Sphere" width="304" height="236"></a> 
+         <!-- <a href="optimlib_docs_pso.html#examples" target="_blank"><img src="pics/table_fn_3d.png" class="img-rounded pull-left" alt="Sphere" width="304" height="236"></a>  -->
+        <script>showImage();</script>
     </div>
     <div class="col-md-4">
         <br>
