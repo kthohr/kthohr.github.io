@@ -156,16 +156,16 @@ bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& val
 <p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic PSO algorithm is as follows.</p>
 <ul>
     <li><strong>Update the velocity and position</strong></li>
-    $$V_{i+1}(j.:) = w V_{i+1}(j,:) + c_S r_S (X_{i}^{(b)} (j,:) - X_i(j,:)) + c_C r_C (g^{(b)} - X_i(j,:))$$
+    $$V_{i+1}(j.:) = w V_{i+1}(j,:) + c_C R_C \circ (X_{i}^{(b)} (j,:) - X_i(j,:)) + c_S R_S \circ (g^{(b)} - X_i(j,:))$$
     $$X_{i+1}(j,:) = X_{i}(j,:) + V_{i+1}(j,:)$$
-    <li><strong>Update local best particle</strong></li>
+    <li><strong>Update local-best particle</strong></li>
     $$X_{i+1}^{(b)} (j,:) = \begin{cases} X_{i+1}(j,:) & \text{ if } f(X_{i+1}(j,:)) < f(X_{i}^{(b)}) \\ X_{i}^{(b)} (j,:) & \text{ else } \end{cases}$$
-    <li><strong>Update the global best particle</strong></li>
+    <li><strong>Update the global-best particle</strong></li>
     Let
     $$X_{i+1}^* := \arg \min_{j} f(X(j,:))$$
     Then
     $$g^{(b)} = \begin{cases} X_{i+1}^* & \text{ if } f(X_{i+1}^*) < f(g^{(b)}) \\ g^{(b)} & \text{ else } \end{cases}$$
-    <li><strong>Reduce $w$</strong></li> Set $w = \delta w$.
+    <li><strong>Reduce $w$ and update weights </strong></li>
 </ul>
 
 <p>The algorithm stops when the relative improvement in the objective function is less than <code>err_tol</code> between <code>de_check_freq</code> number of generations, or when the total number of 'generations' exceeds a desired (or default) value.</p>
