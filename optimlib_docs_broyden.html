@@ -88,36 +88,36 @@ pre {
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
 // classic Broyden, without jacobian
-bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, opt_settings* settings);
 
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
+bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, opt_settings& settings);
 
 // classic Broyden, with jacobian
-bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, optim_opt_settings* opt_params);
+bool broyden_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, opt_settings* settings);
 
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data);
-bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, optim_opt_settings& opt_params);
+bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, opt_settings& settings);
 bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out);
-bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out, optim_opt_settings& opt_params);
+bool broyden(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out, opt_settings& settings);
 
 // derivative-free method of Li and Fukushima (2000)
-bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec* value_out, optim_opt_settings* opt_params);
+bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec* value_out, opt_settings* settings);
 
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec& value_out);
-bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec& value_out, optim_opt_settings& opt_params);
+bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, arma::vec& value_out, opt_settings& settings);
 
 // derivative-free method with jacobian
-bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, optim_opt_settings* opt_params);
+bool broyden_df_int(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec* value_out, opt_settings* settings);
 
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data);
-bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, optim_opt_settings& opt_params);
+bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, opt_settings& settings);
 bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out);
-bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out, optim_opt_settings& opt_params);
+bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma::vec& vals_inp, void* opt_data)&gt; opt_objfn, void* opt_data, std::function&lt;arma::mat (const arma::vec& vals_inp, void* jacob_data)&gt; jacob_objfn, void* jacob_data, arma::vec& value_out, opt_settings& settings);
 </pre>
 
 <p><strong>Function arguments:</strong></p>
@@ -135,7 +135,7 @@ bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma
             <li><code>jacob_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>jacob_data</code> additional parameters passed to the function.</li>
-    <li><code>opt_params</code> parameters controlling the optimization routine; see below.</li>
+    <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
 </ul>
 
 <p><strong>Optimization control parameters:</strong></p>

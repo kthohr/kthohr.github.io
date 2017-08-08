@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>OptimLib: DE</title>
+    <title>OptimLib: PSO</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -83,10 +83,10 @@ pre {
 <br>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: Differential Evolution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: Particle Swarm Optimization</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -106,14 +106,10 @@ pre {
 <h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition</strong></h3>
 
 <pre class="brush: cpp;">
-// internal
-bool de_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, opt_settings* settings);
-
-// wrappers
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, opt_settings& settings);
+bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
+bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
+bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, opt_settings& settings);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -121,7 +117,7 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of inputs;</li>
-            <li><code>grad_out</code> an empty vector, as DE does not require the gradient to be known/exist; and</li>
+            <li><code>grad_out</code> an empty vector, as PSO does not require the gradient to be known/exist; and</li>
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
@@ -130,112 +126,70 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
-    <li><code>int de_n_pop</code> population size of each generation.</li>
-    <li><code>int de_n_gen</code> number of vectors to generate.</li>
-    <li><code>int de_check_freq</code> number of generations between convergence checks.</li>
-    <li><code>int de_mutation_method</code> which method of mutation to apply:</li>
+    <li><code>int pso_n_pop</code> population size of each generation.</li>
+    <li><code>int pso_n_gen</code> number of vectors to generate.</li>
+    <li><code>int pso_check_freq</code> number of generations between convergence checks.</li>
+    <li><code>int pso_inertia_method</code> method of inertia decay:</li>
     <ul>
-        <li><code>de_mutation_method = 1</code> applies the 'rand' policy.</li>
-        <li><code>de_mutation_method = 2</code> applies the 'best' policy.</li>
+        <li><code>pso_inertia_method = 1</code> linear decay between <code>w_max</code> and <code>w_min</code>.</li>
+        <li><code>pso_inertia_method = 2</code> dampening using <code>w_damp</code> parameter.</li>
     </ul>
-    <li><code>double de_par_F</code> the mutation parameter $F$ in the details section below.</li>
-    <li><code>double de_par_CR</code> the crossover parameter $CR$ in the details section below.</li>
+    <li><code>int pso_velocity_method</code> method of updating the velocity weights:</li>
+    <ul>
+        <li><code>pso_velocity_method = 1</code> fixed weights <code>c_cog</code> and <code>c_soc</code>.</li>
+        <li><code>pso_velocity_method = 2</code> linear decay between <code>initial_c_cog</code> and <code>final_c_cog</code>, and <code>initial_c_soc</code> and <code>final_c_soc</code>.</li>
+    </ul>
+    <li><code>double pso_par_c_cog</code> weight value on the 'cognitive' factor.</li>
+    <li><code>double pso_par_c_soc</code> weight value on the 'social' factor.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>The DE method in OptimLib comes in two varieties: the simple version, outlined first, and the more advanced method of Zamuda and Brest (2015).</p>
+<p>The PSO method in OptimLib is available in two varieties: the simple version, outlined first, and the a hybrid DE-PSO algorithm.</p>
 
 <hr>
 
-<h4> Basic Differential Evolution (DE)</h4>
+<h4> Basic Particle Swarm Optimization (PSO)</h4>
 
-<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic DE algorithm is comprised of three steps.</p>
+<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic PSO algorithm is as follows.</p>
 <ul>
-    <li><strong>The Mutation Step.</strong> For random and unique indices $a,b,c$:</li>
-    <ul>
-        <li>if <code>de_mutation_method = 1</code>, use the 'rand' method:</li>
-        $$X^* = X_i(c,:) + F \times (X_i(a,:) - X_i(b,:))$$
-        <li>if <code>de_mutation_method = 2</code>, use the 'best' method:</li>
-        $$X^* = X_i(\text{best},:) + F \times (X_i(a,:) - X_i(b,:))$$
-        where $X_i(\text{best},:) := \arg \min \{ f(X_i(1,:)), \ldots, f(X_i(N,:)) \}$.</li>
-    </ul>
-    <li><strong>The Crossover Step.</strong> For a random integer $r_k \in \{1, \ldots, d\}$,</li>
-    $$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
-    <li><strong>The Update Step.</strong></li>
-    $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
+    <li><strong>Update the velocity and position</strong></li>
+    $$V_{i+1}(j.:) = w V_{i+1}(j,:) + c_S r_S (X_{i}^{(b)} (j,:) - X_i(j,:)) + c_C r_C (g^{(b)} - X_i(j,:))$$
+    $$X_{i+1}(j,:) = X_{i}(j,:) + V_{i+1}(j,:)$$
+    <li><strong>Update local best particle</strong></li>
+    $$X_{i+1}^{(b)} (j,:) = \begin{cases} X_{i+1}(j,:) & \text{ if } f(X_{i+1}(j,:)) < f(X_{i}^{(b)}) \\ X_{i}^{(b)} (j,:) & \text{ else } \end{cases}$$
+    <li><strong>Update the global best particle</strong></li>
+    Let
+    $$X_{i+1}^* := \arg \min_{j} f(X(j,:))$$
+    Then
+    $$g^{(b)} = \begin{cases} X_{i+1}^* & \text{ if } f(X_{i+1}^*) < f(g^{(b)}) \\ g^{(b)} & \text{ else } \end{cases}$$
+    <li><strong>Reduce $w$</strong></li> Set $w = \delta w$.
 </ul>
 
 <p>The algorithm stops when the relative improvement in the objective function is less than <code>err_tol</code> between <code>de_check_freq</code> number of generations, or when the total number of 'generations' exceeds a desired (or default) value.</p>
 
 <hr>
 
-<h4> Differential Evolution with Population Reduction and Multiple Mutation Strategies (DE-PRMM)</h4>
+<h4> Particle Swarm Optimization with Differentially-Perturbed Velocity (PSO-DV)</h4>
 
 <br>
-
-<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm.</p>
-<ul>
-    <li>Let $M$ denote the maximum number of function evaluations (of which there are $N_p$ per generation).</li>
-    <li>Each generation is split into two sub-populations of size $N_{p}^{(m)}$ and $N_{p}^{(b)} = N_p - N_{p}^{(m)}$, labelled the 'main' population and the 'best' population, respectively.</li>
-    <li>The population is reduced $p_{\text{max}}-1$ number of times.</li>
-</ul>
-
-<p>The steps are as follows.</p>
-
-<ul>
-    <li><strong>Population Reduction Step.</strong> <br>If
-    $$i = \dfrac{M}{p_{\text{max}} N_p}$$
-    reduce the population by half ($N_p /2$) and double the number of generations ($2 \times N_g$).
-    <br>
-    Values are chosen based on a simple pairwise comparison:
-    $$X_{i,\text{new}} (j,:) = \begin{cases} X_{i} (j,:) &\text{ if } f(X_{i} (j,:)) < f(X_{i} (j+N_p/2,:)) \\ X_{i} (j+N_p/2,:) & \text{ else} \end{cases}$$
-    Reset $i = 1$.</li>
-    <!-- <strong>Otherwise go to the Mutation Step.</strong></li> -->
-    <li><strong>The Mutation Step.</strong> <br>Sample $F_i$ and $CR_i$ values according to:
-    $$F_i = \begin{cases} F_l + (F_u - F_l) \times u_2 & \text{ if } u_1 < \tau_F \\ F_{i-1} & \text{ else} \end{cases}$$
-    $$CR_i = \begin{cases} u_4 & \text{ if } u_3 < \tau_{CR} \\ CR_{i-1} & \text{ else} \end{cases}$$
-    If $i \leq N_p - N_p^{(b)}$:
-    <ul>
-        <li>then for random and unique indices $a,b,c$:</li>
-        $$X^* = \begin{cases} X_i(c,:) + F_i \times (X_i(a,:) - X_i(b,:)) & \text{ if } r_s < 0.75 \text{ or } N_p \geq 100 \\ X_{i,\text{best}}^{(m)} + F_i \times (X_i(a,:) - X_i(b,:)) & \text{ else} \end{cases}$$
-    </ul>
-    Else, if $N_p - N_p^{(b)} < i \leq N_p$:
-    <ul>
-        <li>then for random and unique indices $a,b$:</li>
-        $$X^* = X_{i,\text{best}}^{(b)} + F_i \times (X_i(a,:) - X_i(b,:))$$
-    </ul>
-    <li><strong>The Crossover Step.</strong> <br>For a random integer $r_k \in \{1, \ldots, d\}$,</li>
-    $$X_c^* (j,k) = \begin{cases} X^*(j,k) & \text{ if } u_k \leq CR \text{ or } k = r_k \\ X_i (j,k) & \text{ else } \end{cases}$$
-    <li><strong>The Update Step.</strong></li>
-    $$X_{i+1} (j,:) = \begin{cases} X_c^*(j,:) & \text{ if } f(X_c^*(j)) < f(X_i(j)) \\ X_i (j) & \text{ else } \end{cases}$$
-    <li><strong>Setting the 'best' vector.</strong> <br> Let $X_{i+1,\text{best}}^{(m)} := \arg \min \{ f(X_{i+1}(1,:)), \ldots, f(X_{i+1}(N_p^{(m)},:)) \}$ and $X_{i+1,\text{best}}^{(b)} := \arg \min \{ f(X_{i+1}(N_p^{(m)}+1,:)), \ldots, f(X_{i+1}(N_p,:)) \}$.
-    <ul>
-        <li>If $i = N_p^{(m)}$ and $f(X_{i+1,\text{best}}^{(m)}) < f(X_{i,\text{best}}^{(b)})$, set</li>
-        $$X_{\text{xchg}} := X_{i+1,\text{best}}^{(m)}$$
-        <li>If $i = N_p$ and $f(X_{i+1,\text{best}}^{(b)}) < f(X_{i+1,\text{best}}^{(m)})$, and</li>
-        $$\left| \frac{1}{d} \sum_{j=1}^d \frac{X_{i+1,\text{best}}^{(b)} (j) - X_{\text{min}}(j)}{X_{\text{xchg}} (j) - X_{\text{min}}(j)} - 1 \right| > 0.5$$
-        then
-        $$X_{i+1,\text{best}}^{(m)} := X_{i+1,\text{best}}^{(b)}$$
-    </ul>
-</ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
 <h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
-<p>To illustrate the effectiveness of DE, we will tackle two well-known performance tests from the numerical optimization literature:</p>
+<p>To illustrate the effectiveness of PSO, we will tackle two well-known performance tests from the numerical optimization literature:</p>
 
 <ul>
-    <li>The Rastrigin function:</li>
-    $$\min_{x \in [-5,5]^n} \left\{ A n + \sum_{i=1}^n \left( x_i^2 - A \cos(2 \pi x_i) \right) \right\}$$
+    <li>The Table function:</li>
+    $$\min_{x \in [-10,10]^2} \left\{ - \left| \sin (x_1) \cos(x_2) \exp \left( \left| 1 - \frac{\sqrt{x_1^2 + x_2^2}}{\pi} \right| \right) \right| \right\}$$
     <li>Ackley's function:</li>
-    $$\min_{x \in [-5,5]^2} \left\{ -20 \exp \left( -0.2 \sqrt{0.5(x_1^2 + x_2^2)} \right) - \exp \left(0.5[\cos(2 \pi x_1) + \cos(2 \pi x_2)]\right) + e + 20 \right\}$$
+    $$\min_{x \in [-15,-5], y \in [-3,3]} \left\{ 100 \sqrt{| y - 0.01 x^2|} + 0.01 | x + 10 | \right\}$$
 </ul>
 
-<p>Both functions are 'bumpy' and contain many local minima. Plots of both functions are given below.</p>
+<p>The first functions is bumpy, contains many local minima, four global minima; the second contains a particularly difficult-to-traverse ridge. Plots of both functions are given below.</p>
 
 <!-- <img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt=""> -->
 
@@ -243,15 +197,15 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <div class="row">
     <div class="col-md-6">
-        <h3 style="text-align: center;"><strong style="font-size: 110%;">Rastrigin</strong></h3>
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Table Function</strong></h3>
         <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
-        <img class="img-responsive center-block" src="pics/rastrigin_fn.png" alt="">
+        <img class="img-responsive center-block" src="pics/table_fn_3d.png" alt="">
     </div>
     <div class="col-md-6">
-        <h3 style="text-align: center;"><strong style="font-size: 110%;">Ackley</strong></h3>
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Bukin No. 6</strong></h3>
         <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
         <!-- <img src="pics/rastrigin_fn.png" class="img-rounded pull-right" alt="Sphere" width="304" height="236"> -->
-        <img class="img-responsive center-block" src="pics/ackley_fn_3d.png" alt=""> 
+        <img class="img-responsive center-block" src="pics/bukin_fn_3d.png" alt=""> 
     </div>
 </div>
 

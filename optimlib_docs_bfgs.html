@@ -112,13 +112,13 @@ pre {
 
 <pre class="brush: cpp;">
 // internal
-bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, optim_opt_settings* opt_params);
+bool bfgs_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double* value_out, opt_settings* settings);
 
 // wrappers
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, optim_opt_settings& opt_params);
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
 bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out);
-bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, optim_opt_settings& opt_params);
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, double& value_out, opt_settings& settings);
 </pre>
 
 <p><strong>Function arguments:</strong></p>
@@ -131,7 +131,7 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
             <li><code>opt_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>opt_data</code> additional parameters passed to the function.</li>
-    <li><code>opt_params</code> parameters controlling the optimization routine; see below.</li>
+    <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
 </ul>
 
 <p><strong>Optimization control parameters:</strong></p>

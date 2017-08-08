@@ -88,19 +88,19 @@ pre {
 <p><strong>Function definition:</strong></p>
 <pre class="brush: cpp;">
 bool sumt_int(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data,
-              std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, double* value_out, optim_opt_settings* opt_params);
+              std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, double* value_out, opt_settings* settings);
 
 bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data,
           std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data);
 
 bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data,
-          std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, optim_opt_settings& opt_params);
+          std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, opt_settings& settings);
 
 bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data,
           std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, double& value_out);
 
 bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data,
-          std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, double& value_out, optim_opt_settings& opt_params);
+          std::function&lt;arma::vec (const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data)&gt; constr_fn, void* constr_data, double& value_out, opt_settings& settings);
 </pre>
 
 <p><strong>Function arguments:</strong></p>
@@ -120,7 +120,7 @@ bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
             <li><code>constr_data</code> additional parameters passed to the constraints.</li>
         </ul>
     <li><code>constr_data</code> additional parameters passed to the constraints.</li>
-    <li><code>opt_params</code> parameters controlling the optimization routine; see below.</li>
+    <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
 </ul>
 
 <p><strong>Optimization control parameters:</strong></p>
