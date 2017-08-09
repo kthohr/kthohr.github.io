@@ -165,8 +165,8 @@ bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma
 <p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The Broyden updating rule is as follows.</p>
 
 <p>Let</p>
-$$s_i = x_{i} - x_{i-1}$$
-$$y_i = F(x_{i}) - F(x_{i-1})$$
+$$s_i := x_{i} - x_{i-1}$$
+$$y_i := F(x_{i}) - F(x_{i-1})$$
 <ul>
     <li><strong>Update the inverse Jacobian matrix.</strong></li>
     $$B_{i} = B_{i-1} + \frac{(s_i - B_{i-1}y_i)y_i'}{y_i \cdot y_i}$$
@@ -182,11 +182,131 @@ $$y_i = F(x_{i}) - F(x_{i-1})$$
 
 <h4> Derivative-free Method of Li and Fukushima (2000)</h4>
 
+<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The updating rule of Li and Fukushima (2000) is as follows.</p>
+
+<p>Let</p>
+$$s_i := x_{i} - x_{i-1}$$
+$$y_i := F(x_{i}) - F(x_{i-1})$$
+<ul>
+    <li><strong>Update the inverse Jacobian matrix.</strong></li>
+    $$B_{i} = B_{i-1} + \frac{(s_i - B_{i-1}y_i)y_i'}{y_i \cdot y_i}$$
+    <li><strong>Compute the descent direction.</strong></li>
+    $$d_{i} = - B_{i} F(x_i)$$
+    <li><strong>Quasi line search step.</strong></li> If
+    $$\| F(x_i + d_i) \| \leq \rho \| F(x_i) \| - \sigma_2 \| d_k \|^2$$
+    then set $\lambda_i = 1.0$, otherwise: let $\eta_i = 1 / i^2$, and find the smallest $k$ for which
+    $$\| F(x_i + \lambda_i d_i) \| \leq \| F(x_i) \| - \sigma_1 \| d_k \|^2 + \eta_i \| F(x_k) \|$$
+    holds with $\lambda_i = \beta^k$.
+    <li><strong>Update the input values.</strong></li>
+    $$x_{i+1} = x_i + \lambda_i d_i$$
+</ul>
+
 <hr style="height:2px;border-width:0;background-color:black">
 
 <h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
+<p>This example is taken from <a href="https://www.mathworks.com/help/optim/ug/fsolve.html" target="_blank">Matlab's website</a>.</p>
 
+$$F(x) = \begin{bmatrix} \exp(-\exp(-(x_1+x_2))) - x_2*(1+x_1^2) \\ x_1*\cos(x_2) + x_2*\sin(x_1) - 0.5  \end{bmatrix}$$
+
+<p>Code to solve this problem, without and without using the Jacobian, is given below.</p>
+
+<pre class="brush: cpp;">
+#include "optim.hpp"
+
+arma::vec zeros_test_objfn_1(const arma::vec& vals_inp, void* opt_data)
+{
+    double x_1 = vals_inp(0);
+    double x_2 = vals_inp(1);
+
+    arma::vec ret(2);
+
+    ret(0) = std::exp(-std::exp(-(x_1+x_2))) - x_2*(1 + std::pow(x_1,2));
+    ret(1) = x_1*std::cos(x_2) + x_2*std::sin(x_1) - 0.5;
+    //
+    return ret;
+}
+
+arma::mat zeros_test_jacob_1(const arma::vec& vals_inp, void* opt_data)
+{
+    double x_1 = vals_inp(0);
+    double x_2 = vals_inp(1);
+
+    arma::mat ret(2,2);
+
+    ret(0,0) = std::exp(-std::exp(-(x_1+x_2))-(x_1+x_2)) - 2*x_1*x_1;
+    ret(0,1) = std::exp(-std::exp(-(x_1+x_2))-(x_1+x_2)) - x_1*x_1 - 1.0;
+    ret(1,0) = std::cos(x_2) + x_2*std::cos(x_1);
+    ret(1,1) = -x_1*std::sin(x_2) + std::cos(x_1);
+    //
+    return ret;
+}
+
+int main()
+{
+    //
+    // Broyden Derivative-free Method of Li and Fukushima (2000)
+
+    arma::vec x_1 = arma::zeros(2,1);
+
+    bool success_1 = optim::broyden_df(x_1,zeros_test_objfn_1,nullptr);
+
+    if (success_1) {
+        std::cout << "broyden_df: test_1 completed successfully." << std::endl;
+    } else {
+        std::cout << "broyden_df: test_1 completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "broyden_df: solution to test_1:\n" << x_1 << arma::endl;
+
+    //
+    // Derivative-free Method of Li and Fukushima (2000) using the jacobian
+
+    x_1 = arma::zeros(2,1);
+
+    success_1 = optim::broyden_df(x_1,zeros_test_objfn_1,nullptr,zeros_test_jacob_1,nullptr);
+
+    if (success_1) {
+        std::cout << "broyden_df w jacobian: test_1 completed successfully." << std::endl;
+    } else {
+        std::cout << "broyden_df w jacobian: test_1 completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "broyden_df w jacobian: solution to test_1:\n" << x_1 << arma::endl;
+
+    //
+    // standard Broyden method
+
+    x_1 = arma::zeros(2,1);
+
+    success_1 = optim::broyden(x_1,zeros_test_objfn_1,nullptr);
+
+    if (success_1) {
+        std::cout << "broyden: test_1 completed successfully." << std::endl;
+    } else {
+        std::cout << "broyden: test_1 completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "broyden: solution to test_1:\n" << x_1 << arma::endl;
+
+    //
+    // standard Broyden method using the jacobian
+
+    x_1 = arma::zeros(2,1);
+
+    success_1 = optim::broyden(x_1,zeros_test_objfn_1,nullptr,zeros_test_jacob_1,nullptr);
+
+    if (success_1) {
+        std::cout << "broyden w jacobian: test_1 completed successfully." << std::endl;
+    } else {
+        std::cout << "broyden w jacobian: test_1 completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "broyden w jacobian: solution to test_1:\n" << x_1 << arma::endl;
+
+    return 0;
+}
+</pre>
 
         <hr>
 
