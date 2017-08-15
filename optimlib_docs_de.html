@@ -124,6 +124,11 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p><strong>Optimization control parameters:</strong></p>
 <ul>
+    <li><code>bool vals_bound</code> whether the search space is bounded. If true, then</li>
+    <ul>
+        <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
+        <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
+    </ul>
     <li><code>int de_n_pop</code> population size of each generation.</li>
     <li><code>int de_n_gen</code> number of vectors to generate.</li>
     <li><code>int de_check_freq</code> number of generations between convergence checks.</li>
@@ -134,6 +139,8 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     </ul>
     <li><code>double de_par_F</code> the mutation parameter $F$ in the details section below.</li>
     <li><code>double de_par_CR</code> the crossover parameter $CR$ in the details section below.</li>
+    <li><code>arma::vec de_init_lb</code> lower bounds on the initial population; defaults to <code>init_out_vals</code> $- \ 0.5$.</li>
+    <li><code>arma::vec de_init_ub</code> upper bounds on the initial population; defaults to <code>init_out_vals</code> $+ \ 0.5$.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">

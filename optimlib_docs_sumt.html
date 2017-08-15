@@ -118,6 +118,11 @@ bool sumt(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 <ul>
     <li><code>double err_tol</code> the value controlling how small $\| f \|$ should be before 'convergence' is declared.</li>
     <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>bool vals_bound</code> whether the search space is bounded. If true, then</li>
+    <ul>
+        <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
+        <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
+    </ul>
 </ul>
 
 <hr>
