@@ -62,7 +62,7 @@ html {
     padding-bottom: 60px !important;
   }
   .footer {
-    position: absolute;
+    position: relative;
     bottom: 0px;
     margin: 50px 0 0 0;
     width: 100%;
