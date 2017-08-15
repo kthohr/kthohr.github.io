@@ -50,6 +50,47 @@ h3:target
     background-color:#262A31;
 }
 
+/* floating footer below */
+
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 0px;
+    padding-bottom: 60px !important;
+  }
+  .footer {
+    position: absolute;
+    bottom: 0px;
+    margin: 50px 0 0 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+  }
+
+  /* body > .container {
+    padding: 60px 15px 0;
+  } */
+  
+  .container .text-muted {
+    margin: 20px 0;
+  }
+  
+  .footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  code {
+    font-size: 80%;
+  }
+
+
+/* move navbar inwards (left and right) */
+
 /* .navbar-custom .navbar-left {
     padding-left: 10px;
 }
