@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#gcemhead").load("gcem_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -99,19 +100,10 @@ constexpr T log(const T x)
 <p>GCE-Math computes the natural logarithm using a continued fraction expansion representation:</p>
 $$\log\left(\frac{1+x}{1-x}\right) = \dfrac{2x}{1-\dfrac{x^2}{3-\dfrac{4x^2}{5 - \dfrac{9x^3}{7 - \ddots}}}}, \ \ x \in [-1,1]$$
 <p>The continued fraction argument is split into two parts: $x = a \times 10^c$, where $c$ is an integer.</p>
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
 
     </div>
-    <!-- /.container -->
+    
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->
