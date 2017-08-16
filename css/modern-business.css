@@ -6,10 +6,10 @@
 
 /* Global Styles */
 
-html,
+/* html,
 body {
     height: 100%;
-}
+} */
 
 body {
     padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
@@ -69,9 +69,9 @@ header.carousel .fill {
 
 /* Footer Styles */
 
-footer {
+/* footer {
     margin: 50px 0;
-}
+} */
 
 /* Responsive Styles */
 
