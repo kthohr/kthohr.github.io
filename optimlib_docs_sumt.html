@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#optimhead").load("optimlib_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -136,19 +137,9 @@ $$\min_x \left\{ f(x) + c \times \dfrac{1}{2} \sum_{k=1}^K \left( \max(0, g_k(x)
 <p>The algorithm stops when $\| \nabla h \|$ is less than err_tol, or the total number of 'generations' exceeds a desired (or default) value.</p>
 
 
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
-
     </div>
-    <!-- /.container -->
+
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->
