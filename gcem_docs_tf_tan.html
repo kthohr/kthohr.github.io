@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#gcemhead").load("gcem_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -96,20 +97,9 @@ constexpr long double tan(const long double x)
 <p>Computes $\text{tan}(x)$ for real-valued $x$, using the continued fraction representation</p>
 $$ \tan(x) = \dfrac{x}{1 - \dfrac{x^2}{3 - \dfrac{x^2}{5 - \ddots}}} $$
 
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
-
     </div>
-    <!-- /.container -->
+
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->

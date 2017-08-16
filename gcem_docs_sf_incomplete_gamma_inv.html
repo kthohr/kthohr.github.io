@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#gcemhead").load("gcem_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -103,19 +104,9 @@ $$x_{n+1} = x_n - \frac{f(x_n)/f'(x_n)}{1 - 0.5 \frac{f(x_n)}{f'(x_n)} \frac{f''
 $$\frac{\partial}{\partial x} \left(\frac{\gamma(a,x)}{\Gamma(a)}\right) = \frac{1}{\Gamma(a)} x^{a-1} \exp(-x)$$
 $$\frac{\partial^2}{\partial x^2} \left(\frac{\gamma(a,x)}{\Gamma(a)}\right) = \frac{1}{\Gamma(a)} x^{a-1} \exp(-x) \left( \frac{a-1}{x} - 1 \right)$$
 
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
-
     </div>
-    <!-- /.container -->
+
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->

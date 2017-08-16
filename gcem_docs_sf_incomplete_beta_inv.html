@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#gcemhead").load("gcem_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -103,19 +104,9 @@ $$x_{n+1} = x_n - \frac{f(x_n)/f'(x_n)}{1 - 0.5 \frac{f(x_n)}{f'(x_n)} \frac{f''
 $$\frac{\partial}{\partial x} \left(\frac{\text{B}(x;\alpha,\beta)}{\text{B}(\alpha,\beta)}\right) = \frac{1}{\text{B}(\alpha,\beta)} x^{\alpha-1} (1-x)^{\beta-1}$$
 $$\frac{\partial^2}{\partial x^2} \left(\frac{\text{B}(x;\alpha,\beta)}{\text{B}(\alpha,\beta)}\right) = \frac{1}{\text{B}(\alpha,\beta)} x^{\alpha-1} (1-x)^{\beta-1} \left( \frac{\alpha-1}{x} - \frac{\beta-1}{1 - x} \right)$$
 
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
-
     </div>
-    <!-- /.container -->
+
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->

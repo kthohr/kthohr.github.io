@@ -58,6 +58,7 @@
         $(function(){
             $("#mynavbar").load("navbar.html")
             $("#gcemhead").load("gcem_header.html")
+            $("#myfooter").load("footer.html")
         });
     </script>
 
@@ -100,19 +101,9 @@ $$\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x \exp( - t^2) dt$$
 <p>is computed using a continued fraction representation:
 $$\text{erf}(x) = \frac{2x}{\sqrt{\pi}} \exp(-x^2) \dfrac{1}{1 - 2x^2 + \dfrac{4x^2}{3 - 2x^2 + \dfrac{8x^2}{5 - 2x^2 + \dfrac{12x^2}{7 - 2x^2 + \ddots}}}}$$
 
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Keith O'Hara 2017</p>
-                </div>
-            </div>
-        </footer>
-
     </div>
-    <!-- /.container -->
+
+    <div id="myfooter"></div>
 
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->
