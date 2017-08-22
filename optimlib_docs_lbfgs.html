@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>OptimLib: L-BFGS</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#optimhead").load("optimlib_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="optimhead"></div>
+
+<!-- <h3 style="text-align: left;"><strong style="font-size: 120%;">OptimLib: BFGS</strong></h3> -->
+
+<!-- <hr> -->
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: L-BFGS</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>The limited memeory BFGS (L-BFGS) algorithm is a quasi-Newton method for convex optimization.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
+
+<!-- <br> -->
+
+<pre class="brush: cpp;">
+bool lbfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool lbfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, opt_settings& settings);
+</pre>
+
+<p><strong>Function arguments:</strong></p>
+<ul>
+    <li><code>init_out_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
+    <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
+        <ul>
+            <li><code>vals_inp</code> a vector of inputs;</li>
+            <li><code>grad_out</code> a vector to store the gradient; and</li>
+            <li><code>opt_data</code> additional parameters passed to the function.</li>
+        </ul>
+    <li><code>opt_data</code> additional parameters passed to the function.</li>
+    <li><code>value_out</code> the value of <code>opt_objfn</code> when evaulated at the output values.</li>
+    <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
+</ul>
+
+<p><strong>Optimization <a href="optimlib_docs_settings.html" target="_blank">control parameters</a>:</strong></p>
+<ul>
+    <li><code>double err_tol</code> the tolerance value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
+    <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>bool vals_bound</code> whether the search space is bounded. If true, then</li>
+    <ul>
+        <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
+        <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
+    </ul>
+    <li><code>int lbfgs_par_M</code> storage parameter.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The L-BFGS updating rule is as follows.</p>
+
+<p>Let</p>
+$$s_i := x_{i+1} - x_i$$
+$$y_i := \nabla f_{i+1} - \nabla f_{i}$$
+<p>Then </p>
+$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
+<p>where $d_i$ is found via the 'two-loop' recursion:</p>
+<ul>
+    <li>Set $$q = \nabla f(x_i)$$</li>
+    <li>For $k = i - 1, \ldots, i - M$,
+        $$\gamma_k = \rho_k s_k' q$$
+        $$q = q - \gamma_k y_k$$
+    where $\rho_k = 1 / ( y_k' s_k)$.
+    <li>Set $r = q (s_i'y_i / y_i'y_i)$</li>
+    <li>For $k = i - M, \ldots, i - 1$,
+        $$\beta = \rho_k y_k' r$$
+        $$r = r + s_k(\gamma_k - \beta)$$
+    <li>Then set $d_i = - r$.</li>
+</ul>
+
+As in the standard BFGS algorithm, <p>$\alpha_i$ is found via line search:</p>
+$$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
+<p>The line search method used is that of More and Thuente (1994).</p>
+
+<p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
+
+<p>As examples, consider minimization of:</p>
+<ul>
+    <li>the Sphere function
+    $$\min_{x \in \mathbb{R}^n} \sum_{i=1}^n x_i^2$$
+    The solution is the zero vector</li>
+    <li>Booth's function
+    $$\min_{x \in [-10,10]^2} \left\{ (x_1 + 2x_2 - 7)^2 + (2 x_1 + x_2 - 5)^2 \right\}$$
+    The global minimum is located at $(1,3)$.</li>
+</ul>
+<p>Below are plots of each example, restricted to the two-dimensional problem where relevant.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Sphere</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <img class="img-responsive center-block" src="pics/sphere_fn.png" alt="">
+    </div>
+    <div class="col-md-6">
+        <h3 style="text-align: center;"><strong style="font-size: 110%;">Booth</strong></h3>
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <!-- <img src="pics/rastrigin_fn.png" class="img-rounded pull-right" alt="Sphere" width="304" height="236"> -->
+        <img class="img-responsive center-block" src="pics/booth_fn_3d.png" alt=""> 
+    </div>
+</div>
+
+<hr>
+
+<p>Code solving each example using OptimLib is given below.</p>
+
+<pre class="brush: cpp;">
+#include "optim.hpp"
+
+double sphere_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    double obj_val = arma::dot(vals_inp,vals_inp);
+    //
+    if (grad_out) {
+        *grad_out = 2.0*vals_inp;
+    }
+    //
+    return obj_val;
+}
+
+double booth_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    double x_1 = vals_inp(0);
+    double x_2 = vals_inp(1);
+
+    double obj_val = std::pow(x_1 + 2*x_2 - 7.0,2) + std::pow(2*x_1 + x_2 - 5.0,2);
+    //
+    if (grad_out) {
+        (*grad_out)(0) = 2*(x_1 + 2*x_2 - 7.0) + 2*(2*x_1 + x_2 - 5.0)*2;
+        (*grad_out)(1) = 2*(x_1 + 2*x_2 - 7.0)*2 + 2*(2*x_1 + x_2 - 5.0);
+    }
+    //
+    return obj_val;
+}
+
+int main()
+{
+    //
+    // sphere function
+
+    const int test_dim = 5;
+
+    arma::vec x = arma::ones(test_dim,1); // initial values (1,1,...,1)
+
+    bool success = optim::lbfgs(x,sphere_fn,nullptr);
+
+    if (success) {
+        std::cout << "lbfgs: sphere test completed successfully." << std::endl;
+    } else {
+        std::cout << "lbfgs: sphere test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "lbfgs: solution to sphere test:\n" << x << arma::endl;
+
+    //
+    // Booth function
+
+    arma::vec x_2 = arma::zeros(2,1); // initial values (0,0)
+
+    bool success_2 = optim::lbfgs(x,booth_fn,nullptr);
+
+    if (success_2) {
+        std::cout << "lbfgs: Booth test completed successfully." << std::endl;
+    } else {
+        std::cout << "lbfgs: Booth test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "lbfgs: solution to Booth test:\n" << x_2 << arma::endl;
+
+    return 0;
+}
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
