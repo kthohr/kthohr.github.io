@@ -70,49 +70,80 @@ pre {
         <div id="bmrhead"></div>
 
 
+<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Bayesian Macroeconometrics in R</u></strong></h3>
+<p> &nbsp </p>
+
 <div class="row">
-    <div class="col-md-2">
-        <!-- <img src="pics/BMR_plot_irf.png" class="img-responsive center-block"> -->
-        <img src="pics/BMR_plot_irf.png" class="img-rounded pull-left" alt="" width="260" height="200">
+<div class="col-md-4">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#DL">Download</a> <br>
+        <a href="#Doc">Documentation</a> <br>
+        <a href="#RepFiles">Replication Files</a> <br>
+        <a href="#RN">Release Notes</a>
     </div>
-    <div class="col-md-8">
-        <br>
-        <h3 style="text-align: center;"><strong style="font-size: 130%;">Bayesian Macroeconometrics in R</strong></h3>
-         <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/BMR" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p>  -->
-         <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="GCEM Build"></a> 
-         <a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></p>
-         <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/BMR/subscription" data-icon="octicon-eye" data-count-href="/kthohr/BMR/watchers" data-count-api="/repos/kthohr/BMR#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/BMR on GitHub">Watch</a> 
-         <a class="github-button" href="https://github.com/kthohr/BMR" data-icon="octicon-star" data-count-href="/kthohr/BMR/stargazers" data-count-api="/repos/kthohr/BMR#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/BMR on GitHub">Star</a> 
-         <a class="github-button" href="https://github.com/kthohr/BMR/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/BMR/network" data-count-api="/repos/kthohr/BMR#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/BMR on GitHub">Fork</a></p> 
-    </div>
-    <div class="col-md-2">
-        <!-- <img src="pics/BMR_plot_bvarw.png" class="img-responsive center-block"> -->
-        <img src="pics/BMR_plot_bvarw.png" class="img-rounded pull-right" alt="" width="260" height="200">
     </div>
 </div>
+</div>
+
+<p><a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="BMR Build"></a>
+<a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></p>
+<p><a class="github-button" href="https://github.com/kthohr/bmr/subscription" data-icon="octicon-eye" data-count-href="/kthohr/bmr/watchers" data-count-api="/repos/kthohr/bmr#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/bmr on GitHub">Watch</a>
+<a class="github-button" href="https://github.com/kthohr/bmr" data-icon="octicon-star" data-count-href="/kthohr/bmr/stargazers" data-count-api="/repos/kthohr/bmr#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/bmr on GitHub">Star</a>
+<a class="github-button" href="https://github.com/kthohr/bmr/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/bmr/network" data-count-api="/repos/kthohr/bmr#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/bmr on GitHub">Fork</a></p>
+
+<p>BMR (Bayesian Macroeconometrics in R) is the R interface to the Bayesian Macroeconometrics C++ library for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
+
+<b>Features</b>
+<br>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>For BVARs, BMR supports:</li>
+        <ul>
+            <li>normal-inverse-Wishart prior,</li>
+            <li>Minnesota prior, and</li>
+            <li>Mattias Villani's steady-state prior.</li>
+        </ul>
+        <li>The BMR package can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
+        </ul>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td class="line" style="vertical-align: top;" style="border-color:black;">
+        <br>
+        </td>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>For DSGE models, the package can
+            <ul>
+                <li>solve models using either Harald Uhlig's method of undetermined coefficients or Chris Sims' canonical decomposition;</li>
+                <li>estimate models using MCMC by means of a Kalman filter or the Chandrasekhar recursions; and</li>
+                <li>estimate a hybrid DSGE-VAR model.</li>
+            </ul>
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <br>
 
-<p>BMR (Bayesian Macroeconometrics in R) is the R interface to the Bayesian Macroeconometrics C++ library, used for estimating Bayesian Vector Autoregression (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
+<p><strong>Important License Information</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
 
-<p><strong>Features</strong></p>
-<ul>
-    <li>Seamless interfacing using Rcpp modules.</li>
-    <li>Requires no knowledge of C++ on the part of the user.</li>
-</ul>
+<p>
+By downloading, installing, and/or using the software, you agree to these terms, to the terms of the GPL v2, and release me from any liability whatsoever arising from use of this software.</p>
 
-<p><strong>Author</strong>: Keith O'Hara</p>
-
-<p><strong>License</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<p><strong>Package requirements</strong>: the latest versions of R (v3.30, or above), Rcpp, RcppArmadillo, ggplot2, and grid (this comes pre-packaged with R). </p>
+<p><strong>Package requirements</strong>: the latest versions of R (v3.20, or above), Rcpp, RcppArmadillo (>= v0.5.300.4), ggplot2, doParallel, and grid (this comes pre-packaged with new R releases). </p>
 
 <p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
 <pre>
 install.packages("RcppArmadillo")
-install.packages("ggplot2")</pre>
+install.packages("ggplot2")
+install.packages("doParallel")</pre>
 
 <hr>
 
