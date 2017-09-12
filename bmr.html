@@ -111,32 +111,20 @@ pre {
 
 <br>
 
-<ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>.</li>
-</ul>
-
-<p><strong>Package requirements</strong>: the latest versions of R (v3.30, or above), Rcpp, RcppArmadillo, ggplot2, and grid (this comes pre-packaged with R). </p>
+<p><strong>Package requirements</strong>: R (v3.30, or above) and Rcpp, RcppArmadillo, ggplot2, and grid (this comes pre-packaged with R). </p>
 
 <p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
 <pre>
 install.packages("RcppArmadillo")
 install.packages("ggplot2")</pre>
 
-<hr>
-
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
-
-<p><a class="github-button" href="https://github.com/kthohr/bmr/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download kthohr/bmr on GitHub">Download</a></p>
-
-<p>Current version: 0.5.4, 2016-06-18.</p>
+<p>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. You need to install BMR from source.</p>
 <ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. You need to install BMR from source.</li>
+    <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
+    <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
     <ul>
-        <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
-        <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
-        <ul>
-            <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-   <pre>
+        <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
+<pre>
 curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
         </ul>
@@ -145,7 +133,7 @@ sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
 install.packages("devtools")
 library(devtools)
 install_github("kthohr/BMR")</pre>
-        <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li>
+        <!-- <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li> -->
     </ul>
 </ul>
 
@@ -171,79 +159,6 @@ data(BMRVARData)</pre>
 <p> Replication files can be found on a separate page: <a href="bmr-replication-files.html" target="_blank">link</a>.</p>
 
 <hr>
-
-<h3 style="text-align: left;" id="RN"><strong style="font-size: 110%;">Release notes</strong></h3>
-
-<ul>
- <li>Version 0.5.1, 07/2015:</li>
-  <ul>
-    <li> Bug fix release for Windows systems;</li>
-    <li> Rlapack does not possess the necessary routines to perform a QZ decomposition, a feature that  will be available in future release of Armadillo, nor can it invert complex-valued matrices via a LU decomposition. For now, 'gensys' will return an error on Windows-based machines.</li>
-  </ul>
- <li>Version 0.5.0, 07/2015:</li>
-  <ul>
-    <li> BMR now includes a C++ implementation of Chris Sims' 'gensys' solver;</li>
-    <li> speed and stability improvements;</li>
-    <li> the package should pass all CRAN checks;</li>
-    <li> minor bug fixes; and</li>
-    <li> updates to the example and help files. </li>
-  </ul>
- <li>Version 0.4.3, 02/2015:</li>
-  <ul>
-    <li> Improved error handling between R and compiled C++ code;</li>
-    <li> new state plotting function for estimated DSGE and DSGE-VAR models (see ?states);
-    <li> general improvements to plotting style; and</li>
-    <li> updated the example and help files. </li>
-  </ul>
- <li>Version 0.4.2, 01/2015:</li>
-  <ul>
-    <li> Primarily a patch update;</li>
-    <li> new forecast function for estimated DSGE models;
-    <li> revamped plotting style;</li>
-    <li> changed terminal output format to 'message';</li>
-    <li> better error catching in the C++ code to avoid fatal errors;</li>
-    <li> bug fix for BVARTVP models with more than 3 variables;</li>
-    <li> minor bug fixes; and </li>
-    <li> updated the documentation and help files. </li>
-  </ul>
- <li>Version 0.4.0, 07/2014:</li>
-  <ul>
-    <li> Better support for larger DSGE models;</li>
-    <li> intercept terms in the measurement equation and measurement equation error-variances are now required inputs to the EDSGE and DSGEVAR functions, which is done through 'partomats' (see the updated example files linked above);
-    <li> code for the An and Schorfheide (2007) and Lubik and Schorfheide (2007) models;</li>
-    <li> a new function ('prior') to plot prior distributions and print first and second moments;</li>
-    <li> a new simple wrapper function ('gtsplot') to plot time-series data;</li>
-    <li> DSGEVAR function input changed to include a constant (intercept) term; and </li>
-    <li> updated the documentation and help files. </li>
-  </ul>
- <li>Version 0.3.0:</li>
-  <ul>
-    <li> DSGEVAR function now supports multiple MCMC chains running in parallel;</li>
-    <li> better posterior mode estimation for DSGE and DSGEVAR models via sequential optimization using multiple optimization routines;</li>
-    <li> faster estimation of large DSGE models using the Chandrasekhar Recursions; </li>
-    <li> setting keep = 0 in EDSGE and DSGEVAR will return the posterior mode approximation only; </li>
-    <li> EDSGE and DSGEVAR functions now return a Laplace approximation to the marginal likelihood; </li>
-    <li> updated the help documentation and vignette; and</li>
-    <li> minor bug fixes.</li>
-  </ul>
-  <li>Version 0.2.0:</li>
-  <ul>
-    <li> BMR now supports some DSGE-VAR functionality (see ?DSGEVAR);</li>
-    <li> parallel processing options are available for BVARW and EDSGE when running multiple MCMC chains;</li>
-    <li> speed improvements for most core functions, particularly BVARW, BVARTVP, and EDSGE; </li>
-    <li> updated the help documentation;</li>
-    <li> fixed some weird pathologies when the BVAR lag order was set to 1 (p=1); and</li>
-    <li> other bug fixes.</li>
-  </ul>
-  <li>Version 0.1.1:</li>
-  <ul>
-    <li> Several minor bug fixes;</li>
-    <li> improvements to the help documentation; and</li>
-    <li> inclusion of the artificial VAR data used in sections 6.1 and 6.3 of the vignette.</li>
-  </ul>
-  <li>Version 0.1: First release, August 2012.</li>
-</ul>
-
     </div>
     
     <div id="myfooter"></div>
