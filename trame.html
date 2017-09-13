@@ -95,7 +95,7 @@
 
 <br>
 
-<p>TraME (<b><i>Tra</i></b>nsportation <b><i>M</i></b>ethods for <b><i>E</i></b>conometrics) is a C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
+<p>TraME (<b><i>Tra</i></b>nsportation <b><i>M</i></b>ethods for <b><i>E</i></b>conometrics) is a templated C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
 
 <b>Features</b>
 <br>
@@ -104,9 +104,11 @@
     <tr>
         <td style="text-align: left; vertical-align: top; width: 50%;">
         <ul>
-            <li>Flexible, templated library</li>
+            <li>Flexible, templated C++11 library</li>
             <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a></li>
+            <li>Nonlinear optimization using <a href="optimlib.html" target="_blank">OptimLib</a></li>
             <li>Can link with Gurobi or GLPK</li>
+            <li>Simple R interface: TraME-Rcpp</li>
         </ul>
         </td>
         <td>
@@ -129,7 +131,7 @@
 
 <br>
 
-<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
+<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
 
 <p><strong>Authors</strong>:</p>
 <ul>
@@ -161,6 +163,7 @@ make install</pre>
     <li><code>-c</code> a coverage build</li>
     <li><code>-l</code> specify a linear programming library to use; for example <code>-l glpk</code> or <code>-l gurobi</code></li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against the shared library; for example, <code>-m "-lopenblas"</code></li>
+    <li><code>-o fast</code> aggressive optimization features enabled;</li>
     <li><code>-p</code> a parallelized build using OpenMP</li>
 </ul>
 
