@@ -195,13 +195,13 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 
 <p>Now we have two choices. If you want to link against the OpenBLAS library (assuming you have it...) run</p>
 <pre  class="brush: bash;">
-./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
+./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-lopenblas" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
 <p>or, to link against the Accelerate framework (which is pre-installed on all Macs), run</p>
 <pre  class="brush: bash;">
-./configure --prefix=/Builds/R-devel --without-x --without-internal-tzcode \
+./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-framework Accelerate" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
@@ -217,9 +217,9 @@ make</pre>
 <pre  class="brush: bash;">
 make check</pre>
 
-<p>Finally, we need to choose an install location for R-devel; I use /Builds/R-devel, but I recommend installing to somewhere that doesn't require sudo privileges.</p>
+<p>Finally, we need to choose an install location for R-devel; I use /Users/${USER}/Desktop/R-devel, but I recommend installing to somewhere that doesn't require sudo privileges.</p>
 <pre  class="brush: bash;">
-sudo make prefix=/Builds/R-devel install</pre>
+sudo make prefix=/Users/${USER}/Desktop/R-devel install</pre>
 
 <hr>
 
@@ -230,7 +230,7 @@ sudo make prefix=/Builds/R-devel install</pre>
 alias Rdevel="/where/I/installed/to/bin/R"</pre>
 <p>For example,</p>
 <pre  class="brush: bash;">
-alias Rdevel="/Builds/R-devel/bin/R"</pre>
+alias Rdevel="/Users/${USER}/Desktop/R-devel/bin/R"</pre>
 <p>To run R-devel with sudo privileges, you need to also add</p>
 <pre  class="brush: bash;">
 alias sudo='sudo '</pre>
