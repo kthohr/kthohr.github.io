@@ -91,7 +91,7 @@ pre {
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="#definition">Definition and Methods</a> <br>
+                    <a href="#definition">Fields and Methods</a> <br>
                     <a href="#details">Details</a> <br>
                     <a href="#examples">Examples</a>
                 </div>
@@ -102,7 +102,7 @@ pre {
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Methods</strong></h3>
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Fields and Methods</strong></h3>
 
 <br>
 
@@ -111,6 +111,42 @@ pre {
 # create a new object
 bvar_obj <- new(bvarm)
 </pre>
+
+<p><strong>Fields:</strong></p>
+<ul>
+    <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
+    <li><code>p</code> lag order (integer).</li>
+    <li><code>var_type</code> variance type (1 or 2); see below for more details.</li>
+    <li><code>decay_type</code> decay type (1 or 2) for the <code>var_type=2</code> case.</li>
+    <li><code>c_int</code> integer version of <code>cons_term</code>.</li>
+
+    <br>
+
+    <li><code>n</code> sample length.</li>
+    <li><code>M</code> number of variables.</li>
+    <li><code>n_ext_vars</code> number of exogenous variables.</li>
+    <li><code>K</code> number of right-hand-side terms in each equation.</li>
+
+    <br>
+
+    <li><code>Y</code> a $(n-p) \times M$ data matrix.</li>
+    <li><code>X</code> a $(n-p) \times K$ data matrix.</li>
+
+    <br>
+
+    <li><code>alpha_hat</code> OLS estimate of $\alpha = \text{vec}(\beta)$.</li>
+    <li><code>Sigma_hat</code> OLS estimate of $\Sigma$.</li>
+
+    <li><code>alpha_pr_mean</code> prior mean of $\alpha = \text{vec}(\beta)$.</li>
+    <li><code>alpha_pr_var</code> prior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
+
+    <li><code>alpha_pt_mean</code> posterior mean of $\alpha = \text{vec}(\beta)$.</li>
+    <li><code>alpha_pt_var</code> posterior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
+
+    <li><code>beta_draws</code> an array of posterior draws for $\beta$.</li>
+</ul>
+
+<hr>
 
 <p><strong>Build:</strong> two methods,</p>
 <pre class="brush: R;">
