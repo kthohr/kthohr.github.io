@@ -189,7 +189,7 @@ bvar_obj$gibbs(n_draws)
 <br>
 
 $$
-Y = Z \beta + e
+Y = X \beta + e
 $$
 
 <p>The Minnesota prior (also known as Litterman's prior) holds fixed $\Sigma$, the covariance matrix of the disturbance terms, during posterior sampling. 
@@ -244,8 +244,8 @@ The user can choose between two functional forms for $d(\ell)$, both index by hy
 \end{equation}
 where
 \begin{align*}
-	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes Z^{\top} Z) \\
-	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(Z^{\top} Y \Sigma^{-1}) \right)
+	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes X^{\top} X) \\
+	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(X^{\top} Y \Sigma^{-1}) \right)
 \end{align*}
 </p>
 
