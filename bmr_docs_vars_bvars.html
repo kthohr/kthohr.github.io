@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>BMR: bvarw</title>
+    <title>BMR: bvars</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +87,7 @@ pre {
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Normal-inverse Wishart Prior</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Steady-State Prior</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -109,7 +109,7 @@ pre {
 <p><strong>Instantiation:</strong></p>
 <pre class="brush: R;">
 # create a new object
-bvar_obj <- new(bvarw)
+bvar_obj <- new(bvars)
 </pre>
 
 <p><strong>Fields:</strong></p>
@@ -132,8 +132,12 @@ bvar_obj <- new(bvarw)
 
     <br>
 
+    <li><code>psi_hat</code> OLS estimate of $\psi = \text{vec}(\Psi)$.</li>
     <li><code>alpha_hat</code> OLS estimate of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>Sigma_hat</code> OLS estimate of $\Sigma$.</li>
+
+    <li><code>psi_pr_mean</code> prior mean of $\psi = \text{vec}(\Psi)$.</li>
+    <li><code>psi_pr_var</code> prior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
 
     <li><code>alpha_pr_mean</code> prior mean of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>alpha_pr_var</code> prior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
@@ -141,12 +145,16 @@ bvar_obj <- new(bvarw)
     <li><code>Sigma_pr_scale</code> prior scale matrix of $\Sigma$.</li>
     <li><code>Sigma_pr_dof</code> prior degrees of freedom of $\Sigma$.</li>
 
+    <li><code>psi_pt_mean</code> posterior mean of $\psi = \text{vec}(\Psi)$.</li>
+    <li><code>psi_pt_var</code> posterior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
+
     <li><code>alpha_pt_mean</code> posterior mean of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>alpha_pt_var</code> posterior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
 
     <li><code>Sigma_pt_mean</code> posterior mean of $\Sigma$.</li>
     <li><code>Sigma_pt_dof</code> posterior degrees of freedom of $\Sigma$.</li>
 
+    <li><code>Psi_draws</code> an array of posterior draws for $\Psi$.</li>
     <li><code>beta_draws</code> an array of posterior draws for $\beta$.</li>
     <li><code>Sigma_draws</code> an array of posterior draws for $\Sigma$.</li>
 </ul>
@@ -168,13 +176,14 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 
 <p><strong>Prior:</strong></p>
 <pre class="brush: R;">
-bvar_obj$prior(coef_prior,Xi_beta,Xi_Sigma,gamma)
+bvar_obj$prior(coef_prior,HP_1,HP_2,Psi_prior,Xi_psi,gamma)
 </pre>
 
 <ul>
     <li><code>coef_prior</code> a $m \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
-    <li><code>Xi_beta</code> scaling value for the prior covariance matrix of $\beta$.</li>
-    <li><code>Xi_Sigma</code> scaling value for the prior covariance matrix of $\Sigma$.</li>
+    <li><code>HP_1,HP_2</code> hyperparameters.</li>
+    <li><code>Psi_prior</code> prior mean of $\Psi$.</li>
+    <li><code>Xi_psi</code> scaling value for the prior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
     <li><code>gamma</code> prior degrees of freedom for $\Sigma$.</li>
 </ul>
 
@@ -197,7 +206,7 @@ bvar_obj$gibbs(n_draws,n_burnin)
 The model:
 
 $$
-Y = X \beta + e
+    ( Y_t - d_t \Psi) \beta(L) = \varepsilon_t,
 $$
 
 The posterior kernels are given by:
