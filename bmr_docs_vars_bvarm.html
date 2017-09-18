@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>BMR: bvarm</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#bmrhead").load("bmrlib_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="bmrhead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Minnesota Prior</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Definition and Methods</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Methods</strong></h3>
+
+<br>
+
+<p><strong>Instantiation:</strong></p>
+<pre class="brush: R;">
+# create a new object
+bvar_obj <- new(bvarm)
+</pre>
+
+<p><strong>Build:</strong> two methods,</p>
+<pre class="brush: R;">
+bvar_obj$build(data_endog,cons_term,p)
+bvar_obj$build(data_endog,data_exog,cons_term,p)
+</pre>
+
+<ul>
+    <li><code>data_endog</code> a $n \times m$ matrix of endogenous varibles.</li>
+    <li><code>data_exog</code> a $n \times q$ matrix of exogenous varibles.</li>
+    <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
+    <li><code>p</code> lag order (integer).</li>
+</ul>
+
+<p><strong>Prior:</strong></p>
+<pre class="brush: R;">
+bvar_obj$prior(coef_prior,var_type,decay_type,HP_1,HP_2,HP_3,HP_4)
+</pre>
+
+<ul>
+    <li><code>coef_prior</code> a $m \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
+    <li><code>var_type</code> variance type (1 or 2); see below for more details.</li>
+    <li><code>decay_type</code> decay type (1 or 2) for the <code>var_type=2</code> case.</li>
+    <li><code>HP_1,HP_2,HP_3,HP_4</code> hyperparameters; see below for more details.</li>
+</ul>
+
+<p><strong>Gibbs sampling:</strong></p>
+<pre class="brush: R;">
+bvar_obj$gibbs(n_draws)
+</pre>
+
+<ul>
+    <li><code>n_draws</code> number of posterior draws.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<br>
+
+$$
+Y = Z \beta + e
+$$
+
+<p>The Minnesota prior (also known as Litterman's prior) holds fixed $\Sigma$, the covariance matrix of the disturbance terms, during posterior sampling. 
+This simplification yields a significant decrease in computational expenditure. The standard references for this type of model are Doan, Litterman, and Sims (1983) and Litterman (1986).</p>
+
+<p>The Minnesota prior sets $\Sigma$ to be a diagonal matrix, where the diagonal elements come from equation-by-equation estimation of an AR($p$) model for each of the $m$-variables. 
+    That is, for each variable in the VAR model, we estimate the model assuming that all coefficients, except their own-lag terms (and a possible constant term), are equal to zero.<p>
+$$
+	\Sigma = \begin{bmatrix} \sigma_{1}^2 &0 & 0 & \cdots & 0 \\ 0& \sigma_2^2 & 0 & \cdots & 0  \\ 0& 0 & \sigma_3^2 &  \cdots & 0  \\ \vdots & \vdots & \ddots &  \ddots &  \\ 0& 0 & 0 &  0 & \sigma_m^2  \end{bmatrix}
+$$
+
+<p>Construction of the prior variance matrix for $\beta$ is set in one of two ways. Let $i, j \in \{ 1,\ldots, m\}$; we index the equation by $i$, and the variable by $j$. We denote lags by $\ell \in \{1, \ldots, p\}$</p>
+<ul>
+    <li><code>var_type=1</code> Koop and Korobilis (2010) define the prior covariance matrix of $\beta$ as follows:
+\begin{equation*}
+\Xi_{\beta_{i,j}} (\ell) =
+	\begin{cases}
+			&H_1 / \ell^2 \\
+			& H_2 \cdot \sigma_{i}^2 / \left( \ell^2 \cdot \sigma_{j}^2 \right) \\
+			& H_3 \cdot \sigma_{i}^2
+	\end{cases}
+\end{equation*}
+which correspond to own lags, cross-variable lags, and exogenous variables (e.g., a constant), respectively.</li>
+    <li><code>var_type=2</code> Canova (2007) defines a more general form for the decay:
+\begin{equation*}
+\Xi_{\beta_{i,j}} (\ell) =
+	\begin{cases}
+			& H_1 / d(\ell) \\
+			& H_1 \cdot H_2 \cdot \sigma_{j}^2 / \left( d(\ell) \cdot \sigma_{i}^2 \right) \\
+			& H_1 \cdot H_3
+	\end{cases}
+\end{equation*}
+which, again, correspond to own lags, cross-variable lags, and exogenous variables, respectively. $d(\ell)$ is the `decay' function.
+
+<br><br>
+
+In the Koop and Korobilis (2010) case, $d(\ell) = \ell^2$. Also, note that, for cross-equation coefficients, the ratio of the variance of each equation has been inverted. 
+<br><br>
+The user can choose between two functional forms for $d(\ell)$, both index by hyperparameter $H_4 > 0$: 
+    <ul>
+        <li><code>decay_type=1</code> harmonic decay, where $d (\ell) = \ell^{H_4}$;</li>
+        <li><code>decay_type=2</code> geometric decay, where $d (\ell) = H_4^{-\ell + 1}$.</li>
+    </ul>
+    When $H_4 = 1$, we have linear decay.
+</ul>
+
+<p>$\Xi_{\beta}$ is then vectorised, and this becomes the main diagonal to a new matrix of size $\left( (\mathbf{1}_c + q + m \cdot p) \times m \right) \times \left( (\mathbf{1}_c + q + m \cdot p) \times m \right)$, where all off-diagonal entries are set to zero.</p>
+
+<p>With $\Sigma$ fixed, the posterior distribution of $\alpha = \text{vec}(\beta)$ is given by
+\begin{equation}
+		p(\alpha | \Sigma,\mathcal{Z},Y) = \mathcal{N} \left( \widetilde{\alpha}, \widetilde{\Sigma}_{\alpha} \right),
+\end{equation}
+where
+\begin{align*}
+	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes Z^{\top} Z) \\
+	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(Z^{\top} Y \Sigma^{-1}) \right)
+\end{align*}
+</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+
+<br>
+
+<pre class="brush: R;">
+rm(list=ls())
+library(BMR)
+
+#
+
+data(BMRVARData)
+bvar_data <- data.matrix(USMacroData[,2:4])
+
+#
+
+coef_prior <- c(0.9,0.9,0.9)
+
+bvar_obj <- new(bvarm)
+
+#
+
+bvar_obj$build(bvar_data,TRUE,4)
+bvar_obj$prior(coef_prior,1,1,0.5,0.5,100.0,1.0)
+bvar_obj$gibbs(10000)
+
+IRF(bvar_obj,20,var_names=colnames(USMacroData),save=FALSE)
+plot(bvar_obj,var_names=colnames(USMacroData),save=FALSE)
+forecast(bvar_obj,shocks=TRUE,var_names=colnames(USMacroData),back_data=10,save=FALSE)
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
