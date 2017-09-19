@@ -73,8 +73,22 @@
                     </div>
                     <div class="panel-body">
                         <p>Economics</p>
-                        <a href="bmr.html" target="_blank" class="btn btn-default">BMR</a>
-                        <a href="trame.html" target="_blank" class="btn btn-default">TraME</a>
+                        <div class="btn-group" role="group" aria-label="Bayesian Macroeconometrics">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            BM <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="bmlib.html">C++</a></li>
+                                <li><a href="bmr.html">R</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="TraME">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            TraME <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="trame.html">C++</a></li>
+                                <li><a href="trame-rcpp.html">R</a></li>
+                            </ul>
+                        </div>
                         <!-- <p><br></p> -->
                         <p><hr />Optimization</p>
                         <a href="optimlib.html" target="_blank" class="btn btn-default">OptimLib</a>

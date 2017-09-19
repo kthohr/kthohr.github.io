@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMLib)">
     <meta name="author" content="Keith O'Hara">
 
-    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMLib, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>Bayesian Macroeconometrics in R (BMR)</title>
+    <title>Bayesian Macroeconometrics (BMLib)</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,10 @@
 
     <!-- Additional Settings -->
     <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
 
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -45,7 +49,7 @@
     <script>
         $(function(){
             $("#mynavbar").load("navbar.html")
-            $("#bmrhead").load("bmr_header.html")
+            $("#bmlibhead").load("bmlib_header.html")
             $("#myfooter").load("footer.html")
         });
     </script>
@@ -67,32 +71,34 @@ pre {
     <div class="container">
 
         <!-- Page Heading/Breadcrumbs -->
-        <div id="bmrhead"></div>
+        <div id="bmlibhead"></div>
 
-
-<h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Bayesian Macroeconometrics in R</u></strong></h3>
-<p> &nbsp </p>
 
 <div class="row">
-<div class="col-md-4">
-    <div class="panel panel-default">
-    <div class="panel-body">
-        <a href="#DL">Download</a> <br>
-        <a href="#Doc">Documentation</a> <br>
-        <a href="#RepFiles">Replication Files</a> <br>
-        <a href="#RN">Release Notes</a>
+    <div class="col-md-2">
+         <!-- <a href="optimlib_docs_pso.html#examples" target="_blank"><img src="pics/table_fn_3d.png" class="img-rounded pull-left" alt="Sphere" width="304" height="236"></a>  -->
+        <!-- <script>showImage();</script> -->
     </div>
+    <div class="col-md-8">
+        <br>
+        <br>
+        <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Bayesian Macroeconometrics</u></strong></h3>
+        <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/bmlib" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p> -->
+        <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/bmlib" target="_blank"><img src="https://travis-ci.org/kthohr/bmlib.svg?branch=master" alt="optim Build"></a>
+        <a href="https://codecov.io/github/kthohr/bmlib?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/bmlib/coverage.svg?branch=master" alt="Coverage Status"></a></p>
+        <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/bmlib/subscription" data-icon="octicon-eye" data-count-href="/kthohr/bmlib/watchers" data-count-api="/repos/kthohr/bmlib#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/bmlib on GitHub">Watch</a>
+        <a class="github-button" href="https://github.com/kthohr/bmlib" data-icon="octicon-star" data-count-href="/kthohr/bmlib/stargazers" data-count-api="/repos/kthohr/bmlib#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/bmlib on GitHub">Star</a>
+        <a class="github-button" href="https://github.com/kthohr/bmlib/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/bmlib/network" data-count-api="/repos/kthohr/bmlib#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/bmlib on GitHub">Fork</a></p>
+    </div>
+    <div class="col-md-2">
+        <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
+        <!-- <img src="pics/rastrigin_fn.png" class="img-rounded pull-right" alt="Sphere" width="304" height="236"> -->
+        <!-- <a href="optimlib_docs_de.html#examples" target="_blank"><img src="pics/ackley_fn_3d.png" class="img-rounded pull-right" alt="Ackley" width="304" height="236"></a> -->
+        <!-- <script>showImage2();</script> -->
     </div>
 </div>
-</div>
 
-<p><a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="BMR Build"></a>
-<a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></p>
-<p><a class="github-button" href="https://github.com/kthohr/bmr/subscription" data-icon="octicon-eye" data-count-href="/kthohr/bmr/watchers" data-count-api="/repos/kthohr/bmr#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/bmr on GitHub">Watch</a>
-<a class="github-button" href="https://github.com/kthohr/bmr" data-icon="octicon-star" data-count-href="/kthohr/bmr/stargazers" data-count-api="/repos/kthohr/bmr#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/bmr on GitHub">Star</a>
-<a class="github-button" href="https://github.com/kthohr/bmr/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/bmr/network" data-count-api="/repos/kthohr/bmr#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/bmr on GitHub">Fork</a></p>
-
-<p>BMR (Bayesian Macroeconometrics in R) is the R interface to the Bayesian Macroeconometrics C++ library for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
+<p>Bayesian Macroeconometrics (BMLib) is a templated C++ library for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
 
 <b>Features</b>
 <br>
@@ -101,13 +107,13 @@ pre {
     <tr>
         <td style="text-align: left; vertical-align: top; width: 50%;">
         <ul>
-        <li>For BVARs, BMR supports:</li>
+        <li>Several popular prior specifications:</li>
         <ul>
             <li>normal-inverse-Wishart prior,</li>
             <li>Minnesota prior, and</li>
             <li>Mattias Villani's steady-state prior.</li>
         </ul>
-        <li>The BMR package can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
+        <li>BMLib can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
         </ul>
         </td>
         <td>
@@ -118,10 +124,10 @@ pre {
         </td>
         <td style="text-align: left; vertical-align: top; width: 50%;">
         <ul>
-        <li>For DSGE models, the package can
+        <li>For DSGE models, the library can
             <ul>
-                <li>solve models using either Harald Uhlig's method of undetermined coefficients or Chris Sims' canonical decomposition;</li>
-                <li>estimate models using MCMC by means of a Kalman filter or the Chandrasekhar recursions; and</li>
+                <li>solve models using Harald Uhlig's method of undetermined coefficients and Chris Sims' canonical decomposition;</li>
+                <li>estimate models using MCMC and a choice of filtering methods, the Kalman filter or Chandrasekhar recursions; and</li>
                 <li>estimate a hybrid DSGE-VAR model.</li>
             </ul>
         </ul>
@@ -132,139 +138,34 @@ pre {
 
 <br>
 
-<p><strong>Important License Information</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version. The experimental nature of this software means that it is intended for academic use only.</p>
+<p><strong>Author</strong>: Keith O'Hara</p>
 
-<p>
-By downloading, installing, and/or using the software, you agree to these terms, to the terms of the GPL v2, and release me from any liability whatsoever arising from use of this software.</p>
+<p><strong>License</strong>: BMLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
 
-<p><strong>Package requirements</strong>: the latest versions of R (v3.20, or above), Rcpp, RcppArmadillo (>= v0.5.300.4), ggplot2, doParallel, and grid (this comes pre-packaged with new R releases). </p>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
-<pre>
-install.packages("RcppArmadillo")
-install.packages("ggplot2")
-install.packages("doParallel")</pre>
-
-<hr>
-
-<h3 style="text-align: left;" id="DL"><strong style="font-size: 130%;">Download</strong></h3>
-
-<p><a class="github-button" href="https://github.com/kthohr/bmr/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download kthohr/bmr on GitHub">Download</a></p>
-
-<p>Current version: 0.5.4, 2016-06-18.</p>
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
 <ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. You need to install BMR from source.</li>
-    <ul>
-        <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
-        <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
-        <ul>
-            <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-   <pre>
-curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
-sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
-        </ul>
-        <li>Then simply run the following commands in R:</li>
-  <pre width="20">
-install.packages("devtools")
-library(devtools)
-install_github("kthohr/BMR")</pre>
-        <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li>
-    </ul>
+    <li>The source code is available on <a href="https://github.com/kthohr/bmlib" target="_blank">GitHub</a>.</li>
 </ul>
 
-<hr>
+<p>BMLib can be installed in the standard way:</p>
+<pre class="brush: bash;">
+# clone optim
+git clone -b master --single-branch https://github.com/kthohr/bmlib ./bmlib
+# build and install
+cd ./optim
+./configure
+make
+make install</pre>
+<p>The last line will install BMLib into <samp>/usr/local</sampe></p>
 
-<h3 style="text-align: left;" id="Doc"><strong style="font-size: 110%;">Documentation</strong></h3>
-
+<p>Options for configure:</p>
 <ul>
- <li>Accompanying vignette: <a href="bmr/BMR.pdf" target="_blank">link</a>.</li>
- <li> PDF of BMR help files: <a href="bmr/BMR-manual.pdf" target="_blank">link</a>. The help files can also be accessed in the R environment using '?chosen_function'; for example, ?BVARM.</li>
-</ul>
-
-<p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
-
-<p> After installing BMR, the user can check if everything is working as intended by typing:</p>
-<pre class="brush: js; toolbar: false">
-library(BMR)
-data(BMRVARData)</pre>
-<p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
-
-<h3 style="text-align: left;" id="RepFiles"><strong style="font-size: 110%;">Replication Files</strong></h3>
-
-<p> Replication files can be found on a separate page: <a href="bmr-replication-files.html" target="_blank">link</a>.</p>
-
-<hr>
-
-<h3 style="text-align: left;" id="RN"><strong style="font-size: 110%;">Release notes</strong></h3>
-
-<ul>
- <li>Version 0.5.1, 07/2015:</li>
-  <ul>
-    <li> Bug fix release for Windows systems;</li>
-    <li> Rlapack does not possess the necessary routines to perform a QZ decomposition, a feature that  will be available in future release of Armadillo, nor can it invert complex-valued matrices via a LU decomposition. For now, 'gensys' will return an error on Windows-based machines.</li>
-  </ul>
- <li>Version 0.5.0, 07/2015:</li>
-  <ul>
-    <li> BMR now includes a C++ implementation of Chris Sims' 'gensys' solver;</li>
-    <li> speed and stability improvements;</li>
-    <li> the package should pass all CRAN checks;</li>
-    <li> minor bug fixes; and</li>
-    <li> updates to the example and help files. </li>
-  </ul>
- <li>Version 0.4.3, 02/2015:</li>
-  <ul>
-    <li> Improved error handling between R and compiled C++ code;</li>
-    <li> new state plotting function for estimated DSGE and DSGE-VAR models (see ?states);
-    <li> general improvements to plotting style; and</li>
-    <li> updated the example and help files. </li>
-  </ul>
- <li>Version 0.4.2, 01/2015:</li>
-  <ul>
-    <li> Primarily a patch update;</li>
-    <li> new forecast function for estimated DSGE models;
-    <li> revamped plotting style;</li>
-    <li> changed terminal output format to 'message';</li>
-    <li> better error catching in the C++ code to avoid fatal errors;</li>
-    <li> bug fix for BVARTVP models with more than 3 variables;</li>
-    <li> minor bug fixes; and </li>
-    <li> updated the documentation and help files. </li>
-  </ul>
- <li>Version 0.4.0, 07/2014:</li>
-  <ul>
-    <li> Better support for larger DSGE models;</li>
-    <li> intercept terms in the measurement equation and measurement equation error-variances are now required inputs to the EDSGE and DSGEVAR functions, which is done through 'partomats' (see the updated example files linked above);
-    <li> code for the An and Schorfheide (2007) and Lubik and Schorfheide (2007) models;</li>
-    <li> a new function ('prior') to plot prior distributions and print first and second moments;</li>
-    <li> a new simple wrapper function ('gtsplot') to plot time-series data;</li>
-    <li> DSGEVAR function input changed to include a constant (intercept) term; and </li>
-    <li> updated the documentation and help files. </li>
-  </ul>
- <li>Version 0.3.0:</li>
-  <ul>
-    <li> DSGEVAR function now supports multiple MCMC chains running in parallel;</li>
-    <li> better posterior mode estimation for DSGE and DSGEVAR models via sequential optimization using multiple optimization routines;</li>
-    <li> faster estimation of large DSGE models using the Chandrasekhar Recursions; </li>
-    <li> setting keep = 0 in EDSGE and DSGEVAR will return the posterior mode approximation only; </li>
-    <li> EDSGE and DSGEVAR functions now return a Laplace approximation to the marginal likelihood; </li>
-    <li> updated the help documentation and vignette; and</li>
-    <li> minor bug fixes.</li>
-  </ul>
-  <li>Version 0.2.0:</li>
-  <ul>
-    <li> BMR now supports some DSGE-VAR functionality (see ?DSGEVAR);</li>
-    <li> parallel processing options are available for BVARW and EDSGE when running multiple MCMC chains;</li>
-    <li> speed improvements for most core functions, particularly BVARW, BVARTVP, and EDSGE; </li>
-    <li> updated the help documentation;</li>
-    <li> fixed some weird pathologies when the BVAR lag order was set to 1 (p=1); and</li>
-    <li> other bug fixes.</li>
-  </ul>
-  <li>Version 0.1.1:</li>
-  <ul>
-    <li> Several minor bug fixes;</li>
-    <li> improvements to the help documentation; and</li>
-    <li> inclusion of the artificial VAR data used in sections 6.1 and 6.3 of the vignette.</li>
-  </ul>
-  <li>Version 0.1: First release, August 2012.</li>
+    <li><code>-b dev</code> a 'development' build</li>
+    <li><code>-c</code> a coverage build</li>
+    <li><code>-m</code> specify the BLAS and Lapack libraries to link against the shared library; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
+    <li><code>-p</code> a parallelized build using OpenMP</li>
 </ul>
 
     </div>

@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>Bayesian Macroeconometrics in R (BMR)</title>
+    <title>TraME-Rcpp</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -71,33 +71,38 @@ pre {
     <div class="container">
 
         <!-- Page Heading/Breadcrumbs -->
-        <div id="bmrhead"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="http://www.kthohr.com">Home</a></li>
+                    <li class="active">TraME-Rcpp</li>
+                </ol>
+            </div>
+        </div>
 
 
 <div class="row">
     <div class="col-md-2">
-        <!-- <img src="pics/BMR_plot_irf.png" class="img-responsive center-block"> -->
-        <img src="pics/bmr_plot_irf.png" class="img-rounded pull-left" alt="" width="260" height="200">
+        <a href="https://en.wikipedia.org/wiki/Gaspard_Monge" target="_blank"><img src="pics/trame_monge.png" class="img-responsive center-block" alt="" width="150" height="150"></a>
     </div>
     <div class="col-md-8">
         <br>
-        <h3 style="text-align: center;"><strong style="font-size: 130%;">Bayesian Macroeconometrics in R</strong></h3>
-         <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/BMR" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p>  -->
-         <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/BMR" target="_blank"><img src="https://travis-ci.org/kthohr/BMR.svg?branch=master" alt="GCEM Build"></a> 
-         <a href="https://ci.appveyor.com/project/kthohr/BMR/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/kthohr/BMR" alt="BMR Build"></a></p>
-         <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/BMR/subscription" data-icon="octicon-eye" data-count-href="/kthohr/BMR/watchers" data-count-api="/repos/kthohr/BMR#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/BMR on GitHub">Watch</a> 
-         <a class="github-button" href="https://github.com/kthohr/BMR" data-icon="octicon-star" data-count-href="/kthohr/BMR/stargazers" data-count-api="/repos/kthohr/BMR#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/BMR on GitHub">Star</a> 
-         <a class="github-button" href="https://github.com/kthohr/BMR/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/BMR/network" data-count-api="/repos/kthohr/BMR#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/BMR on GitHub">Fork</a></p> 
+        <h3 style="text-align: center;"><strong style="font-size: 130%;">TraME-Rcpp</strong></h3>
+         <!-- <p style="text-align: center;"><a href="https://github.com/TraME-Project/TraME-Rcpp" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p>  -->
+         <p style="text-align: center;"><a href="https://travis-ci.org/TraME-Project/TraME-Rcpp" target="_blank"><img src="https://travis-ci.org/TraME-Project/TraME-Rcpp.svg?branch=master" alt="GCEM Build"></a> 
+         <a href="https://ci.appveyor.com/project/TraME-Project/TraME-Rcpp/branch/master" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME-Rcpp" alt="BMR Build"></a></p>
+         <p style="text-align: center;"><a class="github-button" href="https://github.com/TraME-Project/TraME-Rcpp/subscription" data-icon="octicon-eye" data-count-href="/TraME-Project/TraME-Rcpp/watchers" data-count-api="/repos/TraME-Project/TraME-Rcpp#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch TraME-Project/TraME-Rcpp on GitHub">Watch</a> 
+         <a class="github-button" href="https://github.com/TraME-Project/TraME-Rcpp" data-icon="octicon-star" data-count-href="/TraME-Project/TraME-Rcpp/stargazers" data-count-api="/repos/TraME-Project/TraME-Rcpp#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star TraME-Project/TraME-Rcpp on GitHub">Star</a> 
+         <a class="github-button" href="https://github.com/TraME-Project/TraME-Rcpp/fork" data-icon="octicon-repo-forked" data-count-href="/TraME-Project/TraME-Rcpp/network" data-count-api="/repos/TraME-Project/TraME-Rcpp#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork TraME-Project/TraME-Rcpp on GitHub">Fork</a></p> 
     </div>
     <div class="col-md-2">
-        <!-- <img src="pics/BMR_plot_bvarw.png" class="img-responsive center-block"> -->
-        <img src="pics/bmr_plot_bvarw.png" class="img-rounded pull-right" alt="" width="260" height="200">
+        <a href="https://en.wikipedia.org/wiki/Leonid_Kantorovich" target="_blank"><img src="pics/trame_kantorovich.png" class="img-responsive center-block" alt="" width="150" height="150"></a>
     </div>
 </div>
 
 <br>
 
-<p>BMR (Bayesian Macroeconometrics in R) is an R interface to the Bayesian Macroeconometrics C++ library, used for estimating Bayesian Vector Autoregression (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
+<p>TraME-Rcpp is an R interface to TraME, a templated C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.</p>
 
 <p><strong>Features</strong></p>
 <ul>
@@ -105,9 +110,9 @@ pre {
     <li>Requires no use of (or knowledge of) C++ by the user.</li>
 </ul>
 
-<p><strong>Author</strong>: Keith O'Hara</p>
+<p><strong>License</strong>: TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
 
-<p><strong>License</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><strong>Authors</strong>: <a href="http://alfredgalichon.com/" target="_blank">Alfred Galichon</a> and <a href="http://www.kthohr.com" target="_blank">Keith O'Hara</a></p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -115,14 +120,14 @@ pre {
 
 <br>
 
-<p><strong>Package requirements</strong>: R (v3.40, or above) and Rcpp, RcppArmadillo, ggplot2, and grid (this comes pre-packaged with R). </p>
+<p><strong>Package requirements</strong>: R (v3.40, or above) and Rcpp, RcppArmadillo, and digest. </p>
 
 <p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
 <pre>
 install.packages("RcppArmadillo")
-install.packages("ggplot2")</pre>
+install.packages("digest")</pre>
 
-<p>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. You need to install BMR from source.</p>
+<p>The source code is available on <a href="https://github.com/TraME-Project/TraME-Rcpp" target="_blank">GitHub</a>. You need to install BMR from source.</p>
 <ul>
     <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
     <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
@@ -136,33 +141,11 @@ sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
   <pre width="20">
 install.packages("devtools")
 library(devtools)
-install_github("kthohr/BMR")</pre>
+install_github("TraME-Project/TraME-Rcpp")</pre>
         <!-- <li><strong>Note:</strong> <strike>Due to Rlapack being a lobotomized distribution of LAPACK, the 'gensys' solver is not available on Windows-based machines. If you happen to have a full installation of LAPACK, then install from source by first modifying 'dsgec.cpp' appropriately, rather than using the binary file. This is not an issue for Unix-based systems (e.g., Mac and Linux distros). We're currently working on a bigger <a href="https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16482" target="_blank">Rlapack patch</a> to fix issues like this.</strike> This has been fixed in R v3.3.0.</li> -->
     </ul>
 </ul>
 
-<hr>
-
-<h3 style="text-align: left;" id="Doc"><strong style="font-size: 110%;">Documentation</strong></h3>
-
-<ul>
- <li>Accompanying vignette: <a href="bmr/BMR.pdf" target="_blank">link</a>.</li>
- <li>PDF of BMR help files: <a href="bmr/BMR-manual.pdf" target="_blank">link</a>. The help files can also be accessed in the R environment using '?chosen_function'; for example, ?BVARM.</li>
-</ul>
-
-<p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
-
-<p> After installing BMR, the user can check if everything is working as intended by typing:</p>
-<pre class="brush: js; toolbar: false">
-library(BMR)
-data(BMRVARData)</pre>
-<p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
-
-<h3 style="text-align: left;" id="RepFiles"><strong style="font-size: 110%;">Replication Files</strong></h3>
-
-<p> Replication files can be found in the <code>tests</code> folder.</p>
-
-<hr>
     </div>
     
     <div id="myfooter"></div>
