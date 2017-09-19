@@ -194,7 +194,7 @@ bvar_obj$gibbs(n_draws,n_burnin)
 
 <ul>
     <li><code>n_draws</code> number of posterior draws.</li>
-    <li><code>n_draws</code> number of burnin draws.</li>
+    <li><code>n_burnin</code> number of burnin draws.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -204,21 +204,43 @@ bvar_obj$gibbs(n_draws,n_burnin)
 <br>
 
 The model:
-
 $$
-    ( Y_t - d_t \Psi) \beta(L) = \varepsilon_t,
+    ( Y_t - d_t \Psi^\top) \beta(L) = \varepsilon_t,
 $$
 
-The posterior kernels are given by:
+<p>The prior on $\beta$ is constructed as
+\begin{equation*}
+\Xi_{\beta_{i,j}} (\ell) =
+	\begin{cases}
+			&H_1 / \ell^2 \\
+			&H_2 \cdot \sigma_{i}^2 / \left( \ell^2 \cdot \sigma_{j}^2 \right)
+	\end{cases}
+\end{equation*}
+for own lags and cross-variable lags, respectively.</p>
+
+<p>Let
+\begin{align*}
+    \xi &= Y - X \beta \\
+    Y_d &= Y - d \Psi^\top \\
+    X_d &= X - d_X ( \mathbb{I}_p \otimes \Psi^\top ) \\
+	\varepsilon &= Y_d - X_d \beta
+\end{align*}
+
+The conditional posterior kernels are given by:
 \begin{align}
-		p(\alpha | \Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\alpha}, \widetilde{\Sigma}_{\alpha}  \right) \\
-		p(\Sigma | \beta,X,Y) &= \mathcal{IW} \left( \Xi_{\Sigma} + \left(Y -X \beta \right)^{\top}  \left(Y - X \beta \right), n - p + \gamma \right)
+        p(\psi | \beta,\Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\psi}, \widetilde{\Sigma}_{\psi}  \right) \\
+		p(\alpha | \Psi,\Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\alpha}, \widetilde{\Sigma}_{\alpha}  \right) \\
+		p(\Sigma | \Psi,\beta,X,Y) &= \mathcal{IW} \left( \Xi_{\Sigma} + \varepsilon^{\top} \varepsilon, n - p + \gamma \right)
 \end{align}
 where
 \begin{align*}
-	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes X^{\top} X) \\
-	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(X^{\top} Y \Sigma^{-1}) \right)
+    \widetilde{\Sigma}_{\psi}^{-1} &= \Xi_{\psi}^{-1} + U^\top(D^{\top} D \otimes \Sigma^{-1}) U \\
+	\widetilde{\psi} &= \widetilde{\Sigma}_{\psi} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(\Sigma^{-1} \xi^{\top} D) \right) \\
+	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes X_d^{\top} X_d) \\
+	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(X_d^{\top} Y_d \Sigma^{-1}) \right)
 \end{align*}
+and $U^\top = (\mathbb{I}_{Mp}, \mathbb{I}_{q} \otimes \beta_1^\top, \ldots, \mathbb{I}_{q} \otimes \beta_p^\top)$.</p>
+
 </p>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -239,16 +261,19 @@ bvar_data <- data.matrix(USMacroData[,2:4])
 #
 
 coef_prior <- c(0.9,0.9,0.9)
-XiBeta <- 4
-XiSigma <- 1
+psi_prior <- matrix(c(3,6,5),nrow=1)
+
+HP1 <- 0.5
+HP2 <- 0.5
+XiPsi <- 1
 gamma = 4
 
-bvar_obj <- new(bvarw)
+bvar_obj <- new(bvars)
 
 #
 
-bvar_obj$build(bvar_data,TRUE,4)
-bvar_obj$prior(coef_prior,XiBeta,XiSigma,gamma)
+bvar_obj$build(bvar_data,TRUE,1)
+bvar_obj$prior(coef_prior,HP1,HP2,psi_prior,XiPsi,gamma)
 bvar_obj$gibbs(10000,5000)
 
 IRF(bvar_obj,20,var_names=colnames(bvar_data),save=FALSE)
