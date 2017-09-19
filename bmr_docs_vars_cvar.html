@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>BMR: cvar</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#bmrhead").load("bmr_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="bmrhead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: VAR</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Fields and Methods</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Fields and Methods</strong></h3>
+
+<br>
+
+<p><strong>Instantiation:</strong></p>
+<pre class="brush: R;">
+# create a new object
+var_obj <- new(cvar)
+</pre>
+
+<p><strong>Fields:</strong></p>
+<ul>
+    <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
+    <li><code>p</code> lag order (integer).</li>
+    <li><code>c_int</code> integer version of <code>cons_term</code>.</li>
+
+    <br>
+
+    <li><code>n</code> sample length.</li>
+    <li><code>M</code> number of variables.</li>
+    <li><code>n_ext_vars</code> number of exogenous variables.</li>
+    <li><code>K</code> number of right-hand-side terms in each equation.</li>
+
+    <br>
+
+    <li><code>Y</code> a $(n-p) \times M$ data matrix.</li>
+    <li><code>X</code> a $(n-p) \times K$ data matrix.</li>
+
+    <br>
+
+    <li><code>beta_hat</code> OLS estimate of $\beta$.</li>
+    <li><code>Sigma_hat</code> OLS estimate of $\Sigma$.</li>
+
+    <br>
+
+    <li><code>beta_draws</code> an array of bootstrap draws for $\beta$.</li>
+    <li><code>Sigma_draws</code> an array of bootstrap draws for $\Sigma$.</li>
+</ul>
+
+<hr>
+
+<p><strong>Build:</strong> two methods,</p>
+<pre class="brush: R;">
+bvar_obj$build(data_endog,cons_term,p)
+bvar_obj$build(data_endog,data_exog,cons_term,p)
+</pre>
+
+<ul>
+    <li><code>data_endog</code> a $n \times m$ matrix of endogenous varibles.</li>
+    <li><code>data_exog</code> a $n \times q$ matrix of exogenous varibles.</li>
+    <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
+    <li><code>p</code> lag order (integer).</li>
+</ul>
+
+<p><strong>OLS estimation:</strong></p>
+<pre class="brush: R;">
+bvar_obj$estim()
+</pre>
+
+<p><strong>Bootstrap:</strong></p>
+<pre class="brush: R;">
+bvar_obj$boot(n_draws)
+</pre>
+
+<ul>
+    <li><code>n_draws</code> number of bootstrap draws.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<br>
+
+For the VAR model, 
+\begin{equation*}
+		Y = X \beta + \varepsilon
+\end{equation*}
+the bootstrapping algorithm is as follows. First, obtain the OLS estimates of the coefficients, $\widehat{\beta}$, and the estimated disturbance terms $\widehat{\varepsilon} = y - X\widehat{\beta}$.
+Then, sample with replacement from $\widehat{\varepsilon}$, <code>n_draws</code> number of times, and build a new series of $Y$ by the following method.
+
+<br> <br>
+
+<ol>
+	<li> Let $h \in \{1, \ldots, $ <code>n_draws</code>$\}$, $t \in \{ 1, \ldots, T \}$, $X = [\iota_T \ \ Y_{t-1} \ \ Y_{t-2} \ \ \cdots \ \ Y_{t-p}]$, and fix $Y_0, Y_{-1}, \ldots, Y_{-p+1}$. </li>
+        
+    <li> Using $\widehat{\beta}$, calculate
+	\begin{equation*}
+			Y_1^{(h)} = \widehat{\Phi} + Y_0 \widehat{\beta}_1 + Y_{-1} \widehat{\beta}_2 + \cdots + Y_{-p+1} \widehat{\beta}_p + \widehat{\varepsilon}_1^{(h)}
+	\end{equation*}</li>
+	<li> Using $Y_1^{(h)}$,
+	\begin{equation*}
+			Y_2^{(h)} = \widehat{\Phi} + Y_1^{(h)} \widehat{\beta}_1 + Y_{0} \widehat{\beta}_2 + \cdots + Y_{-p+2} \widehat{\beta}_p + \widehat{\varepsilon}_2^{(h)}
+	\end{equation*}</li>
+	<li> Continuing in this fashion:
+	\begin{align*}
+			Y_3^{(h)} &= \widehat{\Phi} + Y_2^{(h)} \widehat{\beta}_1 + Y_1^{(h)} \widehat{\beta}_2 + \cdots + Y_{-p+3} \widehat{\beta}_p + \widehat{\varepsilon}_3^{(h)} \\
+		\vdots \ \ \ \ &= \ \vdots \ \ \ \ \ \ \ \ \ \vdots \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \vdots \ \ \ \ \ \ \ \ \ \ \ \vdots \\
+			Y_T^{(h)} &= \widehat{\Phi} + Y_{T-1}^{(h)} \widehat{\beta}_1 + Y_{T-2}^{(h)} \widehat{\beta}_2 + \cdots + Y_{T-p} \widehat{\beta}_p + \widehat{\varepsilon}_T^{(h)}
+	\end{align*}</li>
+	<li> Then, with the $Y^{(h)}$ series, estimate $\widehat{\beta}^{(h)}$ and  $\widehat{\Sigma}^{(h)}$ and store them.</li>
+	<li> Go back to part 1 and do it all again for a new $h = h+1$.</li>
+	<li> After repeating the process above <code>n_draws</code> times, estimate the IRFs.</li>
+</ol>
+</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+
+<br>
+
+<pre class="brush: R;">
+rm(list=ls())
+library(BMR)
+
+#
+
+data(BMRVARData)
+var_data <- data.matrix(USMacroData[,2:4])
+
+var_obj <- new(cvar)
+
+#
+
+var_obj$build(var_data,TRUE,1)
+var_obj$estim()
+var_obj$boot(10000)
+
+IRF(var_obj,20,var_names=colnames(USMacroData),save=FALSE)
+plot(var_obj,var_names=colnames(USMacroData),save=FALSE)
+forecast(var_obj,shocks=TRUE,var_names=colnames(USMacroData),back_data=10,save=FALSE)
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
