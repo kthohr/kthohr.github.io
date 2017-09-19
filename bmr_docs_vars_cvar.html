@@ -145,8 +145,8 @@ var_obj <- new(cvar)
 
 <p><strong>Build:</strong> two methods,</p>
 <pre class="brush: R;">
-bvar_obj$build(data_endog,cons_term,p)
-bvar_obj$build(data_endog,data_exog,cons_term,p)
+var_obj$build(data_endog,cons_term,p)
+var_obj$build(data_endog,data_exog,cons_term,p)
 </pre>
 
 <ul>
@@ -158,12 +158,12 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 
 <p><strong>OLS estimation:</strong></p>
 <pre class="brush: R;">
-bvar_obj$estim()
+var_obj$estim()
 </pre>
 
 <p><strong>Bootstrap:</strong></p>
 <pre class="brush: R;">
-bvar_obj$boot(n_draws)
+var_obj$boot(n_draws)
 </pre>
 
 <ul>
