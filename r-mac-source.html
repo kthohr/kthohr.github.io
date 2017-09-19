@@ -194,7 +194,7 @@ cd ~/Desktop/R/R-devel</pre>
 <pre  class="brush: bash;">
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig</pre>
 
-<p>Now we have two choices. If you want to link against the OpenBLAS library (assuming you have it...) run</p>
+<p>We are free to choose an external BLAS and Lapack combination. For example, if you want to link against the OpenBLAS library (assuming you have it...) run</p>
 <pre  class="brush: bash;">
 ./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-lopenblas" --with-lapack \
