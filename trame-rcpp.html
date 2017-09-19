@@ -122,18 +122,20 @@ pre {
 
 <p><strong>Package requirements</strong>: R (v3.40, or above) and Rcpp, RcppArmadillo, and digest. </p>
 
-<p>Execute the following commands, post installation of R itself, and you should be good to go:</p>
-<pre>
+<ul>
+    <li>Execute the following commands, post installation of R itself, and you should be good to go:</li>
+    <pre>
 install.packages("RcppArmadillo")
 install.packages("digest")</pre>
+</ul>
 
-<p>The source code is available on <a href="https://github.com/TraME-Project/TraME-Rcpp" target="_blank">GitHub</a>. You need to install BMR from source.</p>
+<p>The source code is available on <a href="https://github.com/TraME-Project/TraME-Rcpp" target="_blank">GitHub</a>. You need to install TraME-Rcpp from source.</p>
 <ul>
     <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
     <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
     <ul>
         <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-<pre>
+<pre class="brush: bash;"> 
 curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
         </ul>
