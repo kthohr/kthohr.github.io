@@ -8,10 +8,13 @@
   <loc>http://www.kthohr.com</loc>
 </url>
 <url>
+  <loc>http://www.kthohr.com/about.html</loc>
+</url>
+<url>
   <loc>http://www.kthohr.com/research.html</loc>
 </url>
 <url>
-  <loc>http://www.kthohr.com/about.html</loc>
+  <loc>http://www.kthohr.com/bmlib.html</loc>
 </url>
 <url>
   <loc>http://www.kthohr.com/bmr.html</loc>
@@ -21,6 +24,9 @@
 </url>
 <url>
   <loc>http://www.kthohr.com/trame.html</loc>
+</url>
+<url>
+  <loc>http://www.kthohr.com/trame-rcpp.html</loc>
 </url>
 <url>
   <loc>http://www.kthohr.com/gcem.html</loc>
