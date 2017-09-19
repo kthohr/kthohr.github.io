@@ -160,9 +160,10 @@ make install</pre>
 
 <p>Configure options:</p>
 <ul>
-    <li><code>-b dev</code> a 'development' build</li>
+    <li><code>-b dev</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
     <li><code>-c</code> a coverage build</li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against the shared library; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
+    <li><code>-o fast</code> aggressive compiler optimization features enabled</li>
     <li><code>-p</code> a parallelized build using OpenMP</li>
 </ul>
 
