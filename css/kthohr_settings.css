@@ -44,7 +44,8 @@ h3:target
     color:#eeeeee;
 }
 .navbar-custom .navbar-toggle {
-    background-color:#eeeeee;
+    /* background-color:#eeeeee; */
+    background-color:#262A31;
 }
 .navbar-custom .icon-bar {
     background-color:#262A31;
