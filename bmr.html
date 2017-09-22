@@ -117,7 +117,7 @@ pre {
 
 <ul>
     <li>Execute the following commands, post installation of R itself, and you should be good to go:</p>
-<pre>
+<pre class="brush: ruby;">
 install.packages("RcppArmadillo")
 install.packages("ggplot2")</pre>
 </ul>
@@ -128,12 +128,12 @@ install.packages("ggplot2")</pre>
     <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
     <ul>
         <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-<pre>
+<pre class="brush: bash;">
 curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
         </ul>
         <li>Then simply run the following commands in R:</li>
-  <pre width="20">
+<pre class="brush: ruby;">
 install.packages("devtools")
 library(devtools)
 install_github("kthohr/BMR")</pre>
@@ -153,7 +153,7 @@ install_github("kthohr/BMR")</pre>
 <p> The vignette (linked above) is intended to be a comprehensive guide to the routines (and what goes on under the hood, so to speak) and should be consulted first before submitting any questions to me about the package. I am more than happy to receive bug reports (and comments in general) about BMR, use the contact tab above to do so, but I am not willing to provide technical support for the package. (Technical support in the sense of 'how do I get my model into the required format', or 'what prior should I use'.)</p>
 
 <p> After installing BMR, the user can check if everything is working as intended by typing:</p>
-<pre class="brush: js; toolbar: false">
+<pre class="brush: ruby;">
 library(BMR)
 data(BMRVARData)</pre>
 <p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
