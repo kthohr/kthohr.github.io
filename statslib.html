@@ -106,11 +106,11 @@ pre {
 
 <hr>
 
-<b>Features</b>
-<br>
+<p>Features</p>
 <ul>
-    <li>Compile-time evaluation of density functions, cumulative distribution functions, and quantile functions using C++11 constexpr functions and the <a href="gcem.html" target="_blank">GCE-Math library</a>.</li>
-    <li>Random variable generation using a clean <strong>R</strong>-like syntax.</li>
+    <li>Compile-time (or run-time) evaluation of density functions, cumulative distribution functions, and quantile functions.
+    <li>Effective use of C++11 constexpr functions and the <a href="gcem.html" target="_blank">GCE-Math library</a>.</li>
+    <li>Functions are called using a clean <strong>R</strong>-like syntax.</li>
     <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix-based computation.</li>
 </ul>
 
@@ -119,6 +119,51 @@ pre {
 <p><strong>Author</strong>: Keith O'Hara</p>
 
 <p><strong>License</strong>: StatsLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Available distributions and Examples</strong></h3>
+
+<p>pdf, cdf, quantile, and random variable generation:</p>
+<ul>
+    <li>Bernoulli</li>
+    <li>Beta</li>
+    <li>Binomial</li>
+    <li>Cauchy</li>
+    <li>Chi-squared</li>
+    <li>Exponential</li>
+    <li>Gamma</li>
+    <li>inverse-Gamma</li>
+    <li>Laplace</li>
+    <li>Logistic</li>
+    <li>Log-Normal</li>
+    <li>Normal (Gaussian)</li>
+    <li>Uniform</li>
+</ul>
+pdf and random variable generation only:
+<ul>
+    <li>inverse-Wishart</li>
+    <li>Multivariate Normal</li>
+    <li>Wishart</li>
+</ul>
+
+<hr>
+
+<p>Examples:</p>
+<pre class="brush: c++;">
+    // evaulate the normal PDF at x = 1, mu = 0, sigma = 1
+    double dval_1 = stats::dnorm(1.0,0.0,1.0)
+
+    // evaulate the normal PDF at x = 1, mu = 0, sigma = 1, and return the log value
+    double dval_2 = stats::dnorm(1.0,0.0,1.0,true)
+
+    // evaulate the normal CDF at x = 1, mu = 0, sigma = 1
+    double pval_1 = stats::pnorm(1.0,0.0,1.0)
+
+    // evaulate the Laplacian quantile at p = 0.1, mu = 0, sigma = 1
+    double qval_1 = stats::qlaplace(0.1,0.0,1.0)
+</pre>
+
 
 <hr style="height:2px;border-width:0;background-color:black">
 
