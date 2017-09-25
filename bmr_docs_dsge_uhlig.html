@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>BMR: uhlig</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#bmrhead").load("bmr_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="bmrhead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: uhlig</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Fields and Methods</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Fields and Methods</strong></h3>
+
+<br>
+
+<p><strong>Instantiation:</strong></p>
+<pre class="brush: R;">
+# create a new object
+lrem_obj <- new(uhlig)
+</pre>
+
+<p><strong>Fields:</strong></p>
+<ul>
+    <li><code>A</code> Input matrix $A$.</li>
+    <li><code>B</code> Input matrix $B$.</li>
+    <li><code>C</code> Input matrix $C$.</li>
+    <li><code>D</code> Input matrix $D$.</li>
+    <li><code>F</code> Input matrix $F$.</li>
+    <li><code>G</code> Input matrix $G$.</li>
+    <li><code>H</code> Input matrix $H$.</li>
+    <li><code>J</code> Input matrix $J$.</li>
+    <li><code>K</code> Input matrix $K$.</li>
+    <li><code>L</code> Input matrix $L$.</li>
+    <li><code>M</code> Input matrix $M$.</li>
+    <li><code>N</code> Input matrix $N$.</li>
+
+    <br>
+
+    <li><code>shocks_cov</code> Covariance matrix of shocks.</li>
+
+    <br>
+
+    <li><code>P_sol</code> Solution matrix $P$.</li>
+    <li><code>Q_sol</code> Solution matrix $P$.</li>
+    <li><code>R_sol</code> Solution matrix $P$.</li>
+    <li><code>S_sol</code> Solution matrix $P$.</li>
+
+    <br>
+
+    <li><code>F_state</code> State-space matrix $F$.</li>
+    <li><code>G_state</code> State-space matrix $G$.</li>
+</ul>
+
+<hr>
+
+<p><strong>Build:</strong></p>
+<pre class="brush: R;">
+lrem_obj$build(A,B,C,D,F,G,H,J,K,L,M,N)
+</pre>
+
+<ul>
+    <li><code>A,B,C,D,F,G,H,J,K,L,M,N</code> input matrices.</li>
+</ul>
+
+<p><strong>Solve model:</strong></p>
+<pre class="brush: R;">
+lrem_obj$solve()
+</pre>
+
+<p><strong>State-space representation:</strong></p>
+<pre class="brush: R;">
+lrem_obj$state_space()
+</pre>
+
+<p><strong>Simulate:</strong></p>
+<pre class="brush: R;">
+lrem_obj$simulate(n_sim_periods,n_burnin)
+</pre>
+
+<ul>
+    <li><code>n_sim_periods</code> length of simulation output.</li>
+    <li><code>n_burnin</code> number of burnin periods.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<br>
+
+<p>Uhlig (1999) describes two versions of the method of undetermined coefficients. 
+    The first is referred to as the `brute-force' approach, which doesn't distinguish between so-called `control' and `jump' variables; 
+    and the second method, referred to as the `sensitive' approach, separates expectational and predetermined equations (the latter being those variables without any expectation operators). 
+    This distinction can arise in some models where we may not have any natural candidates for control variables; for example, the simple New-Keynesian model.</p>
+
+<p>Let $\xi_{1,t}$ denote an $m \times 1$ vector of control variables, $\xi_{2,t}$ denote an $n \times 1$ vector of jump variables, and $z_t$ denote a $k \times 1$ vector of exogenous processes. With the sensitive approach, we begin with the system
+\begin{align}
+		0 &= A \xi_{1,t} + B \xi_{1,t-1} + C \xi_{2,t} + D z_t \\
+		0 &= \mathbb{E}_t \left\{ F \xi_{1,t+1} + G \xi_{1,t} + H \xi_{1,t-1} + J \xi_{2,t+1} + K \xi_{2,t} + L z_{t+1} + M z_t \right\} \\
+		z_{t} &= N z_{t-1} + \varepsilon_{t}
+\end{align}
+and Uhlig's solution method produces the following policy functions
+\begin{align}
+	\xi_{1,t} &= P \xi_{1,t-1} + Q z_t \\
+	\xi_{2,t} &= R \xi_{1,t-1} + S z_t \\
+		z_{t} &= N z_{t-1} + \varepsilon_{t}
+\end{align}</p>
+
+<p>In the general setup, the matrix $C$ is of size $l \times n$, where Uhlig allows for $l \geq n$. BMR requires that $l = n$, which avoids the need to calculate the null matrix of $C$ from a singular value decomposition. 
+    To work around this issue, simply set the number of control variables $\xi_1$ equal to the number of expectational equations (assuming, of course, that one has the same number of equations as `unknowns'). 
+    Even if pseudo control variables are included, they should have zero elements in the eventual solution matrix ($P$).</p>
+
+<p>The brute-force approach doesn't distinguish between $\xi_{1,t}$ and $\xi_{2,t}$, instead let $\xi_t = \left[\xi_{1,t} \ \ \xi_{2,t} \right]^{\top}$. Uhlig's method then takes the system
+\begin{align}
+		0 &= \mathbb{E}_t \left\{ F \xi_{t+1} + G \xi_{t} + H \xi_{t-1}+ L z_{t+1} + M z_t \right\} \\
+		z_{t} &= N z_{t-1} + \varepsilon_{t}
+\end{align}
+and produces the solution
+\begin{align}
+	\xi_{t} &= P \xi_{t-1} + Q z_t \\
+		z_{t} &= N z_{t-1} + \varepsilon_{t}
+\end{align}</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+
+<br>
+
+<p>As an example, we solve the simple New-Keynesian model.</p>
+
+<br>
+
+<p>The full model is a system of 8 equations, six endogenous processes</p>
+\begin{align}
+	y_t^g &= \mathbb{E}_t y_{t+1}^g -\eta(i_t - \mathbb{E}_t \pi_{t+1} - r_t^{n}) \\
+\pi_t &= \beta \mathbb{E}_t \pi_{t+1} + \kappa y_t^g \\
+	i_t &=  \phi_{\pi} \pi_t + \phi_{y} y_t^g + v_t \\
+	r_t^n &=  \frac{1+\phi}{1 - \alpha + \eta(\phi+\alpha)} (\rho_a - 1) a_t  \\
+	y_t &= a_t + (1- \alpha) n_t  \\
+	y_t^g &= y_t - \frac{\eta(1+\phi)}{1 - \alpha + \eta(\phi+\alpha)} a_t
+\end{align}
+<p>with two exogenous shocks, technology and monetary policy,</p>
+\begin{align}
+	a_t &= \rho_a a_{t-1} + \varepsilon_{a,t} \\ 
+	v_t &= \rho_v v_{t-1} + \varepsilon_{v,t}
+\end{align}
+<p>respectively.</p>
+
+<pre class="brush: ruby;">
+rm(list=ls())
+library(BMR)
+
+#
+
+alpha    <- 0.33
+vartheta <- 6
+beta     <- 0.99
+theta    <- 0.6667
+
+eta    <- 1               
+phi    <- 1                  
+phi_pi <- 1.5             
+phi_y  <- 0.5/4
+rho_a  <- 0.90
+rho_v  <- 0.5
+
+BigTheta <- (1-alpha)/(1-alpha+alpha*vartheta)
+kappa    <- (((1-theta)*(1-beta*theta))/(theta))*BigTheta*((1/eta)+((phi+alpha)/(1-alpha)))
+psi      <- (eta*(1+phi))/(1-alpha+eta*(phi + alpha))
+
+sigma_T <- 1
+sigma_M <- 0.25
+
+#
+
+A <- matrix(0,nrow=0,ncol=0)
+B <- matrix(0,nrow=0,ncol=0)
+C <- matrix(0,nrow=0,ncol=0)
+D <- matrix(0,nrow=0,ncol=0)
+
+#Order:            yg,       y,        pi,        rn,        i,           n
+F <- rbind(c(      -1,       0, -0.25*eta,         0,        0,           0),
+           c(       0,       0,-0.25*beta,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0))
+
+G33 <- -0.25*phi_pi
+G <- rbind(c(       1,       0,         0,    -1*eta, 0.25*eta,           0),
+           c(  -kappa,       0,      0.25,         0,        0,           0),
+           c(  -phi_y,       0,       G33,         0,     0.25,           0),
+           c(       0,       0,         0,         1,        0,           0),
+           c(       0,       1,         0,         0,        0,  -(1-alpha)),
+           c(       1,      -1,         0,         0,        0,           0))
+
+H <- rbind(c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0),
+           c(       0,       0,         0,         0,        0,           0))
+
+J <- matrix(0,nrow=0,ncol=0)
+K <- matrix(0,nrow=0,ncol=0)
+L <- matrix(0,nrow=6,ncol=2)
+
+M41 <- -(1/eta)*psi*(rho_a - 1)
+M <- rbind(c(   0,  0),
+           c(   0,  0),
+           c(   0, -1),
+           c( M41,  0),
+           c(  -1,  0),
+           c( psi,  0))
+
+#
+
+N <- rbind(c( rho_a,     0),  
+           c(     0, rho_v))
+
+Sigma <- rbind(c(sigma_T^2,         0),  
+               c(        0, sigma_M^2))
+
+#
+
+dsge_obj <- new(uhlig)
+
+dsge_obj$build(A,B,C,D,F,G,H,J,K,L,M,N)
+dsge_obj$solve()
+
+dsge_obj$P_sol
+dsge_obj$Q_sol
+dsge_obj$R_sol
+dsge_obj$S_sol
+
+#
+
+dsge_obj$shocks_cov = Sigma
+
+dsge_obj$state_space()
+
+dsge_obj$F_state
+dsge_obj$G_state
+
+#
+
+var_names <- c("Output Gap","Output","Inflation","Natural Int",
+               "Nominal Int","Labour Supply","Technology","MonetaryPolicy")
+
+dsge_irf <- IRF(dsge_obj,12,var_names=var_names)
+dsge_sim <- dsge_obj$simulate(800,200)
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

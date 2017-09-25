@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian Macroeconometrics in R (BMR)">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Bayesian, Macroeconometrics, BMR, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>BMR: gensys</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#bmrhead").load("bmr_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="bmrhead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: gensys</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Fields and Methods</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Fields and Methods</strong></h3>
+
+<br>
+
+<p><strong>Instantiation:</strong></p>
+<pre class="brush: R;">
+# create a new object
+lrem_obj <- new(gensys)
+</pre>
+
+<p><strong>Fields:</strong></p>
+<ul>
+    <li><code>Gamma_0</code> Input matrix $\Gamma_0$.</li>
+    <li><code>Gamma_1</code> Input matrix $\Gamma_1$.</li>
+    <li><code>Gamma_C</code> Input matrix $\Gamma_C$.</li>
+    <li><code>Psi</code> Input matrix $\Psi$.</li>
+    <li><code>Pi</code> Input matrix $\Pi$.</li>
+    
+    <br>
+    
+    <li><code>shocks_cov</code> Covariance matrix of shocks.</li>
+
+    <br>
+
+    <li><code>G_sol</code> Solution matrix $G$.</li>
+    <li><code>impact_sol</code> Solution impact matrix $I$.</li>
+    <li><code>C_sol</code> Solution matrix $C$.</li>
+
+    <br>
+
+    <li><code>F_state</code> State-space matrix $F$.</li>
+    <li><code>G_state</code> State-space matrix $G$.</li>
+</ul>
+
+<hr>
+
+<p><strong>Build:</strong></p>
+<pre class="brush: R;">
+lrem_obj$build(Gamma_0,Gamma_1,Gamma_C,Psi,Pi)
+</pre>
+
+<ul>
+    <li><code>Gamma_0,Gamma_1,Gamma_C,Psi,Pi</code> input matrices.</li>
+</ul>
+
+<p><strong>Solve model:</strong></p>
+<pre class="brush: R;">
+lrem_obj$solve()
+</pre>
+
+<p><strong>State-space representation:</strong></p>
+<pre class="brush: R;">
+lrem_obj$state_space()
+</pre>
+
+<p><strong>Simulate:</strong></p>
+<pre class="brush: R;">
+lrem_obj$simulate(n_sim_periods,n_burnin)
+</pre>
+
+<ul>
+    <li><code>n_sim_periods</code> length of simulation output.</li>
+    <li><code>n_burnin</code> number of burnin periods.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<br>
+
+<p>The Gensys system:
+\begin{equation}
+	\Gamma_0 (\theta) \xi_t = \Gamma_C(\theta) + \Gamma_1 (\theta) \xi_{t-1} + \Psi (\theta) \epsilon_t + \Pi (\theta) \eta_t
+\end{equation}
+The solver returns a solution of the form:
+\begin{equation}
+	\xi_t = C (\theta) + G (\theta) \xi_{t-1} + I (\theta) \epsilon_t
+\end{equation}</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+
+<br>
+
+<p>As an example, we solve the simple New-Keynesian model.</p>
+
+<br>
+
+<p>The full model is a system of 8 equations, six endogenous processes</p>
+\begin{align}
+	y_t^g &= \mathbb{E}_t y_{t+1}^g -\eta(i_t - \mathbb{E}_t \pi_{t+1} - r_t^{n}) \\
+\pi_t &= \beta \mathbb{E}_t \pi_{t+1} + \kappa y_t^g \\
+	i_t &=  \phi_{\pi} \pi_t + \phi_{y} y_t^g + v_t \\
+	r_t^n &=  \frac{1+\phi}{1 - \alpha + \eta(\phi+\alpha)} (\rho_a - 1) a_t  \\
+	y_t &= a_t + (1- \alpha) n_t  \\
+	y_t^g &= y_t - \frac{\eta(1+\phi)}{1 - \alpha + \eta(\phi+\alpha)} a_t
+\end{align}
+<p>with two exogenous shocks, technology and monetary policy,</p>
+\begin{align}
+	a_t &= \rho_a a_{t-1} + \varepsilon_{a,t} \\ 
+	v_t &= \rho_v v_{t-1} + \varepsilon_{v,t}
+\end{align}
+<p>respectively.</p>
+
+<pre class="brush: ruby;">
+rm(list=ls())
+library(BMR)
+
+#
+
+alpha    <- 0.33
+vartheta <- 6
+beta     <- 0.99
+theta    <- 0.6667
+
+eta    <- 1               
+phi    <- 1                  
+phi_pi <- 1.5             
+phi_y  <- 0.5/4
+rho_a  <- 0.90
+rho_v  <- 0.5
+
+BigTheta <- (1-alpha)/(1-alpha+alpha*vartheta)
+kappa    <- (((1-theta)*(1-beta*theta))/(theta))*BigTheta*((1/eta)+((phi+alpha)/(1-alpha)))
+psi      <- (eta*(1+phi))/(1-alpha+eta*(phi + alpha))
+
+sigma_T <- 1
+sigma_M <- 0.25
+
+G0_47 <- (1/eta)*psi*(rho_a - 1)
+
+#Order:                 yg,       y,      pi,      rn,       i,       n,       a,       v,  yg_t+1,  pi_t+1
+Gamma0 <- rbind(c(      -1,       0,       0,     eta,  -eta/4,       0,       0,       0,       1,   eta/4),
+                c(   kappa,       0,    -1/4,       0,       0,       0,       0,       0,       0,  beta/4),
+                c(   phi_y,       0,phi_pi/4,       0,    -1/4,       0,       0,       1,       0,       0),
+                c(       0,       0,       0,      -1,       0,       0,   G0_47,       0,       0,       0),
+                c(       0,      -1,       0,       0,       0, 1-alpha,       1,       0,       0,       0),
+                c(      -1,       1,       0,       0,       0,       0,    -psi,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       1,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       1,       0,       0),
+                c(       1,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       1,       0,       0,       0,       0,       0,       0,       0))
+
+Gamma1 <- rbind(c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,   rho_a,       0,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,   rho_v,       0,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       1,       0),
+                c(       0,       0,       0,       0,       0,       0,       0,       0,       0,       1))
+
+#
+
+C <- matrix(0,10,1)
+
+Psi <- matrix(0,10,2)
+Psi[7,1] <- 1
+Psi[8,2] <- 1
+
+Pi <- matrix(0,10,2)
+Pi[9,1] <- 1
+Pi[10,2] <- 1
+
+#
+
+Sigma <- rbind(c(sigma_T^2,         0),  
+               c(        0, sigma_M^2))
+
+#
+
+dsge_obj <- new(gensys)
+
+dsge_obj$build(Gamma0,Gamma1,C,Psi,Pi)
+dsge_obj$solve()
+
+dsge_obj$G_sol
+dsge_obj$impact_sol
+
+#
+
+dsge_obj$shocks_cov = Sigma
+
+dsge_obj$state_space()
+
+dsge_obj$F_state
+dsge_obj$G_state
+
+#
+
+var_names <- c("Output Gap","Output","Inflation","Natural Int",
+               "Nominal Int","Labour Supply","Technology","MonetaryPolicy")
+
+dsge_irf <- IRF(dsge_obj,12,var_names=var_names)
+dsge_sim <- dsge_obj$simulate(800,200)
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
