@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="MCMCLib: a C++ MCMC library.">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="mcmc, MCMC, Metropolis Hastings, RWMH, Differential Evolution, Metropolis-adjusted Langevin algorithm, MALA, Hamiltonian Monte Carlo, HMC, C++, C++11, Cpp, NYU, New York University, Econometrics, Research" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>MCMC: HMC</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#mcmchead").load("mcmclib_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="mcmchead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">MCMC: Hamiltonian Monte Carlo</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>MCMC via Hamiltonian dynamics.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
+
+<pre class="brush: cpp;">
+bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* target_data)&gt; target_log_kernel, void* target_data);
+bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* target_data)&gt; target_log_kernel, void* target_data, mcmc_settings& settings);
+</pre>
+<p><strong>Function arguments:</strong></p>
+<ul>
+    <li><code>initial_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
+    <li><code>draws_out</code> a two-dimensional array containing posterior draws.</li>
+    <li><code>target_log_kernel</code> the posterior kernel function, taking three arguments: 
+        <ul>
+            <li><code>vals_inp</code> a vector of input values;</li>
+            <li><code>grad_out</code> a vector to store the gradient; and</li>
+            <li><code>target_data</code> additional parameters passed to the function.</li>
+        </ul>
+    <li><code>target_data</code> additional parameters passed to the posterior kernel.</li>
+    <li><code>settings</code> parameters controlling the MCMC routine; see below.</li>
+</ul>
+
+<p><strong>MCMC control parameters:</strong></p>
+<ul>
+    <li><code>bool vals_bound</code> whether the search space is bounded. If true, then</li>
+    <ul>
+        <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
+        <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
+    </ul>
+    <li><code>int hmc_n_draws</code> number of posterior draws to keep.</li>
+    <li><code>int hmc_n_burnin</code> number of burnin draws.</li>
+    <li><code>double hmc_step_size</code> step size $\epsilon$ below.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic HMC algorithm is as follows.</p>
+<ul>
+    <li><strong>Initial Momentum Step.</strong>
+        $$p^{(*)} = \epsilon \nabla_\theta \ln K(\theta^{(i)} | X) + W$$
+        where $K$ is the posterior kernel, $W \sim N(0,I_d)$, and $\epsilon$ is determined by <code>hmc_step_size</code>.</li>
+    <li><strong>Proposal (Position) Step.</strong>
+        $$\theta^* = \theta^{(i)} + \epsilon p^{(*)}$$
+    </li>
+    <li><strong>Momentum Update Step.</strong>
+        $$p^{(*)} = \epsilon \nabla_\theta \ln K(\theta^{(*)} | X) + p^{(*)}$$
+    </li>
+    <li><strong>Accept/Reject Step.</strong> Let $U^{(*)} = - \ln K(\theta^{(*)} | X)$ and $E^{(*)} = (p^{(*)},p^{(*)}) / 2$. Define
+        $$\alpha = \min \left\{ 1, \exp( - U^{(*)} - E^{(*)} + U^{(i)} + E^{(i)} ) \right\}$$
+        Then
+        $$\theta^{(i+1)} = \begin{cases} \theta^* & \text{ if } Z < \alpha \\ \theta^{(i)} & \text{ else } \end{cases}$$
+        where $Z \sim \text{Unif}(0,1)$.</li>
+</ul>
+
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
+
+<p>Normal likelihood.</p>
+
+<br>
+
+<pre class="brush: cpp;">
+ #include "mcmc.hpp"
+ 
+ struct norm_data {
+     arma::vec x;
+ };
+ 
+ double ll_dens(const arma::vec& vals_inp, arma::vec* grad_out, void* ll_data)
+ {
+     const double mu    = vals_inp(0);
+     const double sigma = vals_inp(1);
+ 
+     const double pi = arma::datum::pi;
+ 
+     norm_data* dta = reinterpret_cast&lt;norm_data*&gt;(ll_data);
+     const arma::vec x = dta->x;
+     const int n_vals = x.n_rows;
+ 
+     //
+ 
+     const double ret = - ((double) n_vals) * (0.5*std::log(2*pi) + std::log(sigma)) - arma::accu( arma::pow(x - mu,2) / (2*sigma*sigma) );
+ 
+     //
+ 
+     if (grad_out) {
+         grad_out->set_size(2,1);
+ 
+         //
+ 
+         double m_1 = arma::accu(x - mu);
+         double m_2 = arma::accu( arma::pow(x - mu,2) );
+ 
+         (*grad_out)(0,0) = m_1 / (sigma*sigma);
+         (*grad_out)(1,0) = (m_2 / (sigma*sigma*sigma)) - ((double) n_vals) / sigma;
+     }
+ 
+     //
+ 
+     return ret;
+ }
+ 
+ double log_target_dens(const arma::vec& vals_inp, arma::vec* grad_out, void* ll_data)
+ {
+     return ll_dens(vals_inp,grad_out,ll_data);
+ }
+ 
+ int main()
+ {
+     const int n_data = 1000;
+     const double mu = 2.0;
+     const double sigma = 2.0;
+ 
+     norm_data dta;
+ 
+     arma::vec x_dta = mu + sigma*arma::randn(n_data,1);
+     dta.x = x_dta;
+ 
+     arma::vec initial_val(2);
+     initial_val(0) = mu + 1; // mu
+     initial_val(1) = sigma + 1; // sigma
+ 
+     mcmc::mcmc_settings settings;
+ 
+     settings.hmc_step_size = 0.10;
+     settings.hmc_n_burnin = 1000;
+     settings.hmc_n_draws = 1000;
+ 
+     arma::mat draws_out;
+     mcmc::hmc(initial_val,draws_out,log_target_dens,&dta,settings);
+ 
+     std::cout << "hmc: mcmc mean = " << arma::mean(draws_out) << std::endl;
+
+     return 0;
+}
+</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
