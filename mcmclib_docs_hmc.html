@@ -134,6 +134,8 @@ bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;d
     <li><code>int hmc_n_draws</code> number of posterior draws to keep.</li>
     <li><code>int hmc_n_burnin</code> number of burnin draws.</li>
     <li><code>double hmc_step_size</code> step size $\epsilon$ below.</li>
+    <li><code>int hmc_leap_steps</code> number of leapfrog steps.</li>
+    <li><code>arma::mat hmc_precond_mat</code> preconditioning matrix $\mathbf{M}$.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -142,19 +144,31 @@ bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;d
 
 <p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic HMC algorithm is as follows.</p>
 <ul>
-    <li><strong>Initial Momentum Step.</strong>
-        $$p^{(*)} = \epsilon \nabla_\theta \ln K(\theta^{(i)} | X) + W$$
-        where $K$ is the posterior kernel, $W \sim N(0,I_d)$, and $\epsilon$ is determined by <code>hmc_step_size</code>.</li>
-    <li><strong>Proposal (Position) Step.</strong>
-        $$\theta^* = \theta^{(i)} + \epsilon p^{(*)}$$
-    </li>
-    <li><strong>Momentum Update Step.</strong>
-        $$p^{(*)} = \epsilon \nabla_\theta \ln K(\theta^{(*)} | X) + p^{(*)}$$
-    </li>
-    <li><strong>Accept/Reject Step.</strong> Let $U^{(*)} = - \ln K(\theta^{(*)} | X)$ and $E^{(*)} = (p^{(*)},p^{(*)}) / 2$. Define
-        $$\alpha = \min \left\{ 1, \exp( - U^{(*)} - E^{(*)} + U^{(i)} + E^{(i)} ) \right\}$$
+    <li><strong>Initializaton.</strong> Sample $p^{(i)} \sim N(0,\mathbf{M})$, and set $\theta^{(*)} = \theta^{(i)}$ and $p^{(*)} = p^{(i)}$.
+    <li><strong>Leapfrog Steps.</strong> For $k = 1, \ldots,$ <code>hmc_leap_steps</code> do
+    <ul>
+        <li><strong>Momentum Update Step.</strong>
+            $$p^{(*)} = p^{(*)} + \epsilon \times \nabla_\theta \ln K(\theta^{(*)} | X) / 2$$
+        </li>
+        <li><strong>Position (Proposal) Update Step.</strong>
+            $$\theta^{(*)} = \theta^{(*)} + \epsilon \times \mathbf{M}^{-1} p^{(*)}$$
+        </li>
+        <li><strong>Momentum Update Step.</strong>
+            $$p^{(*)} = p^{(*)} + \epsilon \times \nabla_\theta \ln K(\theta^{(*)} | X) / 2$$
+        </li>
+    </ul>
+    <li><strong>Accept/Reject Step.</strong> Denote the Hamiltonian by
+        $$
+            H(\theta, p) := - \ln K(\theta | X) + \frac{1}{2} \log \left\{ (2 \pi)^d | \mathbf{M} | \right\} + \frac{1}{2} p^\top \mathbf{M}^{-1} p
+        $$
+        and define
+        $$
+            \alpha = \min \left\{ 1, \exp( H(\theta^{(i)}, p^{(i)}) - H(\theta^{(*)}, p^{(*)}) ) \right\}
+        $$
         Then
-        $$\theta^{(i+1)} = \begin{cases} \theta^* & \text{ if } Z < \alpha \\ \theta^{(i)} & \text{ else } \end{cases}$$
+        $$
+            \theta^{(i+1)} = \begin{cases} \theta^{(*)} & \text{ if } Z < \alpha \\ \theta^{(i)} & \text{ else } \end{cases}
+        $$
         where $Z \sim \text{Unif}(0,1)$.</li>
 </ul>
 
