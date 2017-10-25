@@ -134,6 +134,7 @@ bool mala(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
     <li><code>int mala_n_draws</code> number of posterior draws to keep.</li>
     <li><code>int mala_n_burnin</code> number of burnin draws.</li>
     <li><code>double mala_step_size</code> step size $\epsilon$ below.</li>
+    <li><code>arma::mat hmc_precond_mat</code> preconditioning matrix $\mathbf{M}$.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -143,14 +144,14 @@ bool mala(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 <p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic MALA algorithm is as follows.</p>
 <ul>
     <li><strong>Proposal Step.</strong> Let
-        $$\mu(\theta^{(i)}) := \theta^{(i)} + \frac{\epsilon^2}{2} \nabla_\theta \ln K(\theta^{(i)} | X)$$
-        where $K$ is the posterior kernel, $W \sim N(0,I_d)$, and $\epsilon$ is determined by <code>mala_step_size</code>.
+        $$\mu(\theta^{(i)}) := \theta^{(i)} + \frac{\epsilon^2}{2} \mathbf{M} \nabla_\theta \ln K(\theta^{(i)} | X)$$
+        where $K$ is the posterior kernel and $\epsilon = $ <code>mala_step_size</code>.
         <br><br>
-        Then
+        The proposal draw is:
         $$\theta^{(*)} = \mu(\theta^{(i)}) + \epsilon W$$
-        where $W \sim N(0,I_d)$.
+        where $W \sim N(0,\mathbf{M})$.
     </li>
-    <li><strong>Accept/Reject Step.</strong> Denote the proposal density by $q(\theta^{(*)} | \theta^{(i)}) := \phi(\theta^{(*)}; \mu(\theta^{(i)}), \epsilon I_d)$ and let
+    <li><strong>Accept/Reject Step.</strong> Denote the proposal density by $q(\theta^{(*)} | \theta^{(i)}) := \phi(\theta^{(*)}; \mu(\theta^{(i)}), \epsilon^2 \mathbf{M})$ and let
         $$\alpha = \min \left\{ 1, [ K(\theta^{(*)} | X) q(\theta^{(i)} | \theta^{(*)})] / [ K(\theta^{(i)} | X) q(\theta^{(*)} | \theta^{(i)})] \right\}$$
         Then
         $$\theta^{(i+1)} = \begin{cases} \theta^* & \text{ if } Z < \alpha \\ \theta^{(i)} & \text{ else } \end{cases}$$
