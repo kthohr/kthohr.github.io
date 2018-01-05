@@ -10,11 +10,11 @@
     <meta name="description" content="Building R from source on a Mac">
     <meta name="author" content="Keith O'Hara">
 
-    <meta name="keywords" content="Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
+    <meta name="keywords" content="R, R-devel, Rdevel, macOS, OS X, OSX, Keith O'Hara, C++, Cpp, " />
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>Keith O'Hara - R-devel</title>
+    <title>Keith O'Hara - R-devel for macOS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -75,7 +75,7 @@
 
 
 <h3 style="text-align: center;"><strong style="font-size: 130%;">Building R-devel from Source</strong></h3>
-<h3 style="text-align: center;"><strong style="font-size: 130%;">OSX 10.12.6</strong></h3>
+<h3 style="text-align: center;"><strong style="font-size: 130%;">macOS 10.13.2</strong></h3>
 </br>
 
 <div class="row">
@@ -85,6 +85,7 @@
         <a href="#Prelim">Preliminaries</a> <br>
         <a href="#DL">Download and Unpack</a> <br>
         <a href="#Config">Configure</a> <br>
+        <a href="#ConfigOpt">Configure: Aggressive Optimization</a> <br>
         <a href="#Build">Build and Install</a> <br>
         <a href="#Call">Calling R-devel</a>
     </div>
@@ -92,7 +93,7 @@
 </div>
 </div>
 
-<p>This page describes the steps involved in compiling R-devel on a Mac (OSX v10.12.6).</p>
+<p>This page describes the steps involved in compiling R-devel on a Mac (macOS, formerly known as OS X, v10.13.2).</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -164,7 +165,7 @@ tar -zxvf R-devel.tar.gz</pre>
 
 <h3 style="text-align: left;" id="Config"><strong style="font-size: 120%;">Configure</strong></h3>
 
-<p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following:</p>
+<p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following (but see the next section for an alternative configuration):</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
@@ -206,6 +207,42 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 	--with-blas="-framework Accelerate" --with-lapack \
 		--enable-R-shlib --enable-memory-profiling
 </pre>
+
+<hr>
+
+<h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization</strong></h3>
+
+<p>It is possible to use an updated version of gfortran, while also allowing architecture-specific optimizations such as Intel's AVX instructions.</p>
+
+<p>If you've installed gcc7 using MacPorts, then you need to create a symbolic link to the LLVM assembler:</p>
+
+<pre  class="brush: bash;">
+    cd /opt/local/bin
+    sudo ln -s /usr/bin/clang</pre>
+
+<p>We then add a '-Wa,-q' flag to the Fortran flags to use LLVM's (Clang integrated) assembler.</p>
+
+<pre  class="brush: bash;">
+#! /bin/sh
+    
+CC=clang
+CXX=clang++
+F77=gfortran-mp-7
+FC=$F77
+OBJC=clang
+CFLAGS="-Wall -march=native -g -O3"
+CXXFLAGS="-Wall -march=native -g -O3"
+OBJCFLAGS="-Wall -march=native -g -O3"
+F77FLAGS="-Wall -march=native -g -O3 -Wa,-q"
+FCFLAGS=$F77FLAGS
+FFLAGS=$F77FLAGS
+    
+PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
+    
+JAVA_HOME="$(/usr/libexec/java_home)"
+JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
+JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
+JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
 <hr>
 
