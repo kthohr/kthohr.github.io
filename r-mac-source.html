@@ -85,7 +85,8 @@
         <a href="#Prelim">Preliminaries</a> <br>
         <a href="#DL">Download and Unpack</a> <br>
         <a href="#Config">Configure</a> <br>
-        <a href="#ConfigOpt">Configure: Aggressive Optimization</a> <br>
+        <a href="#ConfigOpt">Alt Configure: Aggressive Optimization</a> <br>
+        <a href="#BLASLapack">BLAS/Lapack</a> <br>
         <a href="#Build">Build and Install</a> <br>
         <a href="#Call">Calling R-devel</a>
     </div>
@@ -195,19 +196,6 @@ cd ~/Desktop/R/R-devel</pre>
 <pre  class="brush: bash;">
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig</pre>
 
-<p>We are free to choose an external BLAS and Lapack combination. For example, if you want to link against the OpenBLAS library (assuming you have it...) run</p>
-<pre  class="brush: bash;">
-./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
-	--with-blas="-lopenblas" --with-lapack \
-		--enable-R-shlib --enable-memory-profiling
-</pre>
-<p>or, to link against the Accelerate framework (which is pre-installed on all Macs), run</p>
-<pre  class="brush: bash;">
-./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
-	--with-blas="-framework Accelerate" --with-lapack \
-		--enable-R-shlib --enable-memory-profiling
-</pre>
-
 <hr>
 
 <h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization and OpenMP</strong></h3>
@@ -267,6 +255,26 @@ JAVA_HOME="$(/usr/libexec/java_home)"
 JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
+
+<hr>
+
+<h3 style="text-align: left;" id="BLASLapack"><strong style="font-size: 120%;">Select a BLAS and Lapack Distribution</strong></h3>
+
+<p>R includes a single-threaded BLAS and Lapack distribution, but we are free to choose an external, multithreaded library.</p>
+
+<p>To link against the Accelerate framework (pre-installed with macOS), run</p>
+<pre  class="brush: bash;">
+./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
+	--with-blas="-framework Accelerate" --with-lapack \
+		--enable-R-shlib --enable-memory-profiling
+</pre>
+
+<p>If you want to link against the OpenBLAS library run</p>
+<pre  class="brush: bash;">
+./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
+	--with-blas="-lopenblas" --with-lapack \
+		--enable-R-shlib --enable-memory-profiling
+</pre>
 
 <hr>
 
