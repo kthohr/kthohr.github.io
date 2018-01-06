@@ -108,9 +108,9 @@
         <pre  class="brush: bash;">
 clang++ -v</pre>
         <li>You should see something similar to</li>
-        <pre>
-Apple LLVM version 8.0.0 (clang-800.0.38)
-Target: x86_64-apple-darwin16.7.0
+<pre class="brush: bash;"> 
+Apple LLVM version 9.0.0 (clang-900.0.39.2)
+Target: x86_64-apple-darwin17.3.0
 Thread model: posix</pre>
     </ul>
     <li> Download and install <a href="https://www.xquartz.org/" target="_blank">XQuartz</a>. (You might need to restart your computer to complete the installation process.)</li>
@@ -210,17 +210,17 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 
 <hr>
 
-<h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization</strong></h3>
+<h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization and OpenMP</strong></h3>
 
-<p>It is possible to use an updated version of gfortran, while also allowing architecture-specific optimizations such as Intel's AVX instructions.</p>
+<p>It is possible to use an updated version of gfortran while also enabling architecture-specific optimizations such as Intel's AVX instructions.</p>
 
-<p>If you've installed gcc7 using MacPorts, then you need to create a symbolic link to the LLVM assembler:</p>
+<p>If you've installed gcc7 using MacPorts, then create a symbolic link to the LLVM assembler in the default install directory:</p>
 
 <pre  class="brush: bash;">
     cd /opt/local/bin
     sudo ln -s /usr/bin/clang</pre>
 
-<p>We then add a '-Wa,-q' flag to the Fortran flags to use LLVM's (Clang integrated) assembler.</p>
+<p>Then add '-Wa,-q' to the Fortran flags to use LLVM's (Clang integrated) assembler:</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
@@ -239,6 +239,30 @@ FFLAGS=$F77FLAGS
     
 PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
     
+JAVA_HOME="$(/usr/libexec/java_home)"
+JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
+JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
+JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
+
+<p>To utilise OpenMP features, install Clang v5.0 with MacPorts, and modify the config.site file to the following:</p>
+
+<pre  class="brush: bash;">
+#! /bin/sh
+
+CC=clang-mp-5.0
+CXX=clang++-mp-5.0
+F77=gfortran-mp-7
+FC=$F77
+OBJC=clang-mp-5.0
+CFLAGS="-Wall -march=native -g -O3"
+CXXFLAGS="-Wall -march=native -g -O3"
+OBJCFLAGS="-Wall -march=native -g -O3"
+F77FLAGS="-Wall -march=native -g -O3 -Wa,-q"
+FCFLAGS=$F77FLAGS
+FFLAGS=$F77FLAGS
+
+PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
+
 JAVA_HOME="$(/usr/libexec/java_home)"
 JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
