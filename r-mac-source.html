@@ -212,9 +212,9 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 
 <h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization and OpenMP</strong></h3>
 
-<p>It is possible to use an updated version of gfortran while also enabling architecture-specific optimizations such as Intel's AVX instructions.</p>
+<p>It is possible to use an updated version of gfortran while also enabling architecture-specific optimizations such as <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions" target="_blank">Intel's AVX instructions</a>.</p>
 
-<p>If you've installed gcc7 using MacPorts, then create a symbolic link to the LLVM assembler in the default install directory:</p>
+<p>If you've installed gcc7 using <a href="https://www.macports.org/" target="_blank">MacPorts</a>, then create a symbolic link to the LLVM assembler in the default install directory:</p>
 
 <pre  class="brush: bash;">
     cd /opt/local/bin
@@ -244,7 +244,7 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<p>To utilise OpenMP features, install Clang v5.0 with MacPorts, and modify the config.site file to the following:</p>
+<p>To utilise OpenMP features, install Clang v5.0 with MacPorts and modify the config.site file to the following:</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
