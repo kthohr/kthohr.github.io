@@ -94,7 +94,7 @@
 </div>
 </div>
 
-<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X, v10.13.2).</p>
+<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X), with a particluar emphasis on non-standard build configurations that can <strong>improve computing times by up to 100x</strong> versus the standard R build.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -105,7 +105,7 @@
 <ul>
     <li> Get Xcode from the App Store. (The page should look something like <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">this</a>.) The latest version of Xcode should install the <b>command line tools</b> by default.</li>
     <ul>
-        <li>Open a terminal window&#8212;search spotlight for 'terminal' if you've never needed terminal/bash before&#8212;and run:</li>
+        <li>Open a terminal window&#8212;search spotlight for 'terminal' if you've never used terminal/bash before&#8212;and run:</li>
         <pre  class="brush: bash;">
 clang++ -v</pre>
         <li>You should see something similar to</li>
@@ -125,7 +125,8 @@ cd ~/Desktop
 curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /</pre>
 
-    <p>The 'sudo' command requires your password&#8212;this is because we are placing files into areas that are password restricted (/usr/local).</p>
+    <p>The 'sudo' command will require your system password because we are placing files into areas that are password restricted (/usr/local).</p>
+    <p>Note: that you are free to choose a more recent distribution of gfortran, which may be obtained with MacPorts.</p>
     <li>We also need pkg-config, xz, and pcre:</li>
 <pre  class="brush: bash;">
 cd ~/Desktop
@@ -164,7 +165,7 @@ tar -zxvf R-devel.tar.gz</pre>
 
 <hr>
 
-<h3 style="text-align: left;" id="Config"><strong style="font-size: 120%;">Configure</strong></h3>
+<h3 style="text-align: left;" id="Config"><strong style="font-size: 120%;">Basic Configure</strong></h3>
 
 <p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following (but see the next section for an alternative configuration):</p>
 
@@ -232,7 +233,9 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<p>To utilise OpenMP features, install Clang v5.0 with MacPorts and modify the config.site file to the following:</p>
+<p>Note: Without the '-Wa,-q' option, '-march=native' optimizations will result in an unknown symbol error.</p>
+
+<p>To utilise OpenMP features we need to switch from Apple's version of LLVM. Install Clang v5.0 with MacPorts and modify the config.site file further:</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
@@ -262,7 +265,7 @@ JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
 <p>R includes a single-threaded BLAS and Lapack distribution, but we are free to choose an external, multithreaded library.</p>
 
-<p>To link against the Accelerate framework (pre-installed with macOS), run</p>
+<p>To link against the Accelerate framework (pre-installed with macOS) run</p>
 <pre  class="brush: bash;">
 ./configure --prefix=/Users/${USER}/Desktop/R-devel --without-x --without-internal-tzcode \
 	--with-blas="-framework Accelerate" --with-lapack \
