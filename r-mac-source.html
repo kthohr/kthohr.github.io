@@ -94,7 +94,7 @@
 </div>
 </div>
 
-<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X), with a particluar emphasis on non-standard build configurations that can <strong>improve computing times by up to 100x</strong> versus the standard R build.</p>
+<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X), with an emphasis on non-standard build configurations that can <strong>improve computing times by up to 100x</strong> versus the standard R build.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -219,8 +219,8 @@ CXX=clang++
 F77=gfortran-mp-7
 FC=$F77
 OBJC=clang
-CFLAGS="-Wall -march=native -g -O3"
-CXXFLAGS="-Wall -march=native -g -O3"
+CFLAGS="-Wall -march=native -g -O3 -ffp-contract=fast"
+CXXFLAGS="-Wall -march=native -g -O3 -ffp-contract=fast"
 OBJCFLAGS="-Wall -march=native -g -O3"
 F77FLAGS="-Wall -march=native -g -O3 -Wa,-q"
 FCFLAGS=$F77FLAGS
@@ -245,8 +245,8 @@ CXX=clang++-mp-5.0
 F77=gfortran-mp-7
 FC=$F77
 OBJC=clang-mp-5.0
-CFLAGS="-Wall -march=native -g -O3"
-CXXFLAGS="-Wall -march=native -g -O3"
+CFLAGS="-Wall -march=native -g -O3 -ffp-contract=fast"
+CXXFLAGS="-Wall -march=native -g -O3 -ffp-contract=fast"
 OBJCFLAGS="-Wall -march=native -g -O3"
 F77FLAGS="-Wall -march=native -g -O3 -Wa,-q"
 FCFLAGS=$F77FLAGS
