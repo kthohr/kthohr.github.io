@@ -126,7 +126,7 @@ curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /</pre>
 
     <p>The 'sudo' command will require your system password because we are placing files into areas that are password restricted (/usr/local).</p>
-    <p><strong>Note:</strong> that you are free to choose a more recent distribution of gfortran, which may be obtained with MacPorts.</p>
+    <p><strong>Note:</strong> that you are free to choose a more recent distribution of gfortran, which may be obtained via MacPorts or Homebrew.</p>
     <li>We also need pkg-config, xz, and pcre:</li>
 <pre  class="brush: bash;">
 cd ~/Desktop
@@ -162,6 +162,15 @@ mkdir R</pre>
 cd ~/Desktop/R
 curl -O ftp://ftp.stat.math.ethz.ch/Software/R/R-devel.tar.gz
 tar -zxvf R-devel.tar.gz</pre>
+
+<p>Alternatively, to obtain R via SVN:</p>
+<pre  class="brush: bash;">
+svn co https://svn.r-project.org/R/trunk/ ~/Desktop/R/trunk
+cp -rf ~/Desktop/R/trunk ~/Desktop/R/R-devel # copy to build folder</pre>
+<p>Update when needed using</p>
+<pre  class="brush: bash;">
+cd ~/Desktop/R/trunk
+svn up</pre>
 
 <hr>
 
