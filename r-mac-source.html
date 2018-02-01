@@ -273,7 +273,7 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<p><strong>Note:</strong> If you receive a 'library not found for -lomp' error, add libomp.dylib to /usr/local/lib:</p>
+<p><strong>Note:</strong> If you receive a 'library not found for -lomp' error, add a symbolic link to libomp.dylib under /usr/local/lib:</p>
 <pre  class="brush: bash;">
 sudo ln -s /opt/local/lib/libomp/libomp.dylib /usr/local/lib/libomp.dylib</pre>
 
