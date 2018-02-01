@@ -100,7 +100,7 @@
 
 <h3 style="text-align: left;" id="Prelim"><strong style="font-size: 120%;">Preliminaries</strong></h3>
 
-<p>First we need to install some tools and libraries.</p>
+<p>First we need to install some libraries and tools.</p>
 
 <ul>
     <li> Get Xcode from the App Store. (The page should look something like <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">this</a>.) The latest version of Xcode should install the <b>command line tools</b> by default.</li>
@@ -117,7 +117,7 @@ Thread model: posix</pre>
     <li> Download and install <a href="https://www.xquartz.org/" target="_blank">XQuartz</a>. (You might need to restart your computer to complete the installation process.)</li>
     <li> Download and install the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java SDK</a>. (No need for the 'demos and samples' pack.)</li>
 </ul>
-<p>The following items are from the <a href="https://r.research.att.com/libs/" target="_blank">R-devel optional library list</a>.</p>
+<p>Most following items are from the <a href="https://r.research.att.com/libs/" target="_blank">R-devel optional library list</a>.</p>
 <ul>
         <li>Unfortunately, Xcode does not include a Fortran compiler, which we will need. The simplest way to obtain an R-compatible version of <b>gfortran</b> is to open a terminal window and type:</li>
     <pre  class="brush: bash;">
@@ -126,7 +126,7 @@ curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
 sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /</pre>
 
     <p>The 'sudo' command will require your system password because we are placing files into areas that are password restricted (/usr/local).</p>
-    <p>Note: that you are free to choose a more recent distribution of gfortran, which may be obtained with MacPorts.</p>
+    <p><strong>Note:</strong> that you are free to choose a more recent distribution of gfortran, which may be obtained with MacPorts.</p>
     <li>We also need pkg-config, xz, and pcre:</li>
 <pre  class="brush: bash;">
 cd ~/Desktop
