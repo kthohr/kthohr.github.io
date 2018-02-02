@@ -186,7 +186,7 @@ svn up</pre>
 
 <h3 style="text-align: left;" id="Config"><strong style="font-size: 120%;">Basic Configure</strong></h3>
 
-<p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following (but see the next section for an alternative configuration):</p>
+<p>Open the 'config.site' file in '~/Desktop/R/R-devel' and change the contents to the following (but see the next section for alternative configurations):</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
@@ -228,7 +228,7 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
     cd /opt/local/bin
     sudo ln -s /usr/bin/clang</pre>
 
-<p>Then add '-Wa,-q' to the Fortran flags to use LLVM's (Clang integrated) assembler:</p>
+<p>Then add <code>-Wa,-q</code> to the Fortran flags to use LLVM's (Clang integrated) assembler:</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
@@ -252,14 +252,14 @@ JAVA_CPPFLAGS="-I/${JAVA_HOME}/include -I/${JAVA_HOME}/include/darwin"
 JAVA_LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/server"
 JAVA_LIBS="-L/${JAVA_HOME}/jre/lib/server -ljvm"</pre>
 
-<p>Note: Without the '-Wa,-q' option, '-march=native' optimizations will result in an unknown symbol error.</p>
+<p>Note: Without the <code>-Wa,-q</code> option, <code>-march=native</code> instructions will result in an unknown symbol error.</p>
 
-<p>To utilise OpenMP features we need to switch from Apple's version of LLVM. Install Clang v6.0 with MacPorts </p>
+<p>To utilise OpenMP features we need to switch from Apple's version of LLVM. Install Clang v6.0 via MacPorts:</p>
 
 <pre  class="brush: bash;">
 sudo port install clang-6.0</pre>
 
-<p>and modify the config.site file further:</p>
+<p>and modify the config.site file:</p>
 
 <pre  class="brush: bash;">
 #! /bin/sh
