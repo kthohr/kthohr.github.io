@@ -154,7 +154,7 @@ bvar_obj <- new(bvarm)
 
 <hr>
 
-<p><strong>Build:</strong> two methods,</p>
+<p><strong>Build:</strong></p>
 <pre class="brush: R;">
 bvar_obj$build(data_endog,cons_term,p)
 bvar_obj$build(data_endog,data_exog,cons_term,p)
@@ -169,6 +169,7 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 
 <p><strong>Prior:</strong></p>
 <pre class="brush: R;">
+bvar_obj$prior(coef_prior)
 bvar_obj$prior(coef_prior,var_type,decay_type,HP_1,HP_2,HP_3,HP_4)
 </pre>
 
