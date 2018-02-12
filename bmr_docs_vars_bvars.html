@@ -182,7 +182,7 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 
 <p><strong>Prior:</strong></p>
 <pre class="brush: R;">
-bvar_obj$prior(coef_prior,HP_1,HP_2,Psi_prior,Xi_psi,gamma)
+bvar_obj$prior(coef_prior,HP_1,HP_2,Psi_prior,Xi_psi,gamma,full_cov_prior)
 </pre>
 
 <ul>
@@ -191,6 +191,7 @@ bvar_obj$prior(coef_prior,HP_1,HP_2,Psi_prior,Xi_psi,gamma)
     <li><code>Psi_prior</code> prior mean of $\Psi$.</li>
     <li><code>Xi_psi</code> scaling value for the prior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
     <li><code>gamma</code> prior degrees of freedom for $\Sigma$.</li>
+    <li><code>full_cov_prior</code> a logical value (TRUE/FALSE) to switch between using the full MLE covariance matrix as the diffuse prior for Sigma (TRUE) or the classical Minnesota prior (FALSE).</li>
 </ul>
 
 <p><strong>Gibbs sampling:</strong></p>
@@ -279,7 +280,7 @@ bvar_obj <- new(bvars)
 #
 
 bvar_obj$build(bvar_data,TRUE,1)
-bvar_obj$prior(coef_prior,HP1,HP2,psi_prior,XiPsi,gamma)
+bvar_obj$prior(coef_prior,HP1,HP2,psi_prior,XiPsi,gamma,FALSE)
 bvar_obj$gibbs(10000,5000)
 
 IRF(bvar_obj,20,var_names=colnames(bvar_data),save=FALSE)
