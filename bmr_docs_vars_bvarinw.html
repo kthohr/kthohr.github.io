@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>BMR: bvarw</title>
+    <title>BMR: bvarinw</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +87,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Normal-inverse Wishart Prior</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Independent Normal-inverse Wishart Prior</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -109,7 +109,7 @@ pre {
 <p><strong>Instantiation:</strong></p>
 <pre class="brush: R;">
 # create a new object
-bvar_obj <- new(bvarw)
+bvar_obj <- new(bvarinw)
 </pre>
 
 <p><strong>Fields:</strong></p>
@@ -239,7 +239,7 @@ XiBeta <- 4
 XiSigma <- 1
 gamma = 4
 
-bvar_obj <- new(bvarw)
+bvar_obj <- new(bvarinww)
 
 #
 
