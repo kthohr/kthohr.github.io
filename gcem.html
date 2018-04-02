@@ -83,7 +83,8 @@ pre {
         <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Generalized Constant Expression Math</u></strong></h3>
          <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/gcem" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p>  -->
          <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/gcem" target="_blank"><img src="https://travis-ci.org/kthohr/gcem.svg?branch=master" alt="GCEM Build"></a> 
-         <a href="https://codecov.io/github/kthohr/gcem?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/gcem/coverage.svg?branch=master" alt="Coverage Status"></a></p> 
+         <a href="https://codecov.io/github/kthohr/gcem?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/gcem/coverage.svg?branch=master" alt="Coverage Status"></a></p>
+         <a href="https://raw.githubusercontent.com/kthohr/gcem/master/LICENSE" target="_blank"><img src="https://img.shields.io/badge/Licence-Apache%202.0-blue.svg" alt="License"></a></p>
          <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/gcem/subscription" data-icon="octicon-eye" data-count-href="/kthohr/gcem/watchers" data-count-api="/repos/kthohr/gcem#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/gcem on GitHub">Watch</a> 
          <a class="github-button" href="https://github.com/kthohr/gcem" data-icon="octicon-star" data-count-href="/kthohr/gcem/stargazers" data-count-api="/repos/kthohr/gcem#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/gcem on GitHub">Star</a> 
          <a class="github-button" href="https://github.com/kthohr/gcem/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/gcem/network" data-count-api="/repos/kthohr/gcem#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/gcem on GitHub">Fork</a></p> 
@@ -102,22 +103,22 @@ pre {
 
 <br>
 
-<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library for compile-time computation of special functions.</p>
+<p>GCE-Math (generalized constant expression math, or <strong>gcem</strong>) is a templated C++ library for compile-time computation of mathematical functions.</p>
 
 <hr>
 
 <p><strong>Features:</strong></p>
 <ul>
-    <li>Extensive use of <a href="http://en.cppreference.com/w/cpp/language/constexpr" target="_blank">constexpr functions</a> and recursive templates enables compile-time evaluation of special math functions.</li>
-    <!-- <li>Enables compile-time computation of important operations to reduce the overall runtime of a program.</li> -->
-    <li>The library is written in concise C++11 constexpr format, which is also C++14 compatible.</li>
-    <li>Use of continued fraction representions minimizes template iterations and achieves convergence where other libraries will fail.</li>
+    <li>The library is written in C++11 <a href="http://en.cppreference.com/w/cpp/language/constexpr" target="_blank">constexpr</a> format, and is C++11/14/17 compatible.</li>
+    <li>Continued fraction and series expansions are implemented using recursive templates.</li>
+    <li>The <code>gcem::</code> syntax is identical to C++ standard library (<code>std::</code>).</li>
     <li>Extensively tested and accurate to machine precision against the C++ standard library.</li>
+    <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: GCE-Math is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><strong>License</strong>: GCE-Math is licensed under the Apache License, Version 2.0.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
