@@ -131,21 +131,22 @@
 
 <br>
 
-<p>OptimLib is a C++ library for numerical optimization of nonlinear functions.</p>
+<p>OptimLib is a lightweight C++ library of numerical optimization methods for nonlinear functions.</p>
 
 <hr>
 
 <p><strong>Features</strong></p>
 <ul>
     <li>Parallelized C++11 library of local and global optimization methods, as well as root finding techniques.</li>
-    <li>Advanced derivative-free algorithms, including Differential Evolution (DE) and Particle Swarm Optimization (PSO), with state-of-the-art hybrid metaheuristics.</li>
-    <li>Constrained optimization, from simple box constraints to nonlinear constraints.</li>
+    <li>Numerous derivative-free algorithms including advanced metaheuristics.</li>
+    <li>Constrained optimization routines can handle simple box constraints to systems of complicated nonlinear constraints.</li>
     <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix-based computation.</li>
+    <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: OptimLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><strong>License</strong>: Apache License, version 2.0.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -167,11 +168,13 @@ make install</pre>
 
 <p>Configure options:</p>
 <ul>
-    <li><code>-b dev</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
     <li><code>-c</code> a coverage build</li>
+    <li><code>-d</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
+    <li><code>-g</code> a debugging build</li>
+    <li><code>-h</code> print help</li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
-    <li><code>-o</code> enable aggressive compiler optimization features: <code>-o fast</code> or <code>-o native</code></li>
-    <li><code>-p</code> enable parallelization features (using OpenMP)</li>
+    <li><code>-o</code> compiler optimization options; defaults to <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
+    <li><code>-p</code> enable OpenMP parallelization features</li>
 </ul>
 
     </div>
