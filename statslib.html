@@ -168,7 +168,7 @@ In addition, pdf and randomization functions are available for several multivari
     double qval_1 = stats::qlaplace(0.1,0.0,1.0)
 
     // matrix input of beta-distributed random variables
-    arma::mat beta_rvs = stats::rbeta<arma::mat>(100,100,3.0,2.0);
+    arma::mat beta_rvs = stats::rbeta&lt;arma::mat&gt;(100,100,3.0,2.0);
     arma::mat beta_cdf_vals = stats::pbeta(beta_rvs,3.0,2.0);
 </pre>
 
