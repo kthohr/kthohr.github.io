@@ -108,7 +108,7 @@ pre {
 
 <pre class="brush: cpp;">
 bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, algo_settings& settings);
+bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, algo_settings_t& settings);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -248,7 +248,7 @@ int main()
     //
     // Table function
 
-    optim::algo_settings settings_1;
+    optim::algo_settings_t settings_1;
 
     settings_1.pso_center_particle = false;
     settings_1.pso_par_bounds = true;

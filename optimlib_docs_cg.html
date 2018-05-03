@@ -108,7 +108,7 @@ pre {
 
 <pre class="brush: cpp;">
 bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
-bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, algo_settings& settings);
+bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, algo_settings_t& settings);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
