@@ -139,7 +139,7 @@
 <ul>
     <li>Parallelized C++11 library of local and global optimization methods, as well as root finding techniques.</li>
     <li>Numerous derivative-free algorithms including advanced metaheuristics.</li>
-    <li>Constrained optimization routines can handle simple box constraints to systems of complicated nonlinear constraints.</li>
+    <li>Constrained optimization routines can handle simple box constraints to systems or complicated nonlinear constraints.</li>
     <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix-based computation.</li>
     <li>Released under a permissive, non-GPL license.</li>
 </ul>
@@ -161,20 +161,21 @@
 git clone -b master --single-branch https://github.com/kthohr/optim ./optim
 # build and install
 cd ./optim
-./configure
+./configure -i "/usr/local" -p
 make
 make install</pre>
 <p>The last line will install OptimLib into <samp>/usr/local</sampe></p>
 
-<p>Configure options:</p>
+<p>Configuration options: (see <code>./configure -h</code>)</p>
 <ul>
     <li><code>-c</code> a coverage build</li>
     <li><code>-d</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
     <li><code>-g</code> a debugging build</li>
     <li><code>-h</code> print help</li>
+    <li><code>-i</code> install path; default: build directory.</li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
     <li><code>-o</code> compiler optimization options; defaults to <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
-    <li><code>-p</code> enable OpenMP parallelization features</li>
+    <li><code>-p</code> enable OpenMP parallelization features (recommended)</li>
 </ul>
 
     </div>
