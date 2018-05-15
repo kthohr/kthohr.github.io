@@ -73,35 +73,46 @@
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-                <h2 class="page-header"> Old Papers </h2>
+                <h2 class="page-header"> Working Papers </h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>MCMC Confidence Sets for Identified Sets</h4>
-                        <h6>(with Xiaohong Chen, Timothy Christensen, and Elie Tamer)</h6>
+                        <h4>Bayesian Estimation of Fractionally Integrated Vector Autoregressions and an Application to Identified Technology Shocks</h4>
+                        <h5>(with <a href="https://sites.google.com/site/rossdoppelt/" target="_blank">Ross Doppelt</a>)</h5>
                         <hr style="height:2px;border-width:0;background-color:black" />
                         <!-- <hr /> -->
-                        <h4><strong style="font-size: 90%;"><a data-toggle="collapse" href="#collapse1">Abstract</a> | <a href="docs/1605.00499.pdf" target="_blank">Paper</a> </strong></h4>
+                        <h4><strong style="font-size: 90%;"><a data-toggle="collapse" href="#collapse1">Abstract</a> | <a href="docs/Doppelt_OHara_FIVARs_2018_05_14.pdf" target="_blank">Paper</a> </strong></h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <p>In complicated/nonlinear parametric models, it is generally hard to determine whether the 
-                            model parameters are (globally) point identified. We provide computationally attractive procedures
-                            to construct confidence sets (CSs) for identified sets of parameters in econometric
-                            models defined through a likelihood or a vector of moments. The CSs for the identified set
-                            or for a function of the identified set (such as a subvector) are based on inverting an optimal
-                            sample criterion (such as likelihood or continuously updated GMM), where the cutoff values
-                            are computed via Monte Carlo simulations directly from a quasi posterior distribution of the
-                            criterion. We establish new Bernstein-von Mises type theorems for the posterior distributions
-                            of the quasi-likelihood ratio (QLR) and profile QLR statistics in partially identified models,
-                            allowing for singularities. These results imply that the Monte Carlo criterion-based CSs have
-                            correct frequentist coverage for the identified set as the sample size increases, and that they
-                            coincide with Bayesian credible sets based on inverting a LR statistic for point-identified
-                            likelihood models. We also show that our Monte Carlo optimal criterion-based CSs are uniformly
-                            valid over a class of data generating processes that include both partially- and point-identified
-                            models. We demonstrate good finite sample coverage properties of our proposed
-                            methods in four non-trivial simulation experiments: missing data, entry game with correlated
-                            payoff shocks, Euler equation and finite mixture models. Finally, our proposed procedures
-                            are applied in two empirical examples.</p>
+                            <p>We introduce a new method for Bayesian estimation of fractionally integrated vector autoregressions (FIVARs). 
+                               The FIVAR, which nests a standard VAR as a special case, allows each series to exhibit long memory, meaning that 
+                               low frequencies can play a dominant role &mdash; a salient feature of many macroeconomic and financial time series. 
+                               Although the parameter space is typically high-dimensional, our inferential procedure is computationally tractable 
+                               and relatively easy to implement. We apply our methodology to the identification of technology shocks, an empirical 
+                               problem in which business-cycle predictions depend on carefully accounting for low-frequency fluctuations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Yogurts Choose Consumers? Identification of Random Utility Models via Two-Sided Matching</h4>
+                        <h5>(with O. Bonnet, A. Galichon, and M. Shum)</h5>
+                        <hr style="height:2px;border-width:0;background-color:black" />
+                        <!-- <hr /> -->
+                        <h4><strong style="font-size: 90%;"><a data-toggle="collapse" href="#collapse2">Abstract</a> | <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2928876" target="_blank">Paper</a> </strong></h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>In this paper we show that the problem of demand inversion in multinomial choice models is equivalent to the 
+                                determination of stable outcomes in matching models. This result is very general and applies to random utility 
+                                models that are not necessarily additive or smooth. Based on this equivalence, we argue that the algorithms for 
+                                the determination of stable matchings can provide effective computational methods to inverse multinomial choice 
+                                models, and we give a numerical benchmark of these algorithms. Our approach allows to estimate models that were 
+                                previously difficult to estimate, such as the pure characteristics model, as well as nonadditive random utility 
+                                models. The equivalence also allows to exploit the theory of stable matchings in order to describe important 
+                                properties of the set of utilities solution to the demand inversion problem, and to study the cases of existence 
+                                and uniqueness of identified utilities, as well as obtain consistency results.</p>
                         </div>
                     </div>
                 </div>
