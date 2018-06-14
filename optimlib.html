@@ -145,6 +145,17 @@
     <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
+<p><strong>Algorithms</strong></p>
+<ul>
+    <li>Broyden's Method (for root finding)</li>
+    <li>Newton's method, BFGS, and L-BFGS</li>
+    <li>Gradient descent: basic, momentum, Adam, AdaMax, Nadam, NadaMax, and more</li>
+    <li>Nonlinear Conjugate Gradient</li>
+    <li>Nelder-Mead</li>
+    <li>Differential Evolution (DE)</li>
+    <li>Particle Swarm Optimization (PSO)</li>
+</ul>
+
 <p><strong>Author</strong>: Keith O'Hara</p>
 
 <p><strong>License</strong>: Apache License, version 2.0.</p>
@@ -156,7 +167,7 @@
     <li>The source code is available on <a href="https://github.com/kthohr/optim" target="_blank">GitHub</a>.</li>
 </ul>
 
-<p>OptimLib can be installed in the standard way:</p>
+<p>The library can be installed on Unix-alike systems via the standard <code>./configure && make</code> method:</p>
 <pre class="brush: bash;">
 # clone optim
 git clone -b master --single-branch https://github.com/kthohr/optim ./optim
@@ -178,6 +189,14 @@ make install</pre>
     <li><code>-o</code> compiler optimization options; defaults to <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
     <li><code>-p</code> enable OpenMP parallelization features (recommended)</li>
 </ul>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Armadillo</strong></h3>
+
+OptimLib is built on the Armadillo C++ linear algebra library. The <code>configure</code> script will search for Armadillo files in the usual places: <code>/usr/include</code>, <code>/usr/local/include</code>, <code>/opt/include</code>, <code>/opt/local/include</code>. If the Armadillo header files are installed elsewhere, set the following environment variable <strong>before</strong> running <code>configure</code>:
+<pre class="brush: bash;">
+export ARMA_INCLUDE_PATH=/path/to/armadillo</pre>
+
+Otherwise the build script will download the required files from the Armadillo GitLab repository.
 
     </div>
 

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="OptimLib: a C++ numerical optimization library.">
+    <meta name="author" content="Keith O'Hara">
+
+    <meta name="keywords" content="Optimization, C++, C++11, Differential Evolution, Particle Swarm Optimization, Root Finding, OpenMP, Parallel Optimization, BFGS, L-BFGS, Keith O'Hara, Economics, Econometrics, Research, NYU, New York University" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
+
+    <title>OptimLib: Gradient Descent</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Additional Settings -->
+    <link href="css/kthohr_settings.css" rel="stylesheet">
+
+    <!-- Syntax Highlighter -->
+    <script type="text/javascript" src="js/syntaxhighlighter.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/swift_theme.css">
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-93902857-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#mynavbar").load("navbar.html")
+            $("#optimhead").load("optimlib_header.html")
+            $("#myfooter").load("footer.html")
+        });
+    </script>
+
+</head>
+
+<style>
+pre {
+    display: inline-block;
+}
+</style>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="mynavbar"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div id="optimhead"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">OptimLib: Gradient Descent</strong></h4></a>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="#definition">Definition</a> <br>
+                    <a href="#details">Details</a> <br>
+                    <a href="#examples">Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>The Gradient Descent (GD) method and its many varieties.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
+
+<pre class="brush: cpp;">
+bool gd(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);
+bool gd(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data, algo_settings_t& settings);
+</pre>
+<p><strong>Function arguments:</strong></p>
+<ul>
+    <li><code>init_out_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
+    <li><code>opt_objfn</code> the function to be minimized, taking three arguments: 
+        <ul>
+            <li><code>vals_inp</code> a vector of inputs;</li>
+            <li><code>grad_out</code> a vector to store the gradient; and</li>
+            <li><code>opt_data</code> additional parameters passed to the function.</li>
+        </ul>
+    <li><code>opt_data</code> additional parameters passed to the function.</li>
+    <li><code>settings</code> parameters controlling the optimization routine; see below.</li>
+</ul>
+
+<p><strong>Optimization control parameters:</strong></p>
+<ul>
+    <li><code>double err_tol</code> the tolerance value controlling how small $\| \nabla f \|$ should be before 'convergence' is declared.</li>
+    <li><code>int iter_max</code> the maximum number of iterations/updates before the algorithm exits.</li>
+    <li><code>bool vals_bound</code> whether the search space is bounded. If true, then</li>
+    <ul>
+        <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
+        <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
+    </ul>
+    <li><code>int gd_method</code> which updating formula to use; see the details section below.</li>
+    <li><code>gd_settings_t gd_settings</code> a structure containing options for the available GD algorithms; see the details section below.</li>
+</ul>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
+
+<p>Let $x^{(i)}$ denote the values at stage $i$ of the algorithm, and define $f^{(i)} := f (x^{(i)})$. The Gradient Descent (GD) updating rule is:</p>
+$$x^{(i+1)} = x^{(i)} - d^{(i)}$$
+<p>where the descent direction $d^{(i)}$ is computed in one of the serval ways described below, depending on the choice of <code>gd_method</code>.</p>
+<ul>
+    <li><code>gd_method = 0</code>: Basic GD</li>
+        $$d^{(i)} = \alpha \times \nabla f^{(i)}$$
+        where $\alpha$, the step size (also known the <strong>learning rate</strong>), is set by <code>step_size</code>.
+    <li><code>gd_method = 1</code>: GD with <strong>Momentum</strong></li>
+        $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f^{(i)}$$
+        where $\mu$ (the momentum paramter) is set by <code>momentum_par</code>.
+    <li><code>gd_method = 2</code>: Nesterov accelerated gradient (<strong>NAG</strong>)</li>
+        $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f( x^{(i)} -  \mu \times d^{(i-1)})$$
+    <li><code>gd_method = 3</code>: <strong>AdaGrad</strong></li>
+        $$v^{(i)} = v^{(i-1)} + \nabla f^{(i)} \odot \nabla f^{(i)}$$
+        $$d^{(i)} = \nabla f^{(i)} / ( \sqrt{v^{(i)}} + \epsilon) $$
+        where $v^{(0)} = \mathbf{0}$; $\odot$ denotes the Hadamard (element-by-element) product; and $\epsilon$ is a small normaliation term, set by <code>norm_term</code>.
+    <li><code>gd_method = 4</code>: <strong>RMSProp</strong></li>
+        $$v^{(i)} = \rho \times v^{(i-1)} + (1-\rho) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
+        $$d^{(i)} = \nabla f^{(i)} / ( \sqrt{v^{(i)}} + \epsilon) $$
+        where $\rho$ is set by <code>ada_rho</code>.
+    <li><code>gd_method = 5</code>: <strong>AdaDelta</strong></li>
+        $$v^{(i)} = \rho \times v^{(i-1)} + (1-\rho) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
+        $$d^{(i)} = \nabla f^{(i)} \dfrac{\sqrt{m^{(i)}} + \epsilon}{\sqrt{v^{(i)}} + \epsilon} $$
+        $$m^{(i+1)} = \rho \times m^{(i)} + (1-\rho) \times d^{(i)} \odot d^{(i)}$$
+        where $m^{(0)} = \alpha$.
+    <li><code>gd_method = 6</code>: <strong>Adam</strong> (Adpative Moment Estimation) and <strong>AdaMax</strong></li>
+        $$m^{(i+1)} = \beta_1 \times m^{(i)} + (1-\beta_1) \times \nabla f^{(i)}$$
+        $$v^{(i)} = \beta_2 \times v^{(i-1)} + (1-\beta_2) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
+        $$\hat{m} = \dfrac{m^{(i)}}{1 - \beta_1^i}, \ \ \hat{v} = \dfrac{v^{(i)}}{1 - \beta_2^i}$$
+        where $m^{(0)} = \mathbf{0}$. Then
+        $$d^{(i)} = \alpha \times \dfrac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}$$
+        
+        <ul>
+            <li>If <code>ada_max = true</code>, then the updating rule for $v^{(i)}$ is no longer based on the $L_2$ norm; instead:</li>
+            $$
+                v^{(i)} = \max \left\{ \beta_2 \times v^{(i-1)}, |\nabla f^{(i)}| \right\}
+            $$
+            and
+            $$d^{(i)} = \alpha \times \dfrac{\hat{m}}{v^{(i)}+ \epsilon}$$
+        </ul>
+    <li><code>gd_method = 7</code>: <strong>Nadam</strong> and <strong>NadaMax</strong></li>
+        $$m^{(i+1)} = \beta_1 \times m^{(i)} + (1-\beta_1) \times \nabla f^{(i)}$$
+        $$v^{(i)} = \beta_2 \times v^{(i-1)} + (1-\beta_2) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
+        $$\hat{m} = \dfrac{m^{(i)}}{1 - \beta_1^i}, \ \ \hat{v} = \dfrac{v^{(i)}}{1 - \beta_2^i}, \ \ \hat{g} = \dfrac{\nabla f^{(i)}}{1 - \beta_1^i}$$
+
+        $$d^{(i)} = \alpha \times \nabla f^{(i)} \odot \dfrac{\beta_1 \hat{m} + (1 - \beta_1) \hat{g}}{\sqrt{v^{(i)}} + \epsilon} $$
+        <ul>
+            <li>If <code>ada_max = true</code>, then the updating rule for $v^{(i)}$ is no longer based on the $L_2$ norm; instead:</li>
+            $$
+                v^{(i)} = \max \left\{ \beta_2 \times v^{(i-1)}, |\nabla f^{(i)}| \right\}
+            $$
+            and
+            $$d^{(i)} = \alpha \times \nabla f^{(i)} \odot \dfrac{\beta_1 \hat{m} + (1 - \beta_1) \hat{g}}{v^{(i)} + \epsilon} $$
+        </ul>
+</ul>
+
+<p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
+
+As an example, consider maximum likelihood estimation of a logit model, common in statistics and machine learning. In this case we have closed-form expressions for the gradient and hessian. We will compare Adam (Adaptive Moment Estimation) to a pure Newton-based algorithm.
+
+<br>
+
+<br>
+
+<pre class="brush: cpp;">
+#include "optim.hpp"
+
+// sigmoid function
+
+inline
+arma::mat sigm(const arma::mat& X)
+{
+    return 1.0 / (1.0 + arma::exp(-X));
+}
+
+// log-likelihood function data
+
+struct ll_data_t
+{
+    arma::vec Y;
+    arma::mat X;
+};
+
+// log-likelihood function with hessian
+
+double ll_fn_whess(const arma::vec& vals_inp, arma::vec* grad_out, arma::mat* hess_out, void* opt_data)
+{
+    ll_data_t* objfn_data = reinterpret_cast&lt;ll_data_t*&gt;(opt_data);
+
+    arma::vec Y = objfn_data->Y;
+    arma::mat X = objfn_data->X;
+
+    arma::vec mu = sigm(X*vals_inp);
+
+    const double norm_term = static_cast&lt;double&gt;(Y.n_elem);
+
+    const double obj_val = - arma::accu( Y%arma::log(mu) + (1.0-Y)%arma::log(1.0-mu) ) / norm_term;
+
+    //
+
+    if (grad_out)
+    {
+        *grad_out = X.t() * (mu - Y) / norm_term;
+    }
+
+    //
+
+    if (hess_out)
+    {
+        arma::mat S = arma::diagmat( mu%(1.0-mu) );
+        *hess_out = X.t() * S * X / norm_term;
+    }
+
+    //
+
+    return obj_val;
+}
+
+// log-likelihood function for Adam
+
+double ll_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+{
+    return ll_fn_whess(vals_inp,grad_out,nullptr,opt_data);
+}
+
+//
+
+int main()
+{
+    int n_dim = 5;     // dimension of parameter vector
+    int n_samp = 4000; // sample length
+
+    arma::mat X = arma::randn(n_samp,n_dim);
+    arma::vec theta_0 = 1.0 + 3.0*arma::randu(n_dim,1);
+
+    arma::vec mu = sigm(X*theta_0);
+
+    arma::vec Y(n_samp);
+
+    for (int i=0; i < n_samp; i++)
+    {
+        Y(i) = ( arma::as_scalar(arma::randu(1)) < mu(i) ) ? 1.0 : 0.0;
+    }
+
+    // fn data and initial values
+
+    ll_data_t opt_data;
+    opt_data.Y = std::move(Y);
+    opt_data.X = std::move(X);
+
+    arma::vec x = arma::ones(n_dim,1) + 1.0; // initial values
+
+    // run Adam-based optim
+
+    optim::algo_settings_t settings;
+
+    settings.gd_method = 6;
+    settings.gd_settings.step_size = 0.1;
+ 
+    bool success = optim::gd(x,ll_fn,&opt_data,settings);
+ 
+    arma::cout << "\nAdam: true values vs estimates:\n" << arma::join_rows(theta_0,x) << arma::endl;
+
+    //
+    // run Newton-based optim
+
+    x = arma::ones(n_dim,1) + 1.0; // initial values
+ 
+    success = optim::newton(x,ll_fn_whess,&opt_data);
+ 
+    arma::cout << "\nnewton: true values vs estimates:\n" << arma::join_rows(theta_0,x) << arma::endl;
+
+    //
+ 
+    return 0;
+}
+</pre>
+Solution with timings:
+<pre class="brush: text;">
+Adam: logit_reg test completed successfully.
+elapsed time: 0.025128s
+
+Adam: true values vs estimates:
+   2.7850   2.6993
+   3.6561   3.6798
+   2.3379   2.3860
+   2.3167   2.4313
+   2.2465   2.3064
+
+newton: logit_reg test completed successfully.
+elapsed time: 0.255909s
+
+newton: true values vs estimates:
+   2.7850   2.6993
+   3.6561   3.6798
+   2.3379   2.3860
+   2.3167   2.4313
+   2.2465   2.3064
+}</pre>
+
+    </div>
+
+    <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

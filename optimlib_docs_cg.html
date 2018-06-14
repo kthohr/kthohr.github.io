@@ -148,26 +148,26 @@ $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
 <p>The Nonlinear CG method is known to perform better with periodic restarting (setting $\beta = 0$). In OptimLib, this occurs when</p>
 $$\dfrac{|\nabla f_i \cdot \nabla f_{i-1}|}{\nabla f_{i} \cdot \nabla f_{i}} > \nu$$
 
-<p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+<p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
 <hr>
 <h3 style="text-align: left;"><strong style="font-size: 80%;">Updating Formula:</strong></h3>
 <ul>
-    <li> Fletcher–Reeves (<code>method_cg = 1</code>):</li>
+    <li> Fletcher–Reeves (<code>cg_method = 1</code>):</li>
         $$\beta_{\text{FR}} = \dfrac{\nabla f_i \cdot \nabla f_i}{\nabla f_{i-1} \cdot \nabla f_{i-1}}$$
-    <li> Polak-Ribiere (PR) '+' (<code>method_cg = 2</code>):</li>
+    <li> Polak-Ribiere (PR) '+' (<code>cg_method = 2</code>):</li>
         $$\beta_{\text{PR+}} = \max \left\{ 0 , \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{\nabla f_{i-1} \cdot \nabla f_{i-1}} \right\}$$
-    <li> FR-PR Hybrid: (<code>method_cg = 3</code>):</li>
+    <li> FR-PR Hybrid: (<code>cg_method = 3</code>):</li>
     <ul>
         <li>If $\beta_{\text{PR}} < - \beta_{\text{FR}}$, set $\beta = - \beta_{\text{FR}}$</li>
         <li>If $|\beta_{\text{PR}}| < \beta_{\text{FR}}$, set $\beta = \beta_{\text{PR}}$</li>
         <li>If $\beta_{\text{PR}} > \beta_{\text{FR}}$, set $\beta = \beta_{\text{FR}}$</li>
     </ul>
-    <li> Hestenes-Stiefel: (<code>method_cg = 4</code>):</li>
+    <li> Hestenes-Stiefel: (<code>cg_method = 4</code>):</li>
         $$\beta_{\text{HS}} = \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
-    <li> Dai-Yuan: (<code>method_cg = 5</code>):</li>
+    <li> Dai-Yuan: (<code>cg_method = 5</code>):</li>
         $$\beta_{\text{DY}} = \dfrac{\nabla f_i \cdot \nabla f_i}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
-    <li> Hager-Zhang: (<code>method_cg = 6</code>):</li>
+    <li> Hager-Zhang: (<code>cg_method = 6</code>):</li>
         $$\beta_{\text{HZ}} = \left( y - 2 \times \dfrac{y \cdot y}{y \cdot d} \times d \right) \cdot \dfrac{\nabla f_i}{y \cdot d}, \ \ \ y := \nabla f_i - \nabla f_{i-1}$$
 </ul>
 

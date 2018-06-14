@@ -171,7 +171,7 @@ As in the standard BFGS algorithm, <p>$\alpha_i$ is found via line search:</p>
 $$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
 <p>The line search method used is that of More and Thuente (1994).</p>
 
-<p>The algorithm stops when $\| \nabla f \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+<p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 

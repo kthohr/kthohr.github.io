@@ -110,9 +110,31 @@ pre {
     <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
+<p><strong>Coverage:</strong></p>
+<ul>
+    <li>basic C++ standard library functions:</li>
+    <ul>
+        <li><code>abs</code>, <code>exp</code>, <code>log</code>, <code>max</code>, <code>min</code>, <code>pow</code>, <code>sqrt</code></li>
+    </ul>
+    <li>trigonometric functions:</li>
+    <ul>
+        <li>basic: <code>cos</code>, <code>sin</code>, <code>tan</code></li>
+        <li>inverse: <code>acos</code>, <code>asin</code>, <code>atan</code></li>
+        <li>hyperbolic (area) functions: <code>cosh</code>, <code>sinh</code>, <code>tanh</code>, <code>acosh</code>, <code>asinh</code>, <code>atanh</code></li>
+    </ul>
+    <li>special functions:</li>
+    <ul>
+        <li>factorials and the binomial coefficient: <code>factorial</code>, <code>binomial_coef</code></li>
+        <li>beta and gamma functions: <code>beta</code>, <code>lbeta</code>, <code>lgamma</code>, <code>tgamma</code></li>
+        <li>the Gaussian error function and inverse error function: <code>erf</code>, <code>erf_inv</code></li>
+        <li>(regularized) incomplete beta and incomplete gamma functions: <code>incomplete_beta</code>, <code>incomplete_gamma</code></li>
+        <li>inverse incomplete beta and incomplete gamma functions: <code>incomplete_beta_inv</code>, <code>incomplete_gamma_inv</code></li>
+    </ul>
+</ul>
+
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: GCE-Math is licensed under the Apache License, Version 2.0.</p>
+<p><strong>License</strong>: Apache License, version 2.0.</p>
 
 <!--  -->
 
@@ -121,18 +143,27 @@ pre {
 <h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
 
 <ul>
+    <li>GCE-Math is a <strong>header-only library</strong>. Simply include the gcem header files with your project.</li>
     <li>The source code is available on <a href="https://github.com/kthohr/gcem" target="_blank">GitHub</a>.</li>
-    <li>GCE-Math is a header-only library. Simply include the gcem header files with your project.</li>
+    <pre class="brush: bash;">
+    git clone -b master --single-branch https://github.com/kthohr/gcem ./gcem</pre>
 </ul>
 
-<p>To build the test files:</p>
-<pre class="brush: bash;">
-# clone gcem
-git clone -b master --single-branch https://github.com/kthohr/gcem ./gcem
-# compile tests
-cd ./gcem/tests
-make
-./run_tests</pre>
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Syntax</strong></h3>
+
+GCE-Math functions are written as C++ templates with <code>constexpr</code> specifiers, the format of which might be confusing to users unfamiliar with template-based programming. For example, the <a href="https://en.wikipedia.org/wiki/Error_function" target="_blank">Gaussian error function</a> (<code>erf</code>) is defined as:
+
+<pre class="brush: cpp;">
+template&lt;typename T&gt;
+constexpr
+return_t&lt;T&gt;
+erf(const T x);</pre>
+
+where a set of internal templated <code>constexpr</code> functions will implement a continued fraction expansion to return a value of type <code>return_t&lt;T&gt;</code>. This output type ('<code>return_t&lt;T&gt;</code>') is generally determined by the input type, e.g., <code>int</code>, <code>float</code>, <code>double</code>, <code>long double</code>, etc. When <code>T</code> is an intergral type, the output will be upgraded to <code>return_t&lt;T&gt; = double</code>, otherwise <code>return_t&lt;T&gt; = T</code>. For types not covered by <code>std::is_integral</code>, recasts should be used.
 
 <!--  -->
 
@@ -174,6 +205,14 @@ Lcfi2:
 }</pre>
 We see that a function call has been replaced by a numeric value (10! = 3628800).
 
+<p>To build and run the full test suite:</p>
+<pre class="brush: bash;">
+# clone gcem
+git clone -b master --single-branch https://github.com/kthohr/gcem ./gcem
+# compile tests
+cd ./gcem/tests
+make
+./run_tests</pre>
 
     </div>
 
