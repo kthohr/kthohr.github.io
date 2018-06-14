@@ -169,7 +169,7 @@ $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
         $$m^{(i+1)} = \beta_1 \times m^{(i)} + (1-\beta_1) \times \nabla f^{(i)}$$
         $$v^{(i)} = \beta_2 \times v^{(i-1)} + (1-\beta_2) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
         $$\hat{m} = \dfrac{m^{(i)}}{1 - \beta_1^i}, \ \ \hat{v} = \dfrac{v^{(i)}}{1 - \beta_2^i}$$
-        where $m^{(0)} = \mathbf{0}$. Then
+        where $m^{(0)} = \mathbf{0}$, and $\beta_1$ and $\beta_2$ are set by <code>adam_beta_1</code> and <code>adam_beta_2</code>, respecively. Then
         $$d^{(i)} = \alpha \times \dfrac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}$$
         
         <ul>
