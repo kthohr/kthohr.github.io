@@ -99,17 +99,23 @@
     <li>C++11 implementations of several well-known MCMC methods, including:
         <ul>
             <li>Random Walk Metropolis-Hastings (RWMH);</li>
+            <li>Metropolis-adjusted Langevin algorithm (MALA);</li>
             <li>Hamiltonian Monte Carlo (HMC); and</li>
-            <li>Metropolis-adjusted Langevin algorithm (MALA).</li>
+            <li>Riemannian Manifold HMC.</li>
         </ul>
     </li>
-    <li>Support for multi-modal distributions via Equi-Energy sampling and a parallelized implementation of the Differential Evolution (DE) algorithm.</li>
+    <li>Samplers designed for multi-modal distributions:</li>
+        <ul>
+            <li>Equi-Energy sampling; and</li>
+            <li>Differential Evolution</li>
+        </ul>
     <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix computation.</li>
+    <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: MCMCLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><strong>License</strong>: Apache License, version 2.0.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -118,25 +124,36 @@
     <li>The source code is available on <a href="https://github.com/kthohr/mcmc" target="_blank">GitHub</a>.</li>
 </ul>
 
-<p>MCMCLib can be installed in the standard way:</p>
+<p>The library can be installed on Unix-alike systems via the standard <code>./configure && make</code> method:</p>
 <pre class="brush: bash;">
-# clone mcmc
-git clone -b master --single-branch https://github.com/kthohr/mcmc ./mcmc
+# clone MCMCLib into the current directory
+git clone https://github.com/kthohr/mcmc ./mcmc
 # build and install
 cd ./mcmc
-./configure
+./configure -i "/usr/local" -p
 make
 make install</pre>
-<p>The last line will install MCMCLib into <samp>/usr/local</sampe></p>
+<p>The last line will install MCMCLib to <samp>/usr/local</sampe></p>
 
-<p>Configure options:</p>
+<p>Configuration options: (see <code>./configure -h</code>)</p>
 <ul>
-    <li><code>-b dev</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
     <li><code>-c</code> a coverage build</li>
+    <li><code>-d</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
+    <li><code>-g</code> a debugging build</li>
+    <li><code>-h</code> print help</li>
+    <li><code>-i</code> install path; default: build directory.</li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
-    <li><code>-o</code> enable aggressive compiler optimization features: <code>-o fast</code> or <code>-o native</code></li>
-    <li><code>-p</code> enable parallelization features (using OpenMP)</li>
+    <li><code>-o</code> compiler optimization options; defaults to <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
+    <li><code>-p</code> enable OpenMP parallelization features (recommended)</li>
 </ul>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Armadillo</strong></h3>
+
+MCMCLib is built on the Armadillo C++ linear algebra library. The <code>configure</code> script will search for Armadillo files in the usual places: <code>/usr/include</code>, <code>/usr/local/include</code>, <code>/opt/include</code>, <code>/opt/local/include</code>. If the Armadillo header files are installed elsewhere, set the following environment variable <strong>before</strong> running <code>configure</code>:
+<pre class="brush: bash;">
+export ARMA_INCLUDE_PATH=/path/to/armadillo</pre>
+
+Otherwise the build script will download the required files from the Armadillo GitLab repository.
 
     </div>
 
