@@ -149,7 +149,7 @@ $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
         where $\alpha$, the step size (also known the <strong>learning rate</strong>), is set by <code>step_size</code>.
     <li><code>gd_method = 1</code>: GD with <strong>Momentum</strong></li>
         $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f^{(i)}$$
-        where $\mu$ (the momentum paramter) is set by <code>momentum_par</code>.
+        where $\mu$ (the momentum parameter) is set by <code>momentum_par</code>.
     <li><code>gd_method = 2</code>: Nesterov accelerated gradient (<strong>NAG</strong>)</li>
         $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f( x^{(i)} -  \mu \times d^{(i-1)})$$
     <li><code>gd_method = 3</code>: <strong>AdaGrad</strong></li>
@@ -165,7 +165,7 @@ $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
         $$d^{(i)} = \nabla f^{(i)} \dfrac{\sqrt{m^{(i)}} + \epsilon}{\sqrt{v^{(i)}} + \epsilon} $$
         $$m^{(i+1)} = \rho \times m^{(i)} + (1-\rho) \times d^{(i)} \odot d^{(i)}$$
         where $m^{(0)} = \alpha$.
-    <li><code>gd_method = 6</code>: <strong>Adam</strong> (Adpative Moment Estimation) and <strong>AdaMax</strong></li>
+    <li><code>gd_method = 6</code>: <strong>Adam</strong> (Adaptive Moment Estimation) and <strong>AdaMax</strong></li>
         $$m^{(i+1)} = \beta_1 \times m^{(i)} + (1-\beta_1) \times \nabla f^{(i)}$$
         $$v^{(i)} = \beta_2 \times v^{(i-1)} + (1-\beta_2) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
         $$\hat{m} = \dfrac{m^{(i)}}{1 - \beta_1^i}, \ \ \hat{v} = \dfrac{v^{(i)}}{1 - \beta_2^i}$$
