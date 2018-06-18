@@ -189,13 +189,15 @@ make install</pre>
 <p>Configuration options: (see <code>./configure -h</code>)</p>
 <ul>
     <li><code>-c</code> a coverage build</li>
-    <li><code>-d</code> a 'development' build with install names set to the build directory (as opposed to an install path)</li>
-    <li><code>-g</code> a debugging build</li>
+    <li><code>-d</code> a 'development' build</li>
+    <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
     <li><code>-h</code> print help</li>
-    <li><code>-i</code> install path; default: build directory.</li>
-    <li><code>-m</code> specify the BLAS and Lapack libraries to link against; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
-    <li><code>-o</code> compiler optimization options; defaults to <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
-    <li><code>-p</code> enable OpenMP parallelization features (recommended)</li>
+    <li><code>-i</code> install path; default: the build directory</li>
+    <li><code>-m</code> specify the BLAS and Lapack libraries to link against;
+    <br> &nbsp &nbsp &nbsp &nbsp examples: <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
+    <li><code>-o</code> compiler optimization options;
+    <br> &nbsp &nbsp &nbsp &nbsp default: <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
+    <li><code>-p</code> enable OpenMP parallelization features (<strong>recommended</strong>)</li>
 </ul>
 
 <hr>
