@@ -84,7 +84,8 @@ pre {
 <br>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">MCMC: Hamiltonian Monte Carlo</strong></h4></a>
@@ -100,6 +101,12 @@ pre {
     </div>
 </div>
 
+<!--  -->
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
 <p>MCMC via Hamiltonian dynamics.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -112,12 +119,12 @@ bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;d
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>initial_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
-    <li><code>draws_out</code> a two-dimensional array containing posterior draws.</li>
-    <li><code>target_log_kernel</code> the posterior kernel function, taking three arguments: 
+    <li><code>initial_vals</code> a column vector of initial values.</li>
+    <li><code>draws_out</code> a two-dimensional array containing the posterior draws.</li>
+    <li><code>target_log_kernel</code> the target log-posterior kernel function, taking three arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of input values;</li>
-            <li><code>grad_out</code> a vector to store the gradient; and</li>
+            <li><code>grad_out</code> a vector to store the gradient values; and</li>
             <li><code>target_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>target_data</code> additional parameters passed to the posterior kernel.</li>
@@ -142,7 +149,7 @@ bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;d
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic HMC algorithm is as follows.</p>
+<p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic HMC algorithm consists of three steps.</p>
 <ul>
     <li><strong>Initializaton.</strong> Sample $p^{(i)} \sim N(0,\mathbf{M})$, and set $\theta^{(*)} = \theta^{(i)}$ and $p^{(*)} = p^{(i)}$.
     <li><strong>Leapfrog Steps.</strong> For $k = 1, \ldots,$ <code>hmc_leap_steps</code> do
@@ -257,6 +264,8 @@ bool hmc(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;d
 }
 </pre>
 
+    </div>
+    </div>
     </div>
 
     <div id="myfooter"></div>

@@ -84,7 +84,8 @@ pre {
 <br>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">MCMC: Random Walk Metropolis-Hastings</strong></h4></a>
@@ -100,6 +101,12 @@ pre {
     </div>
 </div>
 
+<!--  -->
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
 <p>Posterior simulation via a random walk.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -112,9 +119,9 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>initial_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
-    <li><code>draws_out</code> a two-dimensional array containing posterior draws.</li>
-    <li><code>target_log_kernel</code> the posterior kernel function, taking two arguments: 
+    <li><code>initial_vals</code> a column vector of initial values.</li>
+    <li><code>draws_out</code> a two-dimensional array containing the posterior draws.</li>
+    <li><code>target_log_kernel</code> the target log-posterior kernel function, taking two arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of input values; and</li>
             <!-- <li><code>grad_out</code> an empty vector, as DE does not require the gradient to be known/exist; and</li> -->
@@ -143,7 +150,7 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 
 <p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic RWMH algorithm is comprised of two steps.</p>
 <ul>
-    <li><strong>Proposal Step.</strong>
+    <li><strong>Proposal Step.</strong> Generate a proposal draw:
         $$\theta^* = \theta^{(i)} + c \Sigma^{1/2} W$$
         where $c$ is determined by <code>rwmh_par_scale</code>, $\Sigma$ is determined by <code>rwmh_cov_mat</code>, and $W \sim N(0,I_d)$.</li>
     <li><strong>Accept/Reject Step.</strong> Let
@@ -236,6 +243,8 @@ int main()
 }
 </pre>
 
+    </div>
+    </div>
     </div>
 
     <div id="myfooter"></div>
