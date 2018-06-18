@@ -99,7 +99,7 @@
         <a href="#Prelim">Preliminaries</a> <br>
         <a href="#DL">Download and Unpack</a> <br>
         <a href="#Config">Configure</a> <br>
-        <a href="#ConfigOpt">Alt Configure: Aggressive Optimization</a> <br>
+        <a href="#ConfigOpt">Alt Configure: Optimization and OpenMP</a> <br>
         <a href="#BLASLapack">BLAS/Lapack</a> <br>
         <a href="#Build">Build and Install</a> <br>
         <a href="#Call">Calling R-devel</a>
@@ -115,7 +115,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
 
-<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X), with an emphasis on non-standard build configurations that can significantly improve computing times versus the standard R build.</p>
+<p>This page describes the steps involved in compiling R-devel on a Mac operating system (macOS, formerly known as OS X), with an emphasis on non-standard build configurations that can significantly improve computing times versus a standard build.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -229,7 +229,7 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/
 
 <hr>
 
-<h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: More Aggressive Optimization and OpenMP</strong></h3>
+<h3 style="text-align: left;" id="ConfigOpt"><strong style="font-size: 120%;">Alternative Configure: Optimization and OpenMP</strong></h3>
 
 <p>It is possible to use an updated version of gfortran while also enabling architecture-specific optimizations such as <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions" target="_blank">Intel's AVX instructions</a>.</p>
 
@@ -354,6 +354,7 @@ alias sudo='sudo '</pre>
 export RSTUDIO_WHICH_R=/where/I/installed/to/bin/R
 open -n -a RStudio</pre>
 
+<hr>
 
     </div>
     </div>
