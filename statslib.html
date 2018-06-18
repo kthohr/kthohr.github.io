@@ -109,23 +109,33 @@ pre {
             <div class="col-md-8">
 
 <!-- <p>StatsLib is a templated C++ library for random variable generation and fast computation of statistical distribution functions.</p> -->
-<p>StatsLib is a templated C++ library for fast computation of statistical distribution functions.</p>
+<p>StatsLib is a templated C++ library of statistical distribution functions.</p>
 
 <hr>
 
 <p>Features</p>
 <ul>
-    <li>Compile-time (or run-time) evaluation of density functions, cumulative distribution functions, and quantile functions.
-    <li>Effective use of C++11 constexpr functions with the <a href="gcem.html" target="_blank">GCE-Math library</a>.</li>
-    <li>Clean <strong>R</strong>-like syntax.</li>
-    <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix-based computation.</li>
+    <li>A header-only library of probability density functions, cumulative distribution functions, quantile functions, and random sampling methods.</li>
+    <li>Functions are written in C++11 <code>constexpr</code> format.</li>
+    <ul>
+        <li>Built on the <a href="gcem.html" target="_blank">GCE-Math library</a>, StatsLib can operate as a compile-time or run-time computation engine.</li>
+    </ul>
+    <li>A simple, <strong>R</strong>-like syntax.</li>
+    <li>Optional vector-matrix functionality with wrappers to support several popular linear algebra libraries, including:</li>
+    <ul>
+        <li><a href="http://arma.sourceforge.net/" target="_blank">Armadillo</a></li>
+        <li><a href="https://bitbucket.org/blaze-lib/blaze" target="_blank">Blaze</a></li>
+        <li><a href="http://eigen.tuxfamily.org/index.php" target="_blank">Eigen</a></li>
+    </ul>
+    <li>Matrix-based operations are parallelizable with OpenMP.</li>
+    <li>Released under a permissive, non-GPL license.</li>
 </ul>
 
 <br>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: StatsLib is licensed under the Apache License, Version 2.0.</p>
+<p><strong>License</strong>: Apache License, Version 2.0.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -174,11 +184,16 @@ In addition, pdf and randomization functions are available for several multivari
     // evaluate the Laplacian quantile at p = 0.1, mu = 0, sigma = 1
     double qval_1 = stats::qlaplace(0.1,0.0,1.0)
 
-    // matrix input of beta-distributed random variables
+    // draw from a t-distribution with dof = 30
+    double rval = stats::rt(30);
+
+    // matrix output
     arma::mat beta_rvs = stats::rbeta&lt;arma::mat&gt;(100,100,3.0,2.0);
+    // matrix input
     arma::mat beta_cdf_vals = stats::pbeta(beta_rvs,3.0,2.0);
 </pre>
 
+<!--  -->
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -194,7 +209,141 @@ In addition, pdf and randomization functions are available for several multivari
 git clone -b master --single-branch https://github.com/kthohr/stats ./stats
 # compile tests
 cd ./stats/tests
-./cov_setup</pre>
+./setup
+cd dens
+./configure && make</pre>
+
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Compile-time Options</strong></h3>
+
+<p>Features</p>
+<ul>
+    <li>For inline-only functionality (i.e., no <code>constexpr</code> specifiers):</li>
+    <pre class="brush: c++;">
+    #define STATS_GO_INLINE</pre>
+    <li>OpenMP functionality is enabled by default if the <code>_OPENMP</code> macro is detected (e.g., by invoking <code>-fopenmp</code> with a GCC or Clang compiler). To explicitly enable OpenMP features use:</li>
+    <pre class="brush: c++;">
+    #define STATS_USE_OPENMP</pre>
+    <li>To disable OpenMP functionality:</li>
+    <pre class="brush: c++;">
+    #define STATS_DONT_USE_OPENMP</pre>
+    <li>To use StatsLib with the Armadillo, Blaze or Eigen libraries:</li>
+    <pre class="brush: c++;">
+    #define STATS_USE_ARMA
+    #define STATS_USE_BLAZE
+    #define STATS_USE_EIGEN</pre>
+</ul>
+
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Syntax and Additional Examples</strong></h3>
+
+<p>Functions are called using an R-like syntax. Some general rules:</p>
+<ul>
+    <li>density functions: <code>stats::d*</code>. For example, the Normal (Gaussian) density is called using</li>
+    <pre class="brush: c++;">
+    stats::dnorm(&lt;value&gt;,&lt;mean parameter&gt;,&lt;standard deviation&gt;);</pre>
+    <li>cumulative distribution functions: <code>stats::p*</code>. For example, the Gamma CDF is called using</li>
+    <pre class="brush: c++;">
+    stats::pgamma(&lt;value&gt;,&lt;shape parameter&gt;,&lt;scale deviation&gt;);</pre>
+    <li>quantile functions: <code>stats::q*</code>. For example, the Beta quantile is called using</li>
+    <pre class="brush: c++;">
+    stats::qbeta(&lt;value&gt;,&lt;a parameter&gt;,&lt;b deviation&gt;);</pre>
+    <li>random sampling: <code>stats::r*</code>. For example, to generate a single draw from the Logistic distribution:</li>
+    <pre class="brush: c++;">
+    stats::rlogis(&lt;location parameter&gt;,&lt;scale parameter&gt;,&lt;seed value or random number engine&gt;);</pre>
+</ul>
+
+<hr>
+
+All of these functions have matrix-based equivalents using Armadillo, Blaze, and Eigen dense matrices.
+
+<ul>
+    <li>The pdf, cdf, and quantile functions can take matrix-valued arguments. For example,</li>
+    <pre class="brush: c++;">
+    // Using Armadillo:
+    arma::mat norm_pdf_vals = stats::dnorm(arma::ones(10,20),1.0,2.0);</pre>
+    <li>The randomization functions (<code>r*</code>) can output random matrices of arbitrary size. For example,
+    <pre class="brush: c++;">
+    // Armadillo:
+    arma::mat gamma_rvs = stats::rgamma&lt;arma::mat&gt;(100,50,3.0,2.0);
+    // Blaze:
+    blaze::DynamicMatrix&lt;double&gt; gamma_rvs = stats::rgamma&lt;blaze::DynamicMatrix&lt;double&gt;&gt;(100,50,3.0,2.0);
+    // Eigen:
+    Eigen::MatrixXd gamma_rvs = stats::rgamma&lt;Eigen::MatrixXd&gt;(100,50,3.0,2.0);</pre>
+    will generate a 100-by-50 matrix of iid draws from a Gamma(3,2) distribution.</li>
+    <li>All matrix-based operations are parallelizable with OpenMP. For GCC and Clang compilers, simply include the <code>-fopenmp</code> option during compilation.</li>
+</ul>
+
+<hr>
+
+Random number seeding is available in two forms: seed values or random number engines (preferred).
+
+<ul>
+    <li>Seed values are passed as unsigned integers. For example, to generate a draw from a normal distribution N(1,2) with seed value 1776:</li>
+    <pre class="brush: c++;">
+    stats::rnorm(1,2,1776);</pre>
+    <li>Random engines in StatsLib use the 64-bit Mersenne-Twister generator (std::mt19937_64) and are passed by reference. Example:</li>
+    <pre class="brush: c++;">
+    std::mt19937_64 engine(1776);
+    stats::rnorm(1,2,engine);</pre>
+</ul>
+
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;"><strong style="font-size: 95%;">Compile-time Computation</strong></h3>
+
+In addition to being a standard run-time library, StatsLib can operate as a compile-time computation engine. Compile-time features are enabled using the <code>constexpr</code> specifier:
+
+<pre class="brush: c++;">
+#include "stats.hpp"
+
+int main()
+{
+    
+    constexpr double dens_1  = stats::dlaplace(1.0,1.0,2.0); // answer = 0.25
+    constexpr double prob_1  = stats::plaplace(1.0,1.0,2.0); // answer = 0.5
+    constexpr double quant_1 = stats::qlaplace(0.1,1.0,2.0); // answer = -2.218875...
+
+    return 0;
+}
+</pre>
+
+Assembly code generated by Clang:
+
+<pre class="brush: text;">
+LCPI0_0:
+	.quad	-4611193153885729483    ## double -2.2188758248682015
+LCPI0_1:
+	.quad	4602678819172646912     ## double 0.5
+LCPI0_2:
+	.quad	4598175219545276417     ## double 0.25000000000000006
+	.section	__TEXT,__text,regular,pure_instructions
+	.globl	_main
+	.p2align	4, 0x90
+_main:                                  ## @main
+	push	rbp
+	mov	rbp, rsp
+	xor	eax, eax
+	movsd	xmm0, qword ptr [rip + LCPI0_0] ## xmm0 = mem[0],zero
+	movsd	xmm1, qword ptr [rip + LCPI0_1] ## xmm1 = mem[0],zero
+	movsd	xmm2, qword ptr [rip + LCPI0_2] ## xmm2 = mem[0],zero
+	mov	dword ptr [rbp - 4], 0
+	movsd	qword ptr [rbp - 16], xmm2
+	movsd	qword ptr [rbp - 24], xmm1
+	movsd	qword ptr [rbp - 32], xmm0
+	pop	rbp
+	ret
+</pre>
+
+<hr>
 
     </div>
     </div>
