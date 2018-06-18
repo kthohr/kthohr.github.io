@@ -109,7 +109,7 @@ pre {
     <div class="col-md-2"></div>
     <div class="col-md-8">
 
-<p>The Gradient Descent (GD) method and its many varieties.</p>
+<p>The many shades of Gradient Descent (GD).</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -151,7 +151,7 @@ bool gd(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <p>Let $x^{(i)}$ denote the values at stage $i$ of the algorithm, and define $f^{(i)} := f (x^{(i)})$. The Gradient Descent (GD) updating rule is:</p>
 $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
-<p>where the descent direction $d^{(i)}$ is computed in one of the serval ways described below, depending on the choice of <code>gd_method</code>.</p>
+<p>where the descent direction $d^{(i)}$ is computed using one of several approaches described below, depending upon the choice of <code>gd_method</code>.</p>
 <ul>
     <li><code>gd_method = 0</code>: Basic GD</li>
         $$d^{(i)} = \alpha \times \nabla f^{(i)}$$
@@ -159,7 +159,7 @@ $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
     <li><code>gd_method = 1</code>: GD with <strong>Momentum</strong></li>
         $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f^{(i)}$$
         where $\mu$ (the momentum parameter) is set by <code>momentum_par</code>.
-    <li><code>gd_method = 2</code>: Nesterov accelerated gradient (<strong>NAG</strong>)</li>
+    <li><code>gd_method = 2</code>: Nesterov accelerated gradient descent (<strong>NAG</strong>)</li>
         $$d^{(i)} = \mu \times d^{(i-1)} + \alpha \times \nabla f( x^{(i)} -  \mu \times d^{(i-1)})$$
     <li><code>gd_method = 3</code>: <strong>AdaGrad</strong></li>
         $$v^{(i)} = v^{(i-1)} + \nabla f^{(i)} \odot \nabla f^{(i)}$$
@@ -178,7 +178,7 @@ $$x^{(i+1)} = x^{(i)} - d^{(i)}$$
         $$m^{(i+1)} = \beta_1 \times m^{(i)} + (1-\beta_1) \times \nabla f^{(i)}$$
         $$v^{(i)} = \beta_2 \times v^{(i-1)} + (1-\beta_2) \times \nabla f^{(i)} \odot \nabla f^{(i)}$$
         $$\hat{m} = \dfrac{m^{(i)}}{1 - \beta_1^i}, \ \ \hat{v} = \dfrac{v^{(i)}}{1 - \beta_2^i}$$
-        where $m^{(0)} = \mathbf{0}$, and $\beta_1$ and $\beta_2$ are set by <code>adam_beta_1</code> and <code>adam_beta_2</code>, respecively. Then
+        where $m^{(0)} = \mathbf{0}$, and $\beta_1$ and $\beta_2$ are set by <code>adam_beta_1</code> and <code>adam_beta_2</code>, respectively. Then
         $$d^{(i)} = \alpha \times \dfrac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}$$
         
         <ul>
