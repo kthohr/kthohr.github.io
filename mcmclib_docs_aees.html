@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>MCMC: RWMH</title>
+    <title>MCMC: AEES</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -85,10 +85,10 @@ pre {
 
 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">MCMC: Random Walk Metropolis-Hastings</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">MCMC: Adaptive Equi-Energy Sampler</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -107,15 +107,15 @@ pre {
     <div class="col-md-2"></div>
     <div class="col-md-8">
 
-<p>Posterior simulation via a random walk.</p>
+<p>MCMC via adaptive parallel tempering.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
 <h3 style="text-align: left;" id="definition"><strong style="font-size: 100%;">Definition and Syntax</strong></h3>
 
 <pre class="brush: cpp;">
-bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data);
-bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data, algo_settings& settings);
+bool aees(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data);
+bool aees(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data, algo_settings& settings);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -124,7 +124,6 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
     <li><code>target_log_kernel</code> the target log-posterior kernel function, taking two arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of input values; and</li>
-            <!-- <li><code>grad_out</code> an empty vector, as DE does not require the gradient to be known/exist; and</li> -->
             <li><code>target_data</code> additional parameters passed to the function.</li>
         </ul>
     <li><code>target_data</code> additional parameters passed to the posterior kernel.</li>
@@ -138,8 +137,12 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
         <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
         <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
     </ul>
-    <li><code>int rwmh_n_draws</code> number of posterior draws to keep.</li>
-    <li><code>int rwmh_n_burnin</code> number of burnin draws.</li>
+    <li><code>int aees_n_initial_draws</code> number of initial draws.</li>
+    <li><code>int aees_n_draws</code> number of posterior draws to keep.</li>
+    <li><code>int aees_n_burnin</code> number of burnin draws.</li>
+    <li><code>int aees_n_rings</code> number of energy rings.</li>
+    <li><code>double aees_prob_par</code> probability parameter controlling the frequency of equi-energy moves versus local Metropolis-Hastings moves. Larger value means more equi-energy moves.</li>
+    <li><code>arma::vec aees_temper_vec</code> $K$-dimensional vector of temperature values.</li>
     <li><code>double rwmh_par_scale</code> scaling parameter for the proposal covariance matrix <code>rwmh_cov_mat</code>.</li>
     <li><code>arma::mat rwmh_cov_mat</code> covariance matrix of the random walk proposals.</li>
 </ul>
@@ -148,16 +151,38 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $\theta^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm. The basic RWMH algorithm is comprised of two steps.</p>
+<p>See Kou, Zhou, Wong (2006) for the standard equi-energy sampler, and Schreck, Fort, Moulines (2013) for the adaptive version presented here.</p>
+
+<hr>
+
+<p>Let $\theta_k^{(i)}$ denote a $d$-dimensional vector of stored values at stage $i$ of the algorithm, drawn from target distribution $\pi_k$, where $k \in \{ 0, 1, \ldots, K \}$. We will use the following notation to define a tempered target distribution:</p>
+$$\pi_k (\theta) \propto \exp( - H(\theta | X) / T_k)$$
+<p>where $T_0 = 1$ and $H$ is the energy function (the negative of the log-posterior kernel function). $\pi$ without a subscript refers to the intended target distribution: $\pi_0$.</p>
+
+<br>
+<p>The algorithm is as follows</p>
 <ul>
-    <li><strong>Proposal Step.</strong> Generate a proposal draw:
-        $$\theta^{(*)} = \theta^{(i)} + c \Sigma^{1/2} W$$
-        where $c$ is determined by <code>rwmh_par_scale</code>, $\Sigma$ is determined by <code>rwmh_cov_mat</code>, and $W \sim N(0,I_d)$.</li>
-    <li><strong>Accept/Reject Step.</strong> Let
-        $$\alpha = \min \left\{ 1, K(\theta^{(*)} | X) / K(\theta^{(i)} | X) \right\}$$
-        where $K$ is the posterior kernel. Then
-        $$\theta^{(i+1)} = \begin{cases} \theta^{(*)} & \text{ if } Z < \alpha \\ \theta^{(i)} & \text{ else } \end{cases}$$
-        where $Z \sim \text{Unif}(0,1)$.</li>
+    <li>Sample $\theta_K^{(i+1)} \sim \pi_K$ using Metropolis-Hastings</li>
+    <li><strong>for</strong> $k \in \{ K-1, K-2, \ldots, 0 \}$ <strong>do</strong>: <br> if $i > (K-k) \times ($<code>aees_n_initial_draws</code> $+$ <code>aees_n_burnin</code>$)$</li>
+    <ul>
+        <li>sample $z \sim U(0,1)$</li>
+        <li>if $z > $ <code>aees_prob_par</code></li>
+        <ul>
+            <strong>local move</strong>
+            <li>sample $\theta_k^{(i+1)} \sim \pi_k$ using Metropolis-Hastings</li>
+        </ul>
+        <li>else</li>
+        <ul>
+            <strong>equi-energy move</strong>
+            <li>construct <code>aees_n_rings</code>-evenly spaced energy rings using draws previous draws from $\pi_{k+1}$, $\{ \theta_{k+1}^{(0)}, \ldots, \theta_{k+1}^{(i)} \}$</li>
+            <li>choose $\theta_k^{(*)}$with uniform probability from the closest energy ring based on $\pi(\theta_k^{(i)})$</li>
+            <li>Let
+            $$\alpha = \min \left\{ 1, \dfrac{\pi_{k}(\theta_k^{(*)})}{\pi_{k+1}(\theta_k^{(*)})} \dfrac{\pi_{k+1}(\theta_k^{(i)})}{\pi_{k}(\theta_k^{(i)})} \right\}$$
+            Then
+            $$\theta_k^{(i+1)} = \begin{cases} \theta_k^{(*)} & \text{ if } Z < \alpha \\ \theta_k^{(i)} & \text{ else } \end{cases}$$
+            where $Z \sim \text{Unif}(0,1)$.</li>
+        </ul>
+    </ul>
 </ul>
 
 
@@ -165,79 +190,98 @@ bool rwmh(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 
 <h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
-<p>Normal likelihood with normal prior.</p>
+<p>Gaussian mixture model.</p>
 
 <br>
 
 <pre class="brush: cpp;">
 #include "mcmc.hpp"
 
-struct norm_data {
-    double sigma;
-    arma::vec x;
+double
+gaussian_mixture(const arma::vec& X_vec_inp, const arma::vec& weights, const arma::mat& mu, const arma::vec& sig_sq)
+{
+    const double pi = arma::datum::pi;
+    
+    const int n_vals = X_vec_inp.n_elem;
+    const int n_mix = weights.n_elem;
+    
+    //
 
-    double mu_0;
-    double sigma_0;
+    double dens_val = 0;
+    
+    for (int i=0; i < n_mix; i++) {
+        double dist_val = arma::accu(arma::pow(X_vec_inp - mu.col(i),2));
+        
+        dens_val += weights(i) * std::exp(-0.5*dist_val/sig_sq(i)) / std::pow(2.0*pi*sig_sq(i), static_cast&lt;double&gt;(n_vals)/2.0);
+    }
+
+    //
+    
+    return log(dens_val);
+}
+
+struct mixture_data { 
+    arma::mat mu;
+    arma::vec sig_sq;
+    arma::vec weights;
 };
 
-double ll_dens(const arma::vec& vals_inp, void* ll_data)
+double
+target_log_kernel(const arma::vec& vals_inp, void* target_data)
 {
-    const double mu = vals_inp(0);
-    const double pi = arma::datum::pi;
+    mixture_data* dta = reinterpret_cast&lt;mixture_data*&gt;(target_data);
 
-    norm_data* dta = reinterpret_cast&lt;norm_data*&gt;(ll_data);
-    const double sigma = dta->sigma;
-    const arma::vec x = dta->x;
-
-    const int n_vals = x.n_rows;
-
-    //
-
-    const double ret = - ((double) n_vals) * (0.5*std::log(2*pi) + std::log(sigma)) - arma::accu( arma::pow(x - mu,2) / (2*sigma*sigma) );
-
-    //
-
-    return ret;
-}
-
-double log_pr_dens(const arma::vec& vals_inp, void* ll_data)
-{
-    norm_data* dta = reinterpret_cast&lt; norm_data* &gt;(ll_data);
-
-    const double mu_0 = dta->mu_0;
-    const double sigma_0 = dta->sigma_0;
-    const double pi = arma::datum::pi;
-
-    const double x = vals_inp(0);
-
-    const double ret = - 0.5*std::log(2*pi) - std::log(sigma_0) - std::pow(x - mu_0,2) / (2*sigma_0*sigma_0);
-
-    return ret;
-}
-
-double log_target_dens(const arma::vec& vals_inp, void* ll_data)
-{
-    return ll_dens(vals_inp,ll_data) + log_pr_dens(vals_inp,ll_data);
+    return gaussian_mixture(vals_inp, dta->weights, dta->mu, dta->sig_sq);
 }
 
 int main()
 {
-    const int n_data = 100;
-    const double mu = 2.0;
+    const int n_vals = 2;
 
-    norm_data dta;
-    dta.sigma = 1.0;
-    dta.mu_0 = 1.0;
-    dta.sigma_0 = 2.0;
+    arma::vec T_vec(2);
+    T_vec(0) = 60.0;
+    T_vec(1) = 9.0;
 
-    arma::vec x_dta = mu + arma::randn(n_data,1);
-    dta.x = x_dta;
+    const int n_mix = 2;
 
-    arma::vec initial_val(1);
-    initial_val(0) = 1.0;
+    //
+
+    arma::mat mu = arma::ones(n_vals,n_mix) + 1.0;
+    mu.col(0) *= -1.0;
+
+    arma::vec weights(n_mix); 
+    weights(0) = 0.5;
+    weights(1) = 0.5;
+
+    arma::vec sig_sq = arma::ones(n_mix,1)*0.1;
+
+    mixture_data dta;
+    dta.mu = mu;
+    dta.sig_sq = sig_sq;
+    dta.weights = weights;
+
+    //
+
+    mcmc::algo_settings settings;
+
+    settings.aees_n_draws = 20000;
+    settings.aees_n_burnin = 1000;
+    settings.aees_n_initial_draws = 1000;
+
+    settings.aees_prob_par = 0.05;
+    settings.aees_temper_vec = T_vec;
+    settings.aees_n_rings = 11;
+
+    settings.rwmh_par_scale = 1.0;
+    settings.rwmh_cov_mat = 0.35*arma::eye(n_vals,n_vals);
+
+    //
 
     arma::mat draws_out;
-    mcmc::rwmh(initial_val,draws_out,log_target_dens,&dta);
+
+    mcmc::aees(mu.col(0),draws_out,target_log_kernel,&dta,settings);
+
+    //
 
     return 0;
 }

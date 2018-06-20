@@ -119,9 +119,9 @@ bool de(const arma::vec& initial_vals, arma::cube& draws_out, std::function&lt;d
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
-    <li><code>initial_vals</code> a column vector of initial values; will be replaced by the solution values.</li>
+    <li><code>initial_vals</code> a column vector of initial values.</li>
     <li><code>draws_out</code> a three-dimensional array containing posterior draws.</li>
-    <li><code>target_log_kernel</code> the posterior kernel function, taking two arguments: 
+    <li><code>target_log_kernel</code> the target log-posterior kernel function, taking two arguments: 
         <ul>
             <li><code>vals_inp</code> a vector of input values; and</li>
             <!-- <li><code>grad_out</code> an empty vector, as DE does not require the gradient to be known/exist; and</li> -->
