@@ -139,9 +139,11 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
         <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
         <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
     </ul>
+    <br>
     <li><code>int de_n_pop</code> population size of each generation.</li>
     <li><code>int de_n_gen</code> number of vectors to generate.</li>
     <li><code>int de_check_freq</code> number of generations between convergence checks.</li>
+    <br>
     <li><code>int de_mutation_method</code> which method of mutation to apply:</li>
     <ul>
         <li><code>de_mutation_method = 1</code> applies the 'rand' policy.</li>
@@ -149,6 +151,7 @@ bool de(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
     </ul>
     <li><code>double de_par_F</code> the mutation parameter $F$ in the details section below.</li>
     <li><code>double de_par_CR</code> the crossover parameter $CR$ in the details section below.</li>
+    <br>
     <li><code>arma::vec de_initial_lb</code> lower bounds on the initial population; defaults to <code>init_out_vals</code> $- \ 0.5$.</li>
     <li><code>arma::vec de_initial_ub</code> upper bounds on the initial population; defaults to <code>init_out_vals</code> $+ \ 0.5$.</li>
 </ul>

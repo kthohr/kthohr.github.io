@@ -139,21 +139,25 @@ bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& val
         <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
         <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
     </ul>
+    <br>
     <li><code>int pso_n_pop</code> population size of each generation.</li>
     <li><code>int pso_n_gen</code> number of vectors to generate.</li>
     <li><code>int pso_check_freq</code> number of generations between convergence checks.</li>
+    <br>
     <li><code>int pso_inertia_method</code> method of inertia decay:</li>
     <ul>
-        <li><code>pso_inertia_method = 1</code> linear decay between <code>w_max</code> and <code>w_min</code>.</li>
-        <li><code>pso_inertia_method = 2</code> dampening using <code>w_damp</code> parameter.</li>
+        <li><code>pso_inertia_method = 1</code> linear decay between <code>pso_par_w_max</code> and <code>pso_par_w_min</code>.</li>
+        <li><code>pso_inertia_method = 2</code> dampening using <code>pso_par_w_damp</code> parameter.</li>
     </ul>
+    <br>
     <li><code>int pso_velocity_method</code> method of updating the velocity weights:</li>
     <ul>
-        <li><code>pso_velocity_method = 1</code> fixed weights <code>c_cog</code> and <code>c_soc</code>.</li>
-        <li><code>pso_velocity_method = 2</code> linear decay between <code>initial_c_cog</code> and <code>final_c_cog</code>, and <code>initial_c_soc</code> and <code>final_c_soc</code>.</li>
+        <li><code>pso_velocity_method = 1</code> fixed weights <code>pso_par_c_cog</code> and <code>pso_par_c_soc</code>.</li>
+        <li><code>pso_velocity_method = 2</code> linear decay between <code>pso_par_initial_c_cog</code> and <code>pso_par_final_c_cog</code>, and <code>initial_c_soc</code> and <code>pso_par_final_c_soc</code>.</li>
     </ul>
     <li><code>double pso_par_c_cog</code> weight value on the 'cognitive' factor.</li>
     <li><code>double pso_par_c_soc</code> weight value on the 'social' factor.</li>
+    <br>
     <li><code>arma::vec pso_initial_lb</code> lower bounds on the initial population; defaults to <code>init_out_vals</code> $- \ 0.5$.</li>
     <li><code>arma::vec pso_initial_ub</code> upper bounds on the initial population; defaults to <code>init_out_vals</code> $+ \ 0.5$.</li>
 </ul>
