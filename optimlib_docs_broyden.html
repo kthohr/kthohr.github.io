@@ -160,50 +160,62 @@ bool broyden_df(arma::vec& init_out_vals, std::function&lt;arma::vec (const arma
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>There are two basic forms of Broyden's method available in OptimLib.</p>
+<p>There are two forms of Broyden's method available in OptimLib.</p>
 
 <hr>
 
 <h4> Basic Broyden's method</h4>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The Broyden updating rule is as follows.</p>
+<p>Let $x^{(i)}$ denote the function input values at stage $i$ of the algorithm. The Broyden updating rule is as follows.</p>
 
 <p>Let</p>
-$$s_i := x_{i} - x_{i-1}$$
-$$y_i := F(x_{i}) - F(x_{i-1})$$
+$$s^{(i)} := x^{(i)} - x^{(i-1)}$$
+$$y^{(i)} := F(x^{(i)}) - F(x^{(i-1)})$$
 <ul>
     <li><strong>Update the inverse Jacobian matrix.</strong></li>
-    $$B_{i} = B_{i-1} + \frac{(s_i - B_{i-1}y_i)y_i'}{y_i \cdot y_i}$$
+    $$B^{(i)} = B^{(i-1)} + \frac{(s^{(i)} - B^{(i-1)}y^{(i)})y^{(i)}{'}}{y^{(i)} \cdot y^{(i)}}$$
     <li><strong>Compute the descent direction.</strong></li>
-    $$d_{i} = - B_{i} F(x_i)$$
+    $$d^{(i)} = - B^{(i)} F(x^{(i)})$$
     <li><strong>Update the input values.</strong></li>
-    $$x_{i+1} = x_i + d_i$$
+    $$x^{(i+1)} = x^{(i)} + d^{(i)}$$
 </ul>
 
-<p>The algorithm stops when $\| F \|$ is less than err_tol, or the total number of iterations exceeds a desired (or default) value.</p>
+<p>The algorithm stops when $\| F \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
 <hr>
 
 <h4> Derivative-free Method of Li and Fukushima (2000)</h4>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The updating rule of Li and Fukushima (2000) is as follows.</p>
+<p>Let $x^{(i)}$ denote the function input values at stage $i$ of the algorithm. The updating rule of Li and Fukushima (2000) is as follows.</p>
 
 <p>Let</p>
-$$s_i := x_{i} - x_{i-1}$$
-$$y_i := F(x_{i}) - F(x_{i-1})$$
+$$s^{(i)} := x^{(i)} - x^{(i-1)}$$
+$$y^{(i)} := F(x^{(i)}) - F(x^{(i-1)})$$
 <ul>
     <li><strong>Update the inverse Jacobian matrix.</strong></li>
-    $$B_{i} = B_{i-1} + \frac{(s_i - B_{i-1}y_i)y_i'}{y_i \cdot y_i}$$
+    $$B^{(i)} = B^{(i-1)} + \frac{(s^{(i)} - B^{(i-1)}y^{(i)})y^{(i)}{'}}{y^{(i)} \cdot y^{(i)}}$$
     <li><strong>Compute the descent direction.</strong></li>
-    $$d_{i} = - B_{i} F(x_i)$$
+    $$d^{(i)} = - B^{(i)} F(x^{(i)})$$
     <li><strong>Quasi line search step.</strong></li> If
-    $$\| F(x_i + d_i) \| \leq \rho \| F(x_i) \| - \sigma_2 \| d_k \|^2$$
-    then set $\lambda_i = 1.0$, otherwise: let $\eta_i = 1 / i^2$, and find the smallest $k$ for which
-    $$\| F(x_i + \lambda_i d_i) \| \leq \| F(x_i) \| - \sigma_1 \| d_k \|^2 + \eta_i \| F(x_k) \|$$
-    holds with $\lambda_i = \beta^k$.
+    $$\| F(x^{(i)} + d^{(i)}) \| \leq \rho \| F(x^{(i)}) \| - \sigma_2 \| d^{(i)} \|^2$$
+    then:
+    <ul>
+        <li>set $\lambda_i = 1.0$</li>
+    </ul>
+    otherwise:
+    <ul>
+        <li>let $\eta_i = 1 / i^2$, and find the smallest $k$ for which
+        $$\| F(x^{(i)} + \lambda_i d^{(i)}) \| \leq \| F(x^{(i)}) \| - \sigma_1 \| d^{(i)} \|^2 + \eta_i \| F(x^{(i)}) \|$$
+        holds with $\lambda_i = \beta^k$.
+        <br><br>
+        Control parameter values: $\rho = 0.9$, $\sigma_1 = 0.001$, and $\sigma_2 = 0.001$.</li>
+    </ul>
+
     <li><strong>Update the input values.</strong></li>
-    $$x_{i+1} = x_i + \lambda_i d_i$$
+    $$x^{(i+1)} = x^{(i)} + \lambda_i d^{(i)}$$
 </ul>
+
+<p>The algorithm stops when $\| F \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 

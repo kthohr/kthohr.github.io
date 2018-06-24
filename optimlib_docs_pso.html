@@ -168,18 +168,19 @@ bool pso(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& val
 
 <h4> Basic Particle Swarm Optimization (PSO)</h4>
 
-<p>Let $X_{i}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic PSO algorithm is as follows.</p>
+<p>Let $X^{(i)}$ denote a $N_p \times d$-dimensional array of values at stage $i$ of the algorithm. The basic PSO algorithm is as follows.</p>
 <ul>
-    <li><strong>Update the velocity and position</strong></li>
-    $$V_{i+1}(j.:) = w V_{i+1}(j,:) + c_C R_C \circ (X_{i}^{(b)} (j,:) - X_i(j,:)) + c_S R_S \circ (g^{(b)} - X_i(j,:))$$
-    $$X_{i+1}(j,:) = X_{i}(j,:) + V_{i+1}(j,:)$$
+    <li><strong>Update the velocity and position</strong> Sample $R_C,R_S \sim U^d(0,1)$, $d$-dimensional iid uniform random vectors, and set
+    $$V^{(i+1)}(j.:) = w V^{(i+1)}(j,:) + c_C R_C \odot (X_b^{(i)} (j,:) - X^{(i)}(j,:)) + c_S R_S \odot (g_b - X^{(i)}(j,:))$$
+    $$X^{(i+1)}(j,:) = X^{(i)}(j,:) + V^{(i+1)}(j,:)$$
+    where the values $c_C$ and $c_S$ are set by <code>pso_par_c_cog</code> and <code>pso_par_c_soc</code>, respectively, and '$\odot$' denotes the element-by-element (Hadamard) product.
     <li><strong>Update local-best particle</strong></li>
-    $$X_{i+1}^{(b)} (j,:) = \begin{cases} X_{i+1}(j,:) & \text{ if } f(X_{i+1}(j,:)) < f(X_{i}^{(b)}) \\ X_{i}^{(b)} (j,:) & \text{ else } \end{cases}$$
+    $$X_b^{(i+1)} (j,:) = \begin{cases} X^{(i+1)}(j,:) & \text{ if } f(X^{(i+1)}(j,:)) < f(X_b^{(i)}) \\ X_b^{(i)} (j,:) & \text{ else } \end{cases}$$
     <li><strong>Update the global-best particle</strong></li>
     Let
-    $$X_{i+1}^* := \arg \min_{j} f(X(j,:))$$
+    $$X^* := \arg \min_{X_j} f(X(j,:))$$
     Then
-    $$g^{(b)} = \begin{cases} X_{i+1}^* & \text{ if } f(X_{i+1}^*) < f(g^{(b)}) \\ g^{(b)} & \text{ else } \end{cases}$$
+    $$g_b = \begin{cases} X^* & \text{ if } f(X^*) < f(g_b) \\ g_b & \text{ else } \end{cases}$$
     <li><strong>Reduce $w$ and update weights </strong></li>
 </ul>
 

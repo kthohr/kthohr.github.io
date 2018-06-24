@@ -141,6 +141,7 @@ bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
         <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
         <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
     </ul>
+    <br>
     <li><code>double nm_par_alpha</code> reflection parameter.</li>
     <li><code>double nm_par_gamma</code> expansion parameter.</li>
     <li><code>double nm_par_beta</code> contraction parameter.</li>
@@ -151,31 +152,41 @@ bool nm(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $x_i$ denote the simplex values at stage $i$ of the algorithm. The Nelder-Mead updating rule is as follows.</p>
+<p>Let $x^{(i)}$ denote the simplex values at stage $i$ of the algorithm. The Nelder-Mead updating rule is as follows.</p>
 
 <ul>
-    <li><strong>Step 1.</strong> Sort the vertices from smallest function value to largest:</li>
-        $$f(x_i(1,:)) \leq f(x_i(2,:)) \leq \cdots \leq f(x_i(n+1,:))$$
-    <li><strong>Step 2.</strong> Calculate the centroid value up to the $n$ vertex:
-        $$\bar{x} = \frac{1}{n} \sum_{j=1}^n x_i(j,:)$$
-        and compute the reflected point:
-        $$x^r = \bar{x} + \alpha (\bar{x} - x_i(n+1,:))$$
-        If $f(x^r) \geq f(x_i(1,:))$ and $f(x^r) < f(x_i(n,:))$, then
-        $$x_{i+1}(n+1,:) = x^r, \ \ \textbf{ and go to Step 1.}$$
+    <li><strong>Step 1.</strong> Sort the vertices in order of function values, from smallest to largest:</li>
+        $$f(x^{(i)}(1,:)) \leq f(x^{(i)}(2,:)) \leq \cdots \leq f(x^{(i)}(n+1,:))$$
+    <li><strong>Step 2.</strong> Calculate the centroid value up to the $n$th vertex:
+        $$\bar{x} = \frac{1}{n} \sum_{j=1}^n x^{(i)}(j,:)$$
+        and compute the reflection point:
+        $$x^r = \bar{x} + \alpha (\bar{x} - x^{(i)}(n+1,:))$$
+        where $\alpha$ is set by <code>nm_par_alpha</code>.
+        <br><br>
+
+        If $f(x^r) \geq f(x^{(i)}(1,:))$ and $f(x^r) < f(x^{(i)}(n,:))$, then
+        $$x^{(i+1)}(n+1,:) = x^r, \ \ \textbf{ and go to Step 1.}$$
         Otherwise continue to Step 3.</li>
-    <li><strong>Step 3.</strong> If $f(x^r) \geq f(x_i(1,:))$ then go to Step 4, otherwise compute the expansion point:
+    <li><strong>Step 3.</strong> If $f(x^r) \geq f(x^{(i)}(1,:))$ then go to Step 4, otherwise compute the expansion point:
         $$x^e = \bar{x} + \gamma (x^r - \bar{x})$$
+        where
+        where $\gamma$ is set by <code>nm_par_gamma</code>.
+        <br><br>
+
         Set
-        $$x_{i+1}(n+1,:) = \begin{cases} x^e & \text{ if } f(x^e) < f(x^r) \\ x^r & \text{ else } \end{cases}$$
+        $$x^{(i+1)}(n+1,:) = \begin{cases} x^e & \text{ if } f(x^e) < f(x^r) \\ x^r & \text{ else } \end{cases}$$
         <strong>and go to Step 1.</strong></li>
-    <li><strong>Steps 4 & 5.</strong> If $f(x^r) < f(x_i(n,:))$, then compute the outside or inside contraction:
-        $$x^{c} = \begin{cases} \bar{x} + \beta(x^r - \bar{x}) & \text{ if } f(x^r) < f(x_i(n+1,:)) \\ \bar{x} - \beta(x^r - \bar{x}) & \text{ else} \end{cases}$$
-        If $f(x^c) < f(x_i(n+1,:))$,
-        $$x_{i+1}(n+1,:) = x^c, \ \ \textbf{ and go to Step 1.}$$
+    <li><strong>Steps 4 & 5.</strong> If $f(x^r) < f(x^{(i)}(n,:))$, then compute the outside or inside contraction:
+        $$x^{c} = \begin{cases} \bar{x} + \beta(x^r - \bar{x}) & \text{ if } f(x^r) < f(x^{(i)}(n+1,:)) \\ \bar{x} - \beta(x^r - \bar{x}) & \text{ else} \end{cases}$$
+        where $\beta$ is set by <code>nm_par_beta</code>.
+        <br><br>
+
+        If $f(x^c) < f(x^{(i)}(n+1,:))$, then
+        $$x^{(i+1)}(n+1,:) = x^c, \ \ \textbf{ and go to Step 1.}$$
         Otherwise go to Step 6.</li>
-    <li><strong>Step 6.</strong> Shrink the simplex toward $x_i(1,:)$:
-        $$x_{i+1}(j,:) = x_i(1,:) + \delta (x_i(j,:) - x_i(1,:)), \ \ j = 2, \ldots, n+1$$
-        Go to Step 1.</li>
+    <li><strong>Step 6.</strong> Shrink the simplex toward $x^{(i)}(1,:)$:
+        $$x^{(i+1)}(j,:) = x^{(i)}(1,:) + \delta (x^{(i)}(j,:) - x^{(i)}(1,:)), \ \ j = 2, \ldots, n+1$$
+        where $\delta$ is set by <code>nm_par_delta</code>. <strong>Go to Step 1.</strong></li>
 </ul>
 
     </div>

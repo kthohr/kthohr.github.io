@@ -145,6 +145,7 @@ bool lbfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& v
         <li><code>arma::vec lower_bounds</code> this defines the lower bounds.</li>
         <li><code>arma::vec upper_bounds</code> this defines the upper bounds.</li>
     </ul>
+    <br>
     <li><code>int lbfgs_par_M</code> storage parameter.</li>
 </ul>
 
@@ -152,30 +153,39 @@ bool lbfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& v
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The L-BFGS updating rule is as follows.</p>
+<p>Let $x^{(i)}$ denote the function input values at stage $i$ of the algorithm. The L-BFGS updating rule is as follows.</p>
 
-<p>Let</p>
-$$s_i := x_{i+1} - x_i$$
-$$y_i := \nabla f_{i+1} - \nabla f_{i}$$
-<p>Then </p>
-$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
-<p>where $d_i$ is found via the 'two-loop' recursion:</p>
 <ul>
-    <li>Set $$q = \nabla f(x_i)$$</li>
-    <li>For $k = i - 1, \ldots, i - M$,
-        $$\gamma_k = \rho_k s_k' q$$
-        $$q = q - \gamma_k y_k$$
-    where $\rho_k = 1 / ( y_k' s_k)$.
-    <li>Set $r = q (s_i'y_i / y_i'y_i)$</li>
-    <li>For $k = i - M, \ldots, i - 1$,
-        $$\beta = \rho_k y_k' r$$
-        $$r = r + s_k(\gamma_k - \beta)$$
-    <li>Then set $d_i = - r$.</li>
+    <li>The descent direction $d^{(i)}$ is found via a two-loop recursion. Let
+        \begin{align*}
+        s^{(i)} &:= x^{(i+1)} - x^{(i)} \\
+        y^{(i)} &:= \nabla f^{(i+1)} - \nabla f^{(i)} 
+        \end{align*}
+        where $\nabla f^{(i)}$ is the gradient of $f$ evaluated at $x^{(i)}$.
+        <br>
+        Then:
+        <ul>
+            <li>Set $$q = \nabla f(x^{(i)})$$</li>
+            <li><strong>for</strong> $k = i - 1, \ldots, i - M$ <strong>do</strong>
+            \begin{align*}
+                \rho_k &= 1 / ( y^{(k)}{'} s^{(k)}) \\
+                \gamma_k &= \rho_k \times s^{(k)}{'} q \\
+                q &= q - \gamma_k \times y^{(k)}
+            \end{align*}
+            where the history length $M$ is set via <code>lbfgs_par_M</code>.</li>
+            <li>Set $r = q \times (s^{(i)}{'}y^{(i)} / y^{(i)}{'}y^{(i)})$</li>
+            <li><strong>for</strong> $k = i - M, \ldots, i - 1$ <strong>do</strong></li>
+                $$\beta = \rho_k y^{(k)}{'} r$$
+                $$r = r + s^{(k)}(\gamma_k - \beta)$$
+            <li>Finally, set $d^{(i)} = - r$.</li>
+        </ul>
+    </li>
+    <li>The input values are then updated:
+    $$x^{(i+1)} = x^{(i)} + \alpha^{(i)} d^{(i)}$$
+    where $\alpha^{(i)}$ is found via line search:
+    $$\alpha^{(i)} = \arg \min_\alpha f(x^{(i)} + \alpha d^{(i)})$$
+    The line search method used in OptimLib is that of More and Thuente (1994).</li>
 </ul>
-
-As in the standard BFGS algorithm, <p>$\alpha_i$ is found via line search:</p>
-$$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
-<p>The line search method used is that of More and Thuente (1994).</p>
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
