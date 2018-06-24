@@ -84,10 +84,11 @@ pre {
 <br>
 
 <div class="row">
+    <div class="col-md-2"></div>
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Independent Normal-inverse Wishart Prior</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Independent Normal-inverse-Wishart Prior</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -99,6 +100,14 @@ pre {
         </div>
     </div>
 </div>
+
+<!--  -->
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
+<p>BVAR with independent Normal-inverse-Wishart Prior.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -166,7 +175,7 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 </pre>
 
 <ul>
-    <li><code>data_endog</code> a $n \times m$ matrix of endogenous varibles.</li>
+    <li><code>data_endog</code> a $n \times M$ matrix of endogenous varibles.</li>
     <li><code>data_exog</code> a $n \times q$ matrix of exogenous varibles.</li>
     <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
     <li><code>p</code> lag order (integer).</li>
@@ -178,7 +187,7 @@ bvar_obj$prior(coef_prior,Xi_beta,Xi_Sigma,gamma)
 </pre>
 
 <ul>
-    <li><code>coef_prior</code> a $m \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
+    <li><code>coef_prior</code> a $M \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
     <li><code>Xi_beta</code> scaling value for the prior covariance matrix of $\beta$.</li>
     <li><code>Xi_Sigma</code> scaling value for the prior covariance matrix of $\Sigma$.</li>
     <li><code>gamma</code> prior degrees of freedom for $\Sigma$.</li>
@@ -204,8 +213,11 @@ bvar_obj$gibbs(n_draws,n_burnin)
 $$
 Y = X \beta + e
 $$
-
-The posterior kernels are given by:
+The independent priors take the following form:
+$$
+		p(\alpha) = \mathcal{N} \left( \bar{\alpha}, \Xi_{\alpha} \right), \ \ p(\Sigma) = \mathcal{IW} \left( \Xi_{\Sigma} , \gamma \right)
+$$
+The conditional posterior kernels are given by
 \begin{align}
 		p(\alpha | \Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\alpha}, \widetilde{\Sigma}_{\alpha}  \right) \\
 		p(\Sigma | \beta,X,Y) &= \mathcal{IW} \left( \Xi_{\Sigma} + \left(Y -X \beta \right)^{\top}  \left(Y - X \beta \right), n - p + \gamma \right)
@@ -219,7 +231,7 @@ where
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
 <br>
 
@@ -252,6 +264,10 @@ plot(bvar_obj,var_names=colnames(bvar_data),save=FALSE)
 forecast(bvar_obj,shocks=TRUE,var_names=colnames(bvar_data),back_data=10,save=FALSE)
 </pre>
 
+<hr>
+
+    </div>
+    </div>
     </div>
 
     <div id="myfooter"></div>

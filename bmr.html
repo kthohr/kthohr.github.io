@@ -75,7 +75,7 @@ pre {
 
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 hidden-xs hidden-sm">
         <img src="pics/bmr_plot_irf.png" class="img-rounded pull-left" alt="" width="260" height="200">
     </div>
     <div class="col-md-8">
@@ -88,26 +88,65 @@ pre {
          <a class="github-button" href="https://github.com/kthohr/BMR" data-icon="octicon-star" data-count-href="/kthohr/BMR/stargazers" data-count-api="/repos/kthohr/BMR#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star kthohr/BMR on GitHub">Star</a> 
          <a class="github-button" href="https://github.com/kthohr/BMR/fork" data-icon="octicon-repo-forked" data-count-href="/kthohr/BMR/network" data-count-api="/repos/kthohr/BMR#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork kthohr/BMR on GitHub">Fork</a></p> 
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 hidden-xs hidden-sm">
         <img src="pics/bmr_plot_bvarw.png" class="img-rounded pull-right" alt="" width="260" height="200">
     </div>
 </div>
 
 <br>
 
+<div class="row">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
 <p>BMR (<b><i>B</i></b>ayesian <b><i>M</i></b>acroeconometrics in <b><i>R</i></b>) is an R interface to <a href="bmlib.html" target="_blank">BMLib</a>, a templated C++ library for estimating Bayesian Vector Autoregression (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
 
 <hr>
 
 <p><strong>Features</strong></p>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>Several popular prior specifications:</li>
+        <ul>
+            <li>normal-inverse-Wishart prior,</li>
+            <li>Minnesota prior, and</li>
+            <li>Mattias Villani's steady-state prior.</li>
+        </ul>
+        <li>BMR can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
+        </ul>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td class="line" style="vertical-align: top;" style="border-color:black;">
+        <br>
+        </td>
+        <td style="text-align: left; vertical-align: top; width: 50%;">
+        <ul>
+        <li>For DSGE models, the library can
+            <ul>
+                <li>solve models using Harald Uhlig's method of undetermined coefficients and Chris Sims' canonical decomposition;</li>
+                <li>estimate models using MCMC and a choice of filtering methods, the Kalman filter or Chandrasekhar recursions; and</li>
+                <li>estimate a hybrid DSGE-VAR model.</li>
+            </ul>
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+The R interface:
 <ul>
-    <li>Seamless and efficient OO-based interaction using Rcpp modules.</li>
-    <li>Requires no use of (or knowledge of) C++ by the user.</li>
+    <li>Provides seamless and efficient OO-based interaction using Rcpp modules.</li>
+    <li>Requires no knowledge of C++ by the user.</li>
 </ul>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: BMR is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><a href="https://raw.githubusercontent.com/kthohr/BMR/master/LICENSE" target="_blank"><img src="https://img.shields.io/badge/Licence-GPL%20v2-blue.svg" alt="License"></a></p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -127,14 +166,12 @@ install.packages("ggplot2")</pre>
 <p>The source code is available on <a href="https://github.com/kthohr/BMR" target="_blank">GitHub</a>. <strong>You need to install BMR from source.</strong></p>
 <ul>
     <li>Perhaps the quickest way to install from source is via the 'devtools' package in R.</li>
-    <li>First, make sure you have the appropriate development environment; if you're using a Mac, get Xcode from the App Store; if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
+    <li>First, make sure you have an appropriate development environment; 
     <ul>
-        <li> <strong>Note:</strong> For Mac users, unless you've compiled R from source, you will need gfortran v4.8.2. This can be <a href="http://www.thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks-lgfortran-and-lquadmath-error/" target="_blank">obtained</a> using the following commands (from a terminal window):</li>
-<pre class="brush: bash;">
-curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
-sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / </pre>
-        </ul>
-        <li>Then simply run the following commands in R:</li>
+        <li>if you're using a Mac, get Xcode from the App Store and then check <a href="https://cran.r-project.org/bin/macosx/tools/" target="_blank">here</a>;</li>
+        <li>if you're using Windows, get <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>.</li>
+    </ul>
+    <li>Then simply run the following commands in R:</li>
 <pre class="brush: ruby;">
 install.packages("devtools")
 library(devtools)
@@ -143,9 +180,7 @@ install_github("kthohr/BMR")</pre>
     </ul>
 </ul>
 
-<hr>
-
-<h3 style="text-align: left;" id="Doc"><strong style="font-size: 110%;">Documentation</strong></h3>
+<!-- <h3 style="text-align: left;" id="Doc"><strong style="font-size: 110%;">Documentation</strong></h3> -->
 
 <!-- <ul> -->
  <!-- <li>Accompanying vignette: <a href="bmr/BMR.pdf" target="_blank">link</a>.</li> -->
@@ -160,11 +195,16 @@ library(BMR)
 data(BMRVARData)</pre>
 <p> This should load BMR and place a dataframe called 'USMacroData' into the workspace.</p>
 
+<hr>
+
 <h3 style="text-align: left;" id="RepFiles"><strong style="font-size: 110%;">Replication Files</strong></h3>
 
 <p> Replication files can be found in the <code>tests</code> folder.</p>
 
 <hr>
+
+    </div>
+    </div>
     </div>
     
     <div id="myfooter"></div>

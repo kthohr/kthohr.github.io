@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>BMR: bvars</title>
+    <title>BMR: bvarcnw</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -88,7 +88,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Steady-State Prior</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">BMR: BVAR with Conditional Normal-inverse-Wishart Prior</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -107,7 +107,7 @@ pre {
     <div class="col-md-2"></div>
     <div class="col-md-8">
 
-<p>BVAR with steady-state prior.</p>
+<p>BVAR with conditional Normal-inverse-Wishart Prior.</p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -118,7 +118,7 @@ pre {
 <p><strong>Instantiation:</strong></p>
 <pre class="brush: R;">
 # create a new object
-bvar_obj <- new(bvars)
+bvar_obj <- new(bvarcnw)
 </pre>
 
 <p><strong>Fields:</strong></p>
@@ -141,14 +141,10 @@ bvar_obj <- new(bvars)
 
     <br>
 
-    <li><code>psi_hat</code> OLS estimate of $\psi = \text{vec}(\Psi)$.</li>
     <li><code>alpha_hat</code> OLS estimate of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>Sigma_hat</code> OLS estimate of $\Sigma$.</li>
 
     <br>
-
-    <li><code>psi_pr_mean</code> prior mean of $\psi = \text{vec}(\Psi)$.</li>
-    <li><code>psi_pr_var</code> prior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
 
     <li><code>alpha_pr_mean</code> prior mean of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>alpha_pr_var</code> prior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
@@ -158,9 +154,6 @@ bvar_obj <- new(bvars)
 
     <br>
 
-    <li><code>psi_pt_mean</code> posterior mean of $\psi = \text{vec}(\Psi)$.</li>
-    <li><code>psi_pt_var</code> posterior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
-
     <li><code>alpha_pt_mean</code> posterior mean of $\alpha = \text{vec}(\beta)$.</li>
     <li><code>alpha_pt_var</code> posterior covariance matrix of $\alpha = \text{vec}(\beta)$.</li>
 
@@ -169,7 +162,6 @@ bvar_obj <- new(bvars)
 
     <br>
 
-    <li><code>Psi_draws</code> an array of posterior draws for $\Psi$.</li>
     <li><code>beta_draws</code> an array of posterior draws for $\beta$.</li>
     <li><code>Sigma_draws</code> an array of posterior draws for $\Sigma$.</li>
 </ul>
@@ -183,34 +175,32 @@ bvar_obj$build(data_endog,data_exog,cons_term,p)
 </pre>
 
 <ul>
-    <li><code>data_endog</code> a $n \times m$ matrix of endogenous varibles.</li>
+    <li><code>data_endog</code> a $n \times M$ matrix of endogenous varibles.</li>
     <li><code>data_exog</code> a $n \times q$ matrix of exogenous varibles.</li>
     <li><code>cons_term</code> a logical value (TRUE/FALSE) indicating the presence of a constant term (intercept) in the model.</li>
     <li><code>p</code> lag order (integer).</li>
 </ul>
 
-<p><strong>Prior:</strong></p>
+<p><strong>Prior:</strong> two methods,</p>
 <pre class="brush: R;">
-bvar_obj$prior(coef_prior,HP_1,HP_2,Psi_prior,Xi_psi,gamma,full_cov_prior)
+bvar_obj$prior(coef_prior,HP_1,HP_3,gamma)
+bvar_obj$prior(coef_prior,HP_1,HP_3,gamma,full_cov_prior)
 </pre>
 
 <ul>
-    <li><code>coef_prior</code> a $m \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
-    <li><code>HP_1,HP_2</code> hyperparameters.</li>
-    <li><code>Psi_prior</code> prior mean of $\Psi$.</li>
-    <li><code>Xi_psi</code> scaling value for the prior covariance matrix of $\psi = \text{vec}(\Psi)$.</li>
+    <li><code>coef_prior</code> a $M \times 1$ vector containing the prior mean for each first own-lag coefficient.</li>
     <li><code>gamma</code> prior degrees of freedom for $\Sigma$.</li>
-    <li><code>full_cov_prior</code> a logical value (TRUE/FALSE) to switch between using the full MLE covariance matrix as the diffuse prior for Sigma (TRUE) or the classical Minnesota prior (FALSE).</li>
+    <li><code>HP_1,HP_3</code> hyperparameters; see below for more details.</li>
+    <li><code>full_cov_prior</code> a logical value (TRUE/FALSE) to switch between diagonal or full prior error covariance matrix construction.</li>
 </ul>
 
 <p><strong>Gibbs sampling:</strong></p>
 <pre class="brush: R;">
-bvar_obj$gibbs(n_draws,n_burnin)
+bvar_obj$gibbs(n_draws)
 </pre>
 
 <ul>
     <li><code>n_draws</code> number of posterior draws.</li>
-    <li><code>n_burnin</code> number of burnin draws.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -219,49 +209,61 @@ bvar_obj$gibbs(n_draws,n_burnin)
 
 <br>
 
-The model:
+<p>The model:</p>
 $$
-    ( Y_t - d_t \Psi^\top) \beta(L) = \varepsilon_t,
+y_t = \beta_0 + y_{t-1} \beta_1 + \cdots y_{t-p} \beta_p + e_t, \ \ e_t \stackrel{\text{iid}}{\sim} \mathcal{N} \left( \mathbf{0}, \Sigma \right)
+$$
+<p>where $y_t$ is a $1 \times M$ vector. We write this in stacked form as:</p>
+$$
+Y = X \beta + e
 $$
 
-<p>The prior on $\beta$ is constructed as
+<p>Priors take the following form:</p>
+\begin{align}
+    p(\Sigma^{-1}) &= \mathcal{W} \left( \frac{1}{\gamma}\Xi_{\Sigma}^{-1} , \gamma \right) \\
+	p(\alpha | \Sigma) &= \mathcal{N} \left( \text{vec}(\bar{\beta}), \Sigma \otimes \Xi_{\beta} \right)
+\end{align}
+<p>Notes on priors and hyperparameters:</p>
+<ul>
+    <li>$\gamma \geq M + 1$ is set by the <code>gamma</code> input in the prior function;</li>
+    <li>the prior mean of the coefficients, $\bar{\beta}$, is a $K \times M$ matrix of zeros, except for the first-order own-lag terms which are set by <code>coef_prior</code> the prior function.</li>
+    <li>The location matrix $\Xi_{\Sigma}$ is formed in an identical way to a Minnesota prior: as the residual variance from equation-by-equation estimation of AR($p$) models,</li>
+$$
+    \Xi_{\Sigma} = \begin{bmatrix} \sigma_{1}^2 &0 & 0 & \cdots & 0 \\ 0& \sigma_2^2 & 0 & \cdots & 0  \\ 0& 0 & \sigma_3^2 & \ddots & 0  \\ \vdots & \vdots & \ddots &  \ddots & \vdots \\ 0& 0 & 0 &  0 & \sigma_M^2  \end{bmatrix}
+$$
+ 
+    <li>$\Xi_\beta$ is a diagonal matrix, with elements given in the following order: the first element relates to a constant term (intercept); then $p$-number of $M \times M$ diagonal blocks, one for each lag; and finally a block for any additional exogenous variables (other than a constant term). 
+
+    <br>The scaling of these variances is controlled by the hyperparameters <code>HP_1,HP_3</code>, with elements of each block given by:</li>
 \begin{equation*}
-\Xi_{\beta_{i,j}} (\ell) =
+\Xi_{\beta_{i,i}} (\ell) =
 	\begin{cases}
-			&H_1 / \ell^2 \\
-			&H_2 \cdot \sigma_{i}^2 / \left( \ell^2 \cdot \sigma_{j}^2 \right)
+			& H_1 / \left( \ell^2 \cdot \sigma_{i}^2 \right) \\
+			& H_1 \cdot H_3
 	\end{cases}
 \end{equation*}
-for own lags and cross-variable lags, respectively.</p>
+for lags and exogenous variables, respectively.</li>
+</ul>
 
-<p>Let
-\begin{align*}
-    \xi &= Y - X \beta \\
-    Y_d &= Y - d \Psi^\top \\
-    X_d &= X - d_X ( \mathbb{I}_p \otimes \Psi^\top ) \\
-	\varepsilon &= Y_d - X_d \beta
-\end{align*}
-
-The conditional posterior kernels are given by:
+<p>The conditional posterior kernels are given by</p>
 \begin{align}
-        p(\psi | \beta,\Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\psi}, \widetilde{\Sigma}_{\psi}  \right) \\
-		p(\alpha | \Psi,\Sigma,X,Y) &= \mathcal{N} \left( \widetilde{\alpha}, \widetilde{\Sigma}_{\alpha}  \right) \\
-		p(\Sigma | \Psi,\beta,X,Y) &= \mathcal{IW} \left( \Xi_{\Sigma} + \varepsilon^{\top} \varepsilon, n - p + \gamma \right)
+    p(\Sigma^{-1} | X,Y) &= \mathcal{W} \left( \gamma \Xi_{\Sigma} + \bar{\beta}^\top \Xi_{\beta}^{-1} \bar{\beta} + Y^\top Y - \widetilde{\beta}^\top \widetilde{\Sigma}_{\beta}^{-1} \widetilde{\beta}, n - p + \gamma \right) \\
+	p(\alpha | \Sigma,X,Y) &= \mathcal{N} \left( \text{vec}(\widetilde{\beta}), \Sigma \otimes \widetilde{\Sigma}_{\beta}  \right)
 \end{align}
-where
+<p>where</p>
 \begin{align*}
-    \widetilde{\Sigma}_{\psi}^{-1} &= \Xi_{\psi}^{-1} + U^\top(D^{\top} D \otimes \Sigma^{-1}) U \\
-	\widetilde{\psi} &= \widetilde{\Sigma}_{\psi} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(\Sigma^{-1} \xi^{\top} D) \right) \\
-	\widetilde{\Sigma}_{\alpha}^{-1} &= \Xi_{\alpha}^{-1} + (\Sigma^{-1} \otimes X_d^{\top} X_d) \\
-	\widetilde{\alpha} &= \widetilde{\Sigma}_{\alpha} \left( \Xi_{\alpha}^{-1} \bar{\alpha} + \text{vec}(X_d^{\top} Y_d \Sigma^{-1}) \right)
+	\widetilde{\Sigma}_{\beta}^{-1} &= \Xi_{\beta}^{-1} + X^{\top} X \\
+	\widetilde{\beta} &= \widetilde{\Sigma}_{\beta} \left( \Xi_{\beta}^{-1} \bar{\beta} + X^\top Y \right)
 \end{align*}
-and $U^\top = (\mathbb{I}_{Mp}, \mathbb{I}_{q} \otimes \beta_1^\top, \ldots, \mathbb{I}_{q} \otimes \beta_p^\top)$.</p>
-
-</p>
+<p><strong>Computational notes:</strong> $\widetilde{\beta}$ and $\widetilde{\Sigma}_{\beta}$ are fixed over the posterior draws, and the posterior distribution for $\Sigma$ does not depend on a $\beta$ draw. Thus the sampling steps can be performed in parallel:</p>
+<ul>
+    <li>first draw many values from the distribution $p(\Sigma^{-1} | X,Y)$; then</li>
+    <li>for each $\Sigma^{(i)}$ draw, sample from $p(\alpha | \Sigma^{(i)},X,Y)$.</li>
+</ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Example</strong></h3>
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 100%;">Examples</strong></h3>
 
 <br>
 
@@ -277,25 +279,24 @@ bvar_data <- data.matrix(USMacroData[,2:4])
 #
 
 coef_prior <- c(0.9,0.9,0.9)
-psi_prior <- matrix(c(3,6,5),nrow=1)
-
-HP1 <- 0.5
-HP2 <- 0.5
-XiPsi <- 1
+XiBeta <- 4
+XiSigma <- 1
 gamma = 4
 
-bvar_obj <- new(bvars)
+bvar_obj <- new(bvarinww)
 
 #
 
-bvar_obj$build(bvar_data,TRUE,1)
-bvar_obj$prior(coef_prior,HP1,HP2,psi_prior,XiPsi,gamma,FALSE)
+bvar_obj$build(bvar_data,TRUE,4)
+bvar_obj$prior(coef_prior,XiBeta,XiSigma,gamma)
 bvar_obj$gibbs(10000,5000)
 
 IRF(bvar_obj,20,var_names=colnames(bvar_data),save=FALSE)
 plot(bvar_obj,var_names=colnames(bvar_data),save=FALSE)
 forecast(bvar_obj,shocks=TRUE,var_names=colnames(bvar_data),back_data=10,save=FALSE)
 </pre>
+
+<hr>
 
     </div>
     </div>
