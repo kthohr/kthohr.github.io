@@ -153,21 +153,28 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $x_i$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
+<p>Let $x^{(i)}$ denote the function input values at stage $i$ of the algorithm. The BFGS updating rule is as follows.</p>
 
-<p>The descent direction is computed using</p>
-$$d_i = -W_i \nabla f_{i}$$
-<p>where $W_i$ is the approximate <strong>inverse</strong> hessian and $\nabla f_i$ is the gradiant vector at values $x_i$.<p>
+<ul>
+    <li>The descent direction is computed using
+    $$d^{(i)} = -W^{(i)} \nabla f^{(i)}$$
+    where $W^{(i)}$ is the <strong>approximate inverse hessian</strong> of $f$ and $\nabla f^{(i)}$ is the gradiant vector at values $x^{(i)}$.</li>
 
-<p>$W_i$ is updated using</p>
-$$s := x_{i+1} - x_i$$
-$$y := \nabla f_{i+1} - \nabla f_{i}$$
-$$W_{i+1} = \left(I - \dfrac{sy'}{y's}\right) W_i \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}$$
-<p>The values are then updated:</p>
-$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
-<p>where $\alpha_i$ is found via line search:</p>
-$$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
-<p>The line search method used in OptimLib is that of More and Thuente (1994).</p>
+    <li>$W^{(i)}$ is updated using</li>
+    $$
+        W^{(i+1)} = \left(I - \dfrac{sy'}{y's}\right) W^{(i)} \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}
+    $$
+    where
+    \begin{align*}
+        s &:= x^{(i+1)} - x^{(i)} \\
+        y &:= \nabla f^{(i+1)} - \nabla f^{(i)}
+    \end{align*}
+    <li>The values are then updated:
+    $$x^{(i+1)} = x^{(i)} + \alpha^{(i)} d^{(i)}$$
+    where $\alpha^{(i)}$ is found via line search:
+    $$\alpha^{(i)} = \arg \min_\alpha f(x^{(i)} + \alpha d^{(i)})$$
+    The line search method used in OptimLib is that of More and Thuente (1994).</li>
+</ul>
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 

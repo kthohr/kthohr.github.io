@@ -149,34 +149,40 @@ bool cg(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals
 
 <h3 style="text-align: left;" id="details"><strong style="font-size: 100%;">Details</strong></h3>
 
-<p>Let $x_i$ denote the values at stage $i$ of the algorithm. The Nonlinear Conjugate Gradient updating rule is as follows.</p>
-$$d_i = - \nabla f_{i} + \beta_i \times d_{i-1}$$
-$$x_{i+1} = x_i + \alpha_{i} d_{i}$$
-<p>where $\beta$ is based on one of the updating rules below, and $\alpha_i$ is found via line search:</p>
-$$\alpha_i = \arg \min_\alpha f(x_i + \alpha d_i)$$
-<p>The Nonlinear CG method is known to perform better with periodic restarting (setting $\beta = 0$). In OptimLib, this occurs when</p>
-$$\dfrac{|\nabla f_i \cdot \nabla f_{i-1}|}{\nabla f_{i} \cdot \nabla f_{i}} > \nu$$
+<p>Let $x^{(i)}$ denote the function input values at stage $i$ of the algorithm. The Nonlinear Conjugate Gradient updating rule is as follows.</p>
+<ul>
+    <li>The descent direction is computed using
+        $$d_i = - \nabla f_{i} + \beta_i \times d_{i-1}$$
+    where $\beta$ is calculated using one of several updating rules below, depending on the value <code>cg_method</code>.</li>
+    <li>The Nonlinear CG method is known to perform better with periodic restarting (setting $\beta = 0$). In OptimLib, this occurs when</li>
+    $$\dfrac{|\nabla f_i \cdot \nabla f_{i-1}|}{\nabla f_{i} \cdot \nabla f_{i}} > \nu$$
+    <li>The values are then updated:
+            $$x^{(i+1)} = x^{(i)} + \alpha^{(i)} d^{(i)}$$
+        where $\alpha^{(i)}$ is found via line search:
+            $$\alpha^{(i)} = \arg \min_\alpha f(x^{(i)} + \alpha d^{(i)})$$
+        The line search method used in OptimLib is that of More and Thuente (1994).</li>
+</ul>
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
 
 <hr>
 <h3 style="text-align: left;"><strong style="font-size: 80%;">Updating Formula:</strong></h3>
 <ul>
-    <li> Fletcher–Reeves (<code>cg_method = 1</code>):</li>
+    <li><code>cg_method = 1</code> Fletcher–Reeves (FR):</li>
         $$\beta_{\text{FR}} = \dfrac{\nabla f_i \cdot \nabla f_i}{\nabla f_{i-1} \cdot \nabla f_{i-1}}$$
-    <li> Polak-Ribiere (PR) '+' (<code>cg_method = 2</code>):</li>
+    <li><code>cg_method = 2</code> Polak-Ribiere (PR) '+':</li>
         $$\beta_{\text{PR+}} = \max \left\{ 0 , \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{\nabla f_{i-1} \cdot \nabla f_{i-1}} \right\}$$
-    <li> FR-PR Hybrid: (<code>cg_method = 3</code>):</li>
-    <ul>
-        <li>If $\beta_{\text{PR}} < - \beta_{\text{FR}}$, set $\beta = - \beta_{\text{FR}}$</li>
-        <li>If $|\beta_{\text{PR}}| < \beta_{\text{FR}}$, set $\beta = \beta_{\text{PR}}$</li>
-        <li>If $\beta_{\text{PR}} > \beta_{\text{FR}}$, set $\beta = \beta_{\text{FR}}$</li>
-    </ul>
-    <li> Hestenes-Stiefel: (<code>cg_method = 4</code>):</li>
+    <li><code>cg_method = 3</code> FR-PR Hybrid:</li>
+        $$\beta = \begin{cases} 
+            - \beta_{\text{FR}} & \text{ if } \beta_{\text{PR}} < - \beta_{\text{FR}} \\ 
+              \beta_{\text{PR}} & \text{ if } |\beta_{\text{PR}}| \leq \beta_{\text{FR}} \\
+              \beta_{\text{FR}} & \text{ if } \beta_{\text{PR}} > \beta_{\text{FR}}  
+        \end{cases}$$
+    <li><code>cg_method = 4</code> Hestenes-Stiefel:</li>
         $$\beta_{\text{HS}} = \dfrac{\nabla f_i \cdot (\nabla f_i - \nabla f_{i-1})}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
-    <li> Dai-Yuan: (<code>cg_method = 5</code>):</li>
+    <li><code>cg_method = 5</code> Dai-Yuan:</li>
         $$\beta_{\text{DY}} = \dfrac{\nabla f_i \cdot \nabla f_i}{(\nabla f_{i} - \nabla f_{i-1}) \cdot d_i}$$
-    <li> Hager-Zhang: (<code>cg_method = 6</code>):</li>
+    <li><code>cg_method = 6</code> Hager-Zhang:</li>
         $$\beta_{\text{HZ}} = \left( y - 2 \times \dfrac{y \cdot y}{y \cdot d} \times d \right) \cdot \dfrac{\nabla f_i}{y \cdot d}, \ \ \ y := \nabla f_i - \nabla f_{i-1}$$
 </ul>
 
