@@ -143,13 +143,11 @@ cd ./mcmc
 ./configure -i "/usr/local" -p
 make
 make install</pre>
-<p>The last line will install MCMCLib to <samp>/usr/local</sampe></p>
+<p>The last line will install MCMCLib to <samp>/usr/local</samp></p>
 
 <p>Configuration options: (see <code>./configure -h</code>)</p>
 <ul>
-    <li><code>-c</code> a coverage build</li>
-    <li><code>-d</code> a 'development' build</li>
-    <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
+    <strong>Primary</strong>
     <li><code>-h</code> print help</li>
     <li><code>-i</code> install path; default: the build directory</li>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against;
@@ -157,7 +155,14 @@ make install</pre>
     <li><code>-o</code> compiler optimization options;
     <br> &nbsp &nbsp &nbsp &nbsp default: <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
     <li><code>-p</code> enable OpenMP parallelization features (<strong>recommended</strong>)</li>
+    
+    <strong>Secondary</strong>
+    <li><code>-c</code> a coverage build (used with Codecov)</li>
+    <li><code>-d</code> a 'development' build</li>
+    <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
 </ul>
+
+<hr>
 
 <h4 style="text-align: left;"><strong style="font-size: 95%;">Armadillo</strong></h3>
 
