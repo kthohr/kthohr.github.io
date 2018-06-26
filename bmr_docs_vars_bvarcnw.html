@@ -255,9 +255,9 @@ for lags and exogenous variables, respectively.</li>
 	\widetilde{\Sigma}_{\beta}^{-1} &= \Xi_{\beta}^{-1} + X^{\top} X \\
 	\widetilde{\beta} &= \widetilde{\Sigma}_{\beta} \left( \Xi_{\beta}^{-1} \bar{\beta} + X^\top Y \right)
 \end{align*}
-<p><strong>Computational notes:</strong> $\widetilde{\beta}$ and $\widetilde{\Sigma}_{\beta}$ are fixed over the posterior draws, and the posterior distribution for $\Sigma$ does not depend on a $\beta$ draw. Thus the sampling steps can be performed in parallel:</p>
+<p><strong>Computational notes:</strong> $\widetilde{\beta}$ and $\widetilde{\Sigma}_{\beta}$ are fixed over posterior draws, and the posterior distribution for $\Sigma$ does not depend on a $\beta$ draw. Thus the sampling steps can be performed in parallel:</p>
 <ul>
-    <li>first draw many values from the distribution $p(\Sigma^{-1} | X,Y)$; then</li>
+    <li>first, draw many values from the distribution $p(\Sigma^{-1} | X,Y)$; then</li>
     <li>for each $\Sigma^{(i)}$ draw, sample from $p(\alpha | \Sigma^{(i)},X,Y)$.</li>
 </ul>
 
