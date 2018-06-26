@@ -115,7 +115,7 @@ pre {
 
 <pre class="brush: cpp;">
 bool aees(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data);
-bool aees(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data, algo_settings& settings);
+bool aees(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;double (const arma::vec& vals_inp, void* target_data)&gt; target_log_kernel, void* target_data, algo_settings_t& settings);
 </pre>
 <p><strong>Function arguments:</strong></p>
 <ul>
@@ -262,7 +262,7 @@ int main()
 
     //
 
-    mcmc::algo_settings settings;
+    mcmc::algo_settings_t settings;
 
     settings.aees_n_draws = 20000;
     settings.aees_n_burnin = 1000;
