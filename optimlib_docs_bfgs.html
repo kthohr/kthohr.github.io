@@ -159,21 +159,20 @@ bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& va
     <li>The descent direction is computed using
     $$d^{(i)} = -W^{(i)} \nabla f^{(i)}$$
     where $W^{(i)}$ is the <strong>approximate inverse hessian</strong> of $f$ at stage $i$, and $\nabla f^{(i)}$ is the gradient of $f$ evaluated at $x^{(i)}$.</li>
-
-    <li>$W^{(i)}$ is updated using</li>
-    $$
-        W^{(i+1)} = \left(I - \dfrac{sy'}{y's}\right) W^{(i)} \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}
-    $$
-    where
-    \begin{align*}
-        s &:= x^{(i+1)} - x^{(i)} \\
-        y &:= \nabla f^{(i+1)} - \nabla f^{(i)}
-    \end{align*}
     <li>The input values are then updated:
     $$x^{(i+1)} = x^{(i)} + \alpha^{(i)} d^{(i)}$$
     where $\alpha^{(i)}$ is found via line search:
     $$\alpha^{(i)} = \arg \min_\alpha f(x^{(i)} + \alpha d^{(i)})$$
     The line search method used in OptimLib is that of More and Thuente (1994).</li>
+    <li>$W^{(i)}$ is updated for stage $i+1$ using
+    $$
+        W^{(i+1)} = \left(I - \dfrac{sy'}{y's}\right) W^{(i)} \left(I - \dfrac{sy'}{y's}\right)' + \dfrac{ss'}{y's}
+    $$
+    where</li>
+    \begin{align*}
+        s &:= x^{(i+1)} - x^{(i)} \\
+        y &:= \nabla f^{(i+1)} - \nabla f^{(i)}
+    \end{align*}
 </ul>
 
 <p>The algorithm stops when $\| \nabla f \|$ is less than <code>err_tol</code>, or the total number of iterations exceeds <code>iter_max</code>.</p>
