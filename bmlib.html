@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Bayesian Macroeconometrics in R (BMLib)">
+    <meta name="description" content="Bayesian Macroeconometrics C++ Library (BM++)">
     <meta name="author" content="Keith O'Hara">
 
     <meta name="keywords" content="Bayesian, Macroeconometrics, BMLib, Economics, PhD student, NYU, New York University, Econometrics, R, C++, Cpp, Research" />
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>Bayesian Macroeconometrics (BMLib)</title>
+    <title>Bayesian Macroeconometrics (BM++)</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -96,7 +96,14 @@ pre {
 
 <br>
 
-<p>BMLib is a templated C++ library for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
+<!--  -->
+
+<div class="row">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+<p>BM++ is a templated C++ library for estimating Bayesian Vector Autoregressive (BVAR) and Dynamic Stochastic General Equilibrium (DSGE) models.</p>
 
 <hr>
 
@@ -113,7 +120,7 @@ pre {
             <li>Minnesota prior, and</li>
             <li>Mattias Villani's steady-state prior.</li>
         </ul>
-            <li>BMLib can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
+            <li>BM++ can also estimate BVARs with time-varying parameters, as well as classical (non-Bayesian) VARs.</li>
         </ul>
         </td>
         <td>
@@ -140,7 +147,7 @@ pre {
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
-<p><strong>License</strong>: BMLib is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.</p>
+<p><a href="https://raw.githubusercontent.com/kthohr/bmlib/master/LICENSE" target="_blank"><img src="https://img.shields.io/badge/Licence-GPL%20v2-blue.svg" alt="License"></a></p>
 
 <hr style="height:2px;border-width:0;background-color:black">
 
@@ -149,26 +156,48 @@ pre {
     <li>The source code is available on <a href="https://github.com/kthohr/bmlib" target="_blank">GitHub</a>.</li>
 </ul>
 
-<p>BMLib can be installed in the standard way:</p>
+<p>BM++ can be installed in the standard way:</p>
 <pre class="brush: bash;">
-# clone bmlib
+# clone BM++
 git clone -b master --single-branch https://github.com/kthohr/bmlib ./bmlib
 # build and install
 cd ./bmlib
-./configure
+./configure -i "/usr/local" -p
 make
 make install</pre>
-<p>The last line will install BMLib into <samp>/usr/local</sampe></p>
+<p>The last line will install BM++ into <samp>/usr/local</sampe></p>
 
-<p>Configure options:</p>
+<p>Configuration options: (see <code>./configure -h</code>)</p>
 <ul>
-    <li><code>-b dev</code> a 'development' build, with install names set to the build directory (as opposed to an install path)</li>
-    <li><code>-c</code> a coverage build</li>
-    <li><code>-m</code> specify the BLAS and Lapack libraries to link against; for example, <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
-    <li><code>-o</code> enable aggressive compiler optimization features: <code>-o fast</code> or <code>-o native</code></li>
-    <li><code>-p</code> enable parallelization features (using OpenMP)</li>
+    <strong>Primary</strong>
+    <li><code>-h</code> print help</li>
+    <li><code>-i</code> install path; default: the build directory
+    <br> &nbsp &nbsp &nbsp &nbsp example: <code>-i "/usr/local"</code></li>
+    <li><code>-m</code> specify the BLAS and Lapack libraries to link against;
+    <br> &nbsp &nbsp &nbsp &nbsp examples: <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
+    <li><code>-o</code> compiler optimization options;
+    <br> &nbsp &nbsp &nbsp &nbsp default: <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
+    <li><code>-p</code> enable OpenMP parallelization features (<strong>recommended</strong>)</li>
+    <strong>Secondary</strong>
+    <li><code>-c</code> a coverage build (used with Codecov)</li>
+    <li><code>-d</code> a 'development' build</li>
+    <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
 </ul>
 
+<hr>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Armadillo</strong></h3>
+
+BM++ is built on the Armadillo C++ linear algebra library. The <code>configure</code> script will search for Armadillo files in the standard locations: <code>/usr/include</code>, <code>/usr/local/include</code>, <code>/opt/include</code>, <code>/opt/local/include</code>. If the Armadillo header files are installed elsewhere, set the following environment variable <strong>before</strong> running <code>configure</code>:
+<pre class="brush: bash;">
+export ARMA_INCLUDE_PATH=/path/to/armadillo</pre>
+
+Otherwise the build script will download the required files from the Armadillo GitLab repository.
+
+<hr>
+
+    </div>
+    </div>
     </div>
     
     <div id="myfooter"></div>
