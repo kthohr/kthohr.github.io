@@ -94,7 +94,7 @@ pre {
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="#definition">Definition</a> <br>
+                    <a href="#intro">Introduction</a> <br>
                     <a href="#density">Density</a> <br>
                     <a href="#probability">Probability</a> <br>
                     <a href="#quantile">Quantile</a> <br>
@@ -114,14 +114,14 @@ pre {
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="definition"><strong style="font-size: 120%;">Definition</strong></h3>
+<h3 style="text-align: left;" id="intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
-The density function (mass function) of the Bernoulli distribution:
+<p>The density function (mass function) of the Bernoulli distribution:</p>
 $$
     f(x; p) = p^x (1-p)^{1-x}
 $$
 
-Parameters:
+<p>Parameters:</p>
 <ul>
     <li><code>prob_par</code> is $p$</li>
 </ul>
@@ -132,6 +132,9 @@ Parameters:
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Density</strong></h3>
 
+<hr>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename T&gt;
 statslib_constexpr
@@ -139,6 +142,8 @@ T dbern(const uint_t x, const T prob_par, const bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
+
+<hr>
 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
@@ -160,6 +165,9 @@ arma::mat log_dens_vals_mat = stats::dbern(X,0.6,true);
 
 <h3 style="text-align: left;" id="probability"><strong style="font-size: 120%;">Probability</strong></h3>
 
+<hr>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename T&gt;
 statslib_constexpr
@@ -167,6 +175,8 @@ T pbern(const uint_t x, const T prob_par, const bool log_form = false);
 </pre>
 
 <p>Computes the cumulative distribution function (CDF).</p>
+
+<hr>
 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
@@ -188,6 +198,9 @@ arma::mat log_prob_vals_mat = stats::pbern(X,0.6,true);
 
 <h3 style="text-align: left;" id="quantile"><strong style="font-size: 120%;">Quantile</strong></h3>
 
+<hr>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb = uint_t&gt;
 statslib_constexpr
@@ -195,6 +208,8 @@ Tb qbern(const Ta p, const Ta prob_par);
 </pre>
 
 <p>Computes the quantile function.</p>
+
+<hr>
 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
@@ -214,6 +229,9 @@ arma::mat quant_vals_mat = stats::qbern(X,0.6);
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Random Sampling</strong></h3>
 
+<hr>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 // random engine seeding
 template&lt;typename T&gt;
@@ -232,6 +250,8 @@ mT rbern(const uint_t n, const uint_t k, const eT prob_par);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
+
+<hr>
 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 

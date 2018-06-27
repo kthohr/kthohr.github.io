@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>StatsLib: Normal Distribution</title>
+    <title>StatsLib: Beta Distribution</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Normal Distribution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Beta Distribution</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -118,13 +118,14 @@ pre {
 
 <p>The density function of the Normal (Gaussian) distribution:</p>
 $$
-    f(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi} \sigma} \exp \left( - \frac{(x-\mu)^2}{2 \sigma^2} \right)
+    f(x; \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha,\beta)} x^{\alpha - 1} (1-x)^{1-\beta}
 $$
+<p>where $\mathcal{B}(\alpha,\beta)$ is the beta function.</p>
 
 <p>Parameters:</p>
 <ul>
-    <li><code>mu_par</code> is $\mu$</li>
-    <li><code>sigma_par</code> is $\sigma$</li>
+    <li><code>a_par</code> is $\alpha$</li>
+    <li><code>b_par</code> is $\beta$</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -133,26 +134,34 @@ $$
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Density</strong></h3>
 
+<hr>
+
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; dnorm(const Ta x, const Tb mu_par, const Tb sigma_par, const bool log_form = false);
+return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double dens_val = stats::dnorm(0.5,0.0,1.0);
-double log_dens_val = stats::dnorm(0.5,0.0,1.0,true);
+// parameters
+double alpha = 3.0;
+double beta  = 2.0;
+
+// standard input
+double dens_val = stats::dbeta(0.5,alpha,beta);
+double log_dens_val = stats::dbeta(0.5,alpha,beta,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat dens_vals_mat = stats::dnorm(X,0.0,1.0);
-arma::mat log_dens_vals_mat = stats::dnorm(X,0.0,1.0,true);
+arma::mat dens_vals_mat = stats::dbeta(X,alpha,beta);
+arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -161,26 +170,34 @@ arma::mat log_dens_vals_mat = stats::dnorm(X,0.0,1.0,true);
 
 <h3 style="text-align: left;" id="probability"><strong style="font-size: 120%;">Probability</strong></h3>
 
+<hr>
+
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; pnorm(const Ta x, const Tb mu_par, const Tb sigma_par, const bool log_form = false);
+return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
 </pre>
 
 <p>Computes the cumulative distribution function (CDF).</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double prob_val = stats::pnorm(0.5,0.0,1.0);
-double log_prob_val = stats::pnorm(0.5,0.0,1.0,true);
+<pre class="brush: cpp;">
+// parameters
+double alpha = 3.0;
+double beta  = 2.0;
+
+// standard input
+double prob_val = stats::pbeta(0.5,alpha,beta);
+double log_prob_val = stats::pbeta(0.5,alpha,beta,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat prob_vals_mat = stats::pnorm(X,0.0,1.0);
-arma::mat log_prob_vals_mat = stats::pnorm(X,0.0,1.0,true);
+arma::mat prob_vals_mat = stats::pbeta(X,alpha,beta);
+arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -189,24 +206,32 @@ arma::mat log_prob_vals_mat = stats::pnorm(X,0.0,1.0,true);
 
 <h3 style="text-align: left;" id="quantile"><strong style="font-size: 120%;">Quantile</strong></h3>
 
+<hr>
+
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; qnorm(const Ta p, const Tb mu_par, const Tb sigma_par);
+Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
 </pre>
 
 <p>Computes the quantile function.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double quant_val = stats::qnorm(0.7,0.0,1.0);
+// parameters
+double alpha = 3.0;
+double beta  = 2.0;
+
+// standard input
+double quant_val = stats::qbeta(0.7,alpha,beta);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.7);
 
-arma::mat quant_vals_mat = stats::qnorm(X,0.0,1.0);
+arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -215,37 +240,40 @@ arma::mat quant_vals_mat = stats::qnorm(X,0.0,1.0);
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Random Sampling</strong></h3>
 
+<hr>
+
 <pre class="brush: cpp;"> 
 // random engine seeding
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rnorm(const T mu_par, const T sigma_par, rand_engine_t& engine);
+return_t&lt;T&gt; rbeta(const T a_par, const T b_par, rand_engine_t& engine);
 
 // seeding values
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rnorm(const T mu_par, const T sigma_par, uint_t seed_val = std::random_device{}());
-
-// generate N(0,1) draws
-template&lt;typename T = double&gt;
-statslib_inline
-T rnorm();
+return_t&lt;T&gt; rbeta(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
 
 // matrix output
 template&lt;typename mT, typename eT = double&gt;
 statslib_inline
-mT rnorm(const uint_t n, const uint_t k, const eT mu_par = eT(0), const eT sigma_par = eT(1));
+mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double rand_val = stats::rnorm(0.0,1.0);
+<pre class="brush: cpp;">
+// parameters
+double alpha = 3.0;
+double beta  = 2.0;
+
+// standard input
+double rand_val = stats::rbeta(alpha,beta);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rnorm_mat = stats::rnorm&lt;arma::mat&gt;(10,1,0.0,1.0);
+arma::mat rbeta_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
