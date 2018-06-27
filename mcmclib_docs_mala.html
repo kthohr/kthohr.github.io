@@ -152,7 +152,7 @@ bool mala(const arma::vec& initial_vals, arma::mat& draws_out, std::function&lt;
 <ul>
     <li><strong>Proposal Step.</strong> Let
         $$\mu(\theta^{(i)}) := \theta^{(i)} + \frac{\epsilon^2}{2} \mathbf{M} \nabla_\theta \ln K(\theta^{(i)} | X)$$
-        where $K$ is the posterior kernel and $\epsilon = $ <code>mala_step_size</code>.
+        where $K$ is the posterior kernel, $\mathbf{M}$ is set by <code>mala_precond_mat</code>, and $\epsilon = $ <code>mala_step_size</code>.
         <br><br>
         Generate a proposal draw:
         $$\theta^{(*)} = \mu(\theta^{(i)}) + \epsilon W$$
