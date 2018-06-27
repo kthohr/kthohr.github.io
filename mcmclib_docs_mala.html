@@ -188,7 +188,7 @@ double ll_dens(const arma::vec& vals_inp, arma::vec* grad_out, void* ll_data)
 
     const double pi = arma::datum::pi;
 
-    norm_data* dta = reinterpret_cast<norm_data*>(ll_data);
+    norm_data* dta = reinterpret_cast&lt;norm_data*&gt;(ll_data);
     const arma::vec x = dta->x;
     const int n_vals = x.n_rows;
 
