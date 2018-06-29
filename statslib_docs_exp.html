@@ -271,7 +271,7 @@ double rate = 14.0;
 double rand_val = stats::rexp(rate);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rand_mat = stats::rchisq&lt;arma::mat&gt;(10,1,rate);
+arma::mat rand_mat = stats::rexp&lt;arma::mat&gt;(10,1,rate);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
