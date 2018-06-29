@@ -208,9 +208,9 @@ arma::mat log_prob_vals_mat = stats::pbern(X,prob_par,true);
 
 <p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb = uint_t&gt;
+template&lt;typename Ta, typename Tb, typename Tc = uint_t&gt;
 statslib_constexpr
-Tb qbern(const Ta p, const Ta prob_par);
+Tc qbern(const Ta p, const Tb prob_par);
 </pre>
 
 <p>Computes the quantile function.</p>
@@ -223,7 +223,7 @@ Tb qbern(const Ta p, const Ta prob_par);
 double prob_par = 0.6;
 
 // standard input
-double quant_val = stats::qbern(0.7,prob_par);
+int quant_val = stats::qbern(0.7,prob_par);
 
 // Armadillo input
 arma::mat X(10,1);
@@ -245,12 +245,12 @@ arma::mat quant_vals_mat = stats::qbern(X,prob_par);
 // random engine seeding
 template&lt;typename T&gt;
 statslib_inline
-int rbern(const T prob_par, rand_engine_t& engine);
+uint_t rbern(const T prob_par, rand_engine_t& engine);
 
 // seeding values
 template&lt;typename T&gt;
 statslib_inline
-int rbern(const T prob_par, uint_t seed_val = std::random_device{}());
+uint_t rbern(const T prob_par, uint_t seed_val = std::random_device{}());
 
 // matrix output
 template&lt;typename mT, typename eT&gt;

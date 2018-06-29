@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>StatsLib: Beta Distribution</title>
+    <title>StatsLib: Wishart Distribution</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -90,14 +90,12 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Beta Distribution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Wishart Distribution</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
                     <a href="#intro">Introduction</a> <br>
                     <a href="#density">Density</a> <br>
-                    <a href="#probability">Probability</a> <br>
-                    <a href="#quantile">Quantile</a> <br>
                     <a href="#random">Random Sampling</a>
                 </div>
             </div>
@@ -116,16 +114,16 @@ pre {
 
 <h3 style="text-align: left;" id="intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
-<p>The density function of the Normal (Gaussian) distribution:</p>
+<p>The density function of the inverse-Wishart distribution:</p>
 $$
-    f(x; \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha,\beta)} x^{\alpha - 1} (1-x)^{\beta-1}
+    f(\mathbf{X}; \boldsymbol{\Psi}, \nu) = \dfrac{1}{2^{\frac{\nu p}{2}} |\boldsymbol{\Psi}|^{\frac{\nu}{2}} \Gamma_p\left( \frac{\nu}{2} \right)} | \mathbf{X} |^{\frac{\nu - p - 1}{2}} \exp \left( - \frac{1}{2} \text{tr} (\boldsymbol{\Psi}^{-1} \mathbf{X}) \right)
 $$
-<p>where $\mathcal{B}(\alpha,\beta)$ is the beta function.</p>
+<p>where $\Gamma_p$ is the multivariate gamma function.</p>
 
 <p>Parameters:</p>
 <ul>
-    <li><code>a_par</code> is $\alpha$</li>
-    <li><code>b_par</code> is $\beta$</li>
+    <li><code>Psi_par</code> is $\boldsymbol{\Psi}$</li>
+    <li><code>nu_par</code> is $\nu$</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -137,10 +135,10 @@ $$
 <br>
 
 <p><strong>Definition:</strong></p>
-<pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
-statslib_constexpr
-return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+<pre class="brush: cpp;">
+template&lt;typename mT, typename pT&gt;
+statslib_inline
+return_t&lt;pT&gt; dwish(const mT& X, const mT& Psi_par, const pT nu_par, bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
@@ -148,93 +146,17 @@ return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <hr>
 
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// parameters
-double alpha = 3.0;
-double beta  = 2.0;
-
-// standard input
-double dens_val = stats::dbeta(0.5,alpha,beta);
-double log_dens_val = stats::dbeta(0.5,alpha,beta,true);
-
-// Armadillo input
-arma::mat X(10,1);
-X.fill(0.5);
-
-arma::mat dens_vals_mat = stats::dbeta(X,alpha,beta);
-arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
-</pre>
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<!--  -->
-
-<h3 style="text-align: left;" id="probability"><strong style="font-size: 120%;">Probability</strong></h3>
-
-<br>
-
-<p><strong>Definition:</strong></p>
-<pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
-statslib_constexpr
-return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
-</pre>
-
-<p>Computes the cumulative distribution function (CDF).</p>
-
-<hr>
-
-<p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
-
-// standard input
-double prob_val = stats::pbeta(0.5,alpha,beta);
-double log_prob_val = stats::pbeta(0.5,alpha,beta,true);
+arma::mat Psi = arma::eye(5,5);
+double nu = 10.0;
 
 // Armadillo input
 arma::mat X(10,1);
-X.fill(0.5);
+X.fill(2.5);
 
-arma::mat prob_vals_mat = stats::pbeta(X,alpha,beta);
-arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
-</pre>
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<!--  -->
-
-<h3 style="text-align: left;" id="quantile"><strong style="font-size: 120%;">Quantile</strong></h3>
-
-<br>
-
-<p><strong>Definition:</strong></p>
-<pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
-statslib_constexpr
-Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
-</pre>
-
-<p>Computes the quantile function.</p>
-
-<hr>
-
-<p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// parameters
-double alpha = 3.0;
-double beta  = 2.0;
-
-// standard input
-double quant_val = stats::qbeta(0.7,alpha,beta);
-
-// Armadillo input
-arma::mat X(10,1);
-X.fill(0.7);
-
-arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
+arma::mat dens_vals_mat = stats::dwish(X,Psi,nu);
+arma::mat log_dens_vals_mat = stats::dwish(X,Psi,nu,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -247,37 +169,25 @@ arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
 
 <p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
-// random engine seeding
-template&lt;typename T&gt;
+template&lt;typename mT, typename pT&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, rand_engine_t& engine);
-
-// seeding values
-template&lt;typename T&gt;
-statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
-
-// matrix output
-template&lt;typename mT, typename eT&gt;
-statslib_inline
-mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
+mT rwish(const mT& Psi_par, const pT nu_par, const bool pre_chol = false);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
+
+<p>Here <code>pre_chol</code> indicates whether <code>Psi_par</code> is being passed as a Cholesky decomposition (in <strong>lower triangular</strong> format).</p>
 
 <hr>
 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+arma::mat Psi = arma::eye(5,5);
+double nu = 10.0;
 
-// standard input
-double rand_val = stats::rbeta(alpha,beta);
-
-// Armadillo output: 10 x 1 matrix
-arma::mat rand_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
+// Armadillo output
+arma::mat rand_mat = stats::rwish&lt;arma::mat&gt;(Psi,nu);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">

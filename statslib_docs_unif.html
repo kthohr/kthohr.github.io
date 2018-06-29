@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>StatsLib: Beta Distribution</title>
+    <title>StatsLib: Uniform Distribution</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Beta Distribution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Uniform Distribution</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -118,14 +118,13 @@ pre {
 
 <p>The density function of the Normal (Gaussian) distribution:</p>
 $$
-    f(x; \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha,\beta)} x^{\alpha - 1} (1-x)^{\beta-1}
+    f(x; a,b) = \frac{1}{b-a} \times \mathbf{1}[ a \leq x \leq b]
 $$
-<p>where $\mathcal{B}(\alpha,\beta)$ is the beta function.</p>
 
 <p>Parameters:</p>
 <ul>
-    <li><code>a_par</code> is $\alpha$</li>
-    <li><code>b_par</code> is $\beta$</li>
+    <li><code>a_par</code> is $a$</li>
+    <li><code>b_par</code> is $b$</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -140,7 +139,7 @@ $$
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+return_t&lt;Ta&gt; dunif(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
@@ -150,19 +149,19 @@ return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double a = -1.0;
+double b = 1.0;
 
 // standard input
-double dens_val = stats::dbeta(0.5,alpha,beta);
-double log_dens_val = stats::dbeta(0.5,alpha,beta,true);
+double dens_val = stats::dunif(0.5,a,b);
+double log_dens_val = stats::dunif(0.5,a,b,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat dens_vals_mat = stats::dbeta(X,alpha,beta);
-arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
+arma::mat dens_vals_mat = stats::dunif(X,a,b);
+arma::mat log_dens_vals_mat = stats::dunif(X,a,b,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -177,7 +176,7 @@ arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+return_t&lt;Ta&gt; punif(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
 </pre>
 
 <p>Computes the cumulative distribution function (CDF).</p>
@@ -187,19 +186,19 @@ return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double a = -1.0;
+double b = 1.0;
 
 // standard input
-double prob_val = stats::pbeta(0.5,alpha,beta);
-double log_prob_val = stats::pbeta(0.5,alpha,beta,true);
+double prob_val = stats::punif(0.5,a,b);
+double log_prob_val = stats::punif(0.5,a,b,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat prob_vals_mat = stats::pbeta(X,alpha,beta);
-arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
+arma::mat prob_vals_mat = stats::punif(X,a,b);
+arma::mat log_prob_vals_mat = stats::punif(X,a,b,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -214,7 +213,7 @@ arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
+Ta qunif(const Ta p, const Tb a_par, const Tb b_par);
 </pre>
 
 <p>Computes the quantile function.</p>
@@ -224,17 +223,17 @@ Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double a = -1.0;
+double b = 1.0;
 
 // standard input
-double quant_val = stats::qbeta(0.7,alpha,beta);
+double quant_val = stats::qunif(0.7,a,b);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.7);
 
-arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
+arma::mat quant_vals_mat = stats::qunif(X,a,b);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -250,17 +249,22 @@ arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
 // random engine seeding
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, rand_engine_t& engine);
+return_t&lt;T&gt; runif(const T a_par, const T b_par, rand_engine_t& engine);
 
 // seeding values
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
+return_t&lt;T&gt; runif(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
+
+// U(0,1) draw
+template&lt;typename T = double&gt;
+statslib_inline
+T runif();
 
 // matrix output
 template&lt;typename mT, typename eT&gt;
 statslib_inline
-mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
+mT runif(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
@@ -270,14 +274,14 @@ mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double a = -1.0;
+double b = 1.0;
 
 // standard input
-double rand_val = stats::rbeta(alpha,beta);
+double rand_val = stats::runif(a,b);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rand_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
+arma::mat rand_mat = stats::runif&lt;arma::mat&gt;(10,1,a,b);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
