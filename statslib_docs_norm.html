@@ -94,7 +94,7 @@ pre {
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="#definition">Definition</a> <br>
+                    <a href="#intro">Introduction</a> <br>
                     <a href="#density">Density</a> <br>
                     <a href="#probability">Probability</a> <br>
                     <a href="#quantile">Quantile</a> <br>
@@ -114,7 +114,7 @@ pre {
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;" id="definition"><strong style="font-size: 120%;">Definition</strong></h3>
+<h3 style="text-align: left;" id="intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
 <p>The density function of the Normal (Gaussian) distribution:</p>
 $$
@@ -133,6 +133,9 @@ $$
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Density</strong></h3>
 
+<br>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
@@ -141,18 +144,24 @@ return_t&lt;Ta&gt; dnorm(const Ta x, const Tb mu_par, const Tb sigma_par, const 
 
 <p>Computes the density function.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double dens_val = stats::dnorm(0.5,0.0,1.0);
-double log_dens_val = stats::dnorm(0.5,0.0,1.0,true);
+<pre class="brush: cpp;">
+// parameters
+double mu = 0.0;
+double sigma = 1.0;
+
+// standard input
+double dens_val = stats::dnorm(0.5,mu,sigma);
+double log_dens_val = stats::dnorm(0.5,mu,sigma,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat dens_vals_mat = stats::dnorm(X,0.0,1.0);
-arma::mat log_dens_vals_mat = stats::dnorm(X,0.0,1.0,true);
+arma::mat dens_vals_mat = stats::dnorm(X,mu,sigma);
+arma::mat log_dens_vals_mat = stats::dnorm(X,mu,sigma,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -161,6 +170,9 @@ arma::mat log_dens_vals_mat = stats::dnorm(X,0.0,1.0,true);
 
 <h3 style="text-align: left;" id="probability"><strong style="font-size: 120%;">Probability</strong></h3>
 
+<br>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
@@ -169,18 +181,24 @@ return_t&lt;Ta&gt; pnorm(const Ta x, const Tb mu_par, const Tb sigma_par, const 
 
 <p>Computes the cumulative distribution function (CDF).</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double prob_val = stats::pnorm(0.5,0.0,1.0);
-double log_prob_val = stats::pnorm(0.5,0.0,1.0,true);
+<pre class="brush: cpp;">
+// parameters
+double mu = 0.0;
+double sigma = 1.0;
+
+// standard input
+double prob_val = stats::pnorm(0.5,mu,sigma);
+double log_prob_val = stats::pnorm(0.5,mu,sigma,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat prob_vals_mat = stats::pnorm(X,0.0,1.0);
-arma::mat log_prob_vals_mat = stats::pnorm(X,0.0,1.0,true);
+arma::mat prob_vals_mat = stats::pnorm(X,mu,sigma);
+arma::mat log_prob_vals_mat = stats::pnorm(X,mu,sigma,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -189,24 +207,33 @@ arma::mat log_prob_vals_mat = stats::pnorm(X,0.0,1.0,true);
 
 <h3 style="text-align: left;" id="quantile"><strong style="font-size: 120%;">Quantile</strong></h3>
 
+<br>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; qnorm(const Ta p, const Tb mu_par, const Tb sigma_par);
+Ta qnorm(const Ta p, const Tb mu_par, const Tb sigma_par);
 </pre>
 
 <p>Computes the quantile function.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double quant_val = stats::qnorm(0.7,0.0,1.0);
+<pre class="brush: cpp;">
+// parameters
+double mu = 0.0;
+double sigma = 1.0;
+
+// standard input
+double quant_val = stats::qnorm(0.7,mu,sigma);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.7);
 
-arma::mat quant_vals_mat = stats::qnorm(X,0.0,1.0);
+arma::mat quant_vals_mat = stats::qnorm(X,mu,sigma);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -215,6 +242,9 @@ arma::mat quant_vals_mat = stats::qnorm(X,0.0,1.0);
 
 <h3 style="text-align: left;" id="density"><strong style="font-size: 120%;">Random Sampling</strong></h3>
 
+<br>
+
+<p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
 // random engine seeding
 template&lt;typename T&gt;
@@ -239,13 +269,19 @@ mT rnorm(const uint_t n, const uint_t k, const eT mu_par = eT(0), const eT sigma
 
 <p>Generates pseudo-random draws.</p>
 
+<hr>
+
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
-// standard input: mean 0, stdev 1
-double rand_val = stats::rnorm(0.0,1.0);
+<pre class="brush: cpp;">
+// parameters
+double mu = 0.0;
+double sigma = 1.0;
+
+// standard input
+double rand_val = stats::rnorm(mu,sigma);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rnorm_mat = stats::rnorm&lt;arma::mat&gt;(10,1,0.0,1.0);
+arma::mat rand_mat = stats::rnorm&lt;arma::mat&gt;(10,1,mu,sigma);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -255,9 +291,6 @@ arma::mat rnorm_mat = stats::rnorm&lt;arma::mat&gt;(10,1,0.0,1.0);
     </div>
 
     <div id="myfooter"></div>
-
-    <!-- jQuery -->
-    <!--<script src="js/jquery.js"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>

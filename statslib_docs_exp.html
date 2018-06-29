@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>StatsLib: Beta Distribution</title>
+    <title>StatsLib: Exponential Distribution</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Beta Distribution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Exponential Distribution</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -116,16 +116,14 @@ pre {
 
 <h3 style="text-align: left;" id="intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
-<p>The density function of the Normal (Gaussian) distribution:</p>
+<p>The density function of the Exponential distribution:</p>
 $$
-    f(x; \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha,\beta)} x^{\alpha - 1} (1-x)^{1-\beta}
+    f(x; \lambda) = \lambda \exp(-\lambda x) \times \mathbf{1}[ x \geq 0]
 $$
-<p>where $\mathcal{B}(\alpha,\beta)$ is the beta function.</p>
 
 <p>Parameters:</p>
 <ul>
-    <li><code>a_par</code> is $\alpha$</li>
-    <li><code>b_par</code> is $\beta$</li>
+    <li><code>rate_par</code> is $\lambda$. Note: this need not be an integer.</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -140,7 +138,7 @@ $$
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+return_t&lt;Ta&gt; dexp(const Ta x, const Tb rate_par, const bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
@@ -148,21 +146,20 @@ return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <hr>
 
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
+<pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double rate = 14.0;
 
 // standard input
-double dens_val = stats::dbeta(0.5,alpha,beta);
-double log_dens_val = stats::dbeta(0.5,alpha,beta,true);
+double dens_val = stats::dexp(0.5,rate);
+double log_dens_val = stats::dexp(0.5,rate,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat dens_vals_mat = stats::dbeta(X,alpha,beta);
-arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
+arma::mat dens_vals_mat = stats::dexp(X,rate);
+arma::mat log_dens_vals_mat = stats::dexp(X,rate,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -177,7 +174,7 @@ arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+return_t&lt;Ta&gt; pexp(const Ta x, const Tb rate_par, const bool log_form = false);
 </pre>
 
 <p>Computes the cumulative distribution function (CDF).</p>
@@ -187,19 +184,18 @@ return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double rate = 14.0;
 
 // standard input
-double prob_val = stats::pbeta(0.5,alpha,beta);
-double log_prob_val = stats::pbeta(0.5,alpha,beta,true);
+double prob_val = stats::pexp(0.5,rate);
+double log_prob_val = stats::pexp(0.5,rate,true);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.5);
 
-arma::mat prob_vals_mat = stats::pbeta(X,alpha,beta);
-arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
+arma::mat prob_vals_mat = stats::pexp(X,rate);
+arma::mat log_prob_vals_mat = stats::pexp(X,rate,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -214,7 +210,7 @@ arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
 <pre class="brush: cpp;"> 
 template&lt;typename Ta, typename Tb&gt;
 statslib_constexpr
-Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
+Ta qexp(const Ta p, const Tb rate_par);
 </pre>
 
 <p>Computes the quantile function.</p>
@@ -222,19 +218,18 @@ Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
 <hr>
 
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
+<pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double rate = 14.0;
 
 // standard input
-double quant_val = stats::qbeta(0.7,alpha,beta);
+double quant_val = stats::qexp(0.7,rate);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.7);
 
-arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
+arma::mat quant_vals_mat = stats::qexp(X,rate);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -250,17 +245,17 @@ arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
 // random engine seeding
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, rand_engine_t& engine);
+return_t&lt;T&gt; rexp(const T rate_par, rand_engine_t& engine);
 
 // seeding values
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
+return_t&lt;T&gt; rexp(const T rate_par, uint_t seed_val = std::random_device{}());
 
 // matrix output
 template&lt;typename mT, typename eT&gt;
 statslib_inline
-mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
+mT rexp(const uint_t n, const uint_t k, const eT rate_par);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
@@ -270,14 +265,13 @@ mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double rate = 14.0;
 
 // standard input
-double rand_val = stats::rbeta(alpha,beta);
+double rand_val = stats::rexp(rate);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rand_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
+arma::mat rand_mat = stats::rchisq&lt;arma::mat&gt;(10,1,rate);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">

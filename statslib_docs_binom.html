@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="siteicon.ico">
 
-    <title>StatsLib: Beta Distribution</title>
+    <title>StatsLib: Bernoulli Distribution</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@ pre {
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Beta Distribution</strong></h4></a>
+                <a data-toggle="collapse" href="#collapse1"><h4><strong style="font-size: 120%;">StatsLib: Binomial Distribution</strong></h4></a>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -116,16 +116,15 @@ pre {
 
 <h3 style="text-align: left;" id="intro"><strong style="font-size: 120%;">Introduction</strong></h3>
 
-<p>The density function of the Normal (Gaussian) distribution:</p>
+<p>The density function of the Binomial distribution:</p>
 $$
-    f(x; \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha,\beta)} x^{\alpha - 1} (1-x)^{1-\beta}
+    f(x; n, p) =  \binom{n}{x} p^x (1-p)^{n-x}
 $$
-<p>where $\mathcal{B}(\alpha,\beta)$ is the beta function.</p>
 
 <p>Parameters:</p>
 <ul>
-    <li><code>a_par</code> is $\alpha$</li>
-    <li><code>b_par</code> is $\beta$</li>
+    <li><code>n_trials_par</code> is $n$</li>
+    <li><code>prob_par</code> is $p$</li>
 </ul>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -138,9 +137,9 @@ $$
 
 <p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
+template&lt;typename T&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+T dbinom(const uint_t x, const uint_t n_trials_par, const T prob_par, const bool log_form = false);
 </pre>
 
 <p>Computes the density function.</p>
@@ -150,19 +149,19 @@ return_t&lt;Ta&gt; dbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;"> 
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double prob_par = 0.6;
+unsigned int n_trials = 4;
 
 // standard input
-double dens_val = stats::dbeta(0.5,alpha,beta);
-double log_dens_val = stats::dbeta(0.5,alpha,beta,true);
+double dens_val = stats::dbinom(2,n_trials,prob_par);
+double log_dens_val = stats::dbinom(2,n_trials,prob_par,true);
 
 // Armadillo input
 arma::mat X(10,1);
-X.fill(0.5);
+X.fill(1);
 
-arma::mat dens_vals_mat = stats::dbeta(X,alpha,beta);
-arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
+arma::mat dens_vals_mat = stats::dbinom(X,n_trials,prob_par);
+arma::mat log_dens_vals_mat = stats::dbinom(X,n_trials,prob_par,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -175,9 +174,9 @@ arma::mat log_dens_vals_mat = stats::dbeta(X,alpha,beta,true);
 
 <p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
+template&lt;typename T&gt;
 statslib_constexpr
-return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool log_form = false);
+T pbinom(const uint_t x, const uint_t n_trials_par, const T prob_par, const bool log_form = false);
 </pre>
 
 <p>Computes the cumulative distribution function (CDF).</p>
@@ -187,19 +186,19 @@ return_t&lt;Ta&gt; pbeta(const Ta x, const Tb a_par, const Tb b_par, const bool 
 <p><strong>Examples:</strong></p>
 <pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double prob_par = 0.6;
+unsigned int n_trials = 4;
 
 // standard input
-double prob_val = stats::pbeta(0.5,alpha,beta);
-double log_prob_val = stats::pbeta(0.5,alpha,beta,true);
+double prob_val = stats::pbinom(2,n_trials,prob_par);
+double log_prob_val = stats::pnorm(2,n_trials,prob_par,true);
 
 // Armadillo input
 arma::mat X(10,1);
-X.fill(0.5);
+X.fill(2);
 
-arma::mat prob_vals_mat = stats::pbeta(X,alpha,beta);
-arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
+arma::mat prob_vals_mat = stats::pbinom(X,n_trials,prob_par);
+arma::mat log_prob_vals_mat = stats::pbinom(X,n_trials,prob_par,true);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -212,9 +211,9 @@ arma::mat log_prob_vals_mat = stats::pbeta(X,alpha,beta,true);
 
 <p><strong>Definition:</strong></p>
 <pre class="brush: cpp;"> 
-template&lt;typename Ta, typename Tb&gt;
+template&lt;typename Ta, typename Tb = uint_t&gt;
 statslib_constexpr
-Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
+Tb qbinom(const Ta p, const uint_t n_trials_par, const Ta prob_par);
 </pre>
 
 <p>Computes the quantile function.</p>
@@ -222,19 +221,19 @@ Ta qbeta(const Ta p, const Tb a_par, const Tb b_par);
 <hr>
 
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;"> 
+<pre class="brush: cpp;">
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double prob_par = 0.6;
+unsigned int n_trials = 4;
 
 // standard input
-double quant_val = stats::qbeta(0.7,alpha,beta);
+double quant_val = stats::qbinom(0.7,n_trials,prob_par);
 
 // Armadillo input
 arma::mat X(10,1);
 X.fill(0.7);
 
-arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
+arma::mat quant_vals_mat = stats::qbinom(X,n_trials,prob_par);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -250,17 +249,17 @@ arma::mat quant_vals_mat = stats::qbeta(X,alpha,beta);
 // random engine seeding
 template&lt;typename T&gt;
 statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, rand_engine_t& engine);
+uint_t rbinom(const uint_t n_trials_par, const T prob_par, rand_engine_t& engine);
 
 // seeding values
 template&lt;typename T&gt;
-statslib_inline
-return_t&lt;T&gt; rbeta(const T a_par, const T b_par, uint_t seed_val = std::random_device{}());
+sstatslib_inline
+uint_t rbinom(const uint_t n_trials_par, const T prob_par, uint_t seed_val = std::random_device{}());
 
 // matrix output
 template&lt;typename mT, typename eT&gt;
 statslib_inline
-mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
+mT rbinom(const uint_t n, const uint_t k, const uint_t n_trials_par, const eT prob_par);
 </pre>
 
 <p>Generates pseudo-random draws.</p>
@@ -268,16 +267,16 @@ mT rbeta(const uint_t n, const uint_t k, const eT a_par, const eT b_par);
 <hr>
 
 <p><strong>Examples:</strong></p>
-<pre class="brush: cpp;">
+<pre class="brush: cpp;"> 
 // parameters
-double alpha = 3.0;
-double beta  = 2.0;
+double prob_par = 0.6;
+unsigned int n_trials = 4;
 
 // standard input
-double rand_val = stats::rbeta(alpha,beta);
+int rand_val = stats::rbinom(n_trials,prob_par);
 
 // Armadillo output: 10 x 1 matrix
-arma::mat rand_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
+arma::mat rand_mat = stats::rbinom&lt;arma::mat&gt;(10,1,n_trials,prob_par);
 </pre>
 
 <hr style="height:2px;border-width:0;background-color:black">
@@ -287,6 +286,9 @@ arma::mat rand_mat = stats::rbeta&lt;arma::mat&gt;(10,1,alpha,beta);
     </div>
 
     <div id="myfooter"></div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
