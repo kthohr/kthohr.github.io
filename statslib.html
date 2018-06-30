@@ -195,7 +195,7 @@ In addition, pdf and randomization functions are available for several multivari
 <h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
 <ul>
     <li>The source code is available on <a href="https://github.com/kthohr/stats" target="_blank">GitHub</a>.</li>
-    <li>StatsLib is a header-only library. Simply include the StatsLib header files with your project.</li>
+    <li>StatsLib is a <strong>header-only library</strong>. Simply <code>#include</code> the StatsLib header files with your project.</li>
 </ul>
 
 <p>To build the test files:</p>
@@ -214,7 +214,7 @@ cd dens
 
 <h3 style="text-align: left;"><strong style="font-size: 95%;">Compile-time Options</strong></h3>
 
-<p>Features</p>
+<p>The following options should be declared <strong>before</strong> including the StatsLib header files.</p>
 <ul>
     <li>For inline-only functionality (i.e., no <code>constexpr</code> specifiers):</li>
     <pre class="brush: c++;">
