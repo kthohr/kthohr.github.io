@@ -240,16 +240,16 @@ cd dens
 
 <p>Functions are called using an R-like syntax. Some general rules:</p>
 <ul>
-    <li>density functions: <code>stats::d*</code>. For example, the Normal (Gaussian) density is called using</li>
+    <li>density functions: <code>stats::d*</code>. For example, the <a href="statslib_docs_norm.html#density" target="_blank">Normal (Gaussian) density</a> is called using</li>
     <pre class="brush: c++;">
     stats::dnorm(&lt;value&gt;,&lt;mean parameter&gt;,&lt;standard deviation&gt;);</pre>
-    <li>cumulative distribution functions: <code>stats::p*</code>. For example, the Gamma CDF is called using</li>
+    <li>cumulative distribution functions: <code>stats::p*</code>. For example, the <a href="statslib_docs_gamma.html#probability" target="_blank">Gamma CDF</a> is called using</li>
     <pre class="brush: c++;">
     stats::pgamma(&lt;value&gt;,&lt;shape parameter&gt;,&lt;scale parameter&gt;);</pre>
-    <li>quantile functions: <code>stats::q*</code>. For example, the Beta quantile is called using</li>
+    <li>quantile functions: <code>stats::q*</code>. For example, the <a href="statslib_docs_beta.html#quantile" target="_blank">Beta quantile</a> is called using</li>
     <pre class="brush: c++;">
     stats::qbeta(&lt;value&gt;,&lt;a parameter&gt;,&lt;b parameter&gt;);</pre>
-    <li>random sampling: <code>stats::r*</code>. For example, to generate a single draw from the Logistic distribution:</li>
+    <li>random sampling: <code>stats::r*</code>. For example, to generate a single <a href="statslib_docs_logis.html#random" target="_blank">draw from the Logistic distribution</a>:</li>
     <pre class="brush: c++;">
     stats::rlogis(&lt;location parameter&gt;,&lt;scale parameter&gt;,&lt;seed value or random number engine&gt;);</pre>
 </ul>
