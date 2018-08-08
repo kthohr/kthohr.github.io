@@ -197,12 +197,14 @@ make install</pre>
     <li><code>-m</code> specify the BLAS and Lapack libraries to link against;
     <br> &nbsp &nbsp &nbsp &nbsp examples: <code>-m "-lopenblas"</code> or <code>-m "-framework Accelerate"</code></li>
     <li><code>-o</code> compiler optimization options;
-    <br> &nbsp &nbsp &nbsp &nbsp default: <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code>
+    <br> &nbsp &nbsp &nbsp &nbsp default: <code>-O3 -march=native -ffp-contract=fast -flto -DARMA_NO_DEBUG</code></li>
     <li><code>-p</code> enable OpenMP parallelization features (<strong>recommended</strong>)</li>
     <strong>Secondary</strong>
     <li><code>-c</code> a coverage build (used with Codecov)</li>
     <li><code>-d</code> a 'development' build</li>
     <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
+    <li><code>-R</code> RcppArmadillo compatible build by setting the appropriate R library directories (R, Rcpp, and RcppArmadillo)
+    <br> &nbsp &nbsp &nbsp &nbsp example: <code>-R "/usr/local/R/lib/R/include /usr/local/R/lib/R/library/Rcpp/include /usr/local/R/lib/R/library/RcppArmadillo/include"</code></li>
 </ul>
 
 <hr>
