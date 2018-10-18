@@ -83,12 +83,14 @@ pre {
         <br>
         <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>Generalized Constant Expression Math</u></strong></h3>
          <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/gcem" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p>  -->
-         <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/gcem" target="_blank"><img src="https://travis-ci.org/kthohr/gcem.svg?branch=master" alt="GCEM Build"></a> 
-         <a href="https://codecov.io/github/kthohr/gcem?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/gcem/coverage.svg?branch=master" alt="Coverage Status"></a>
-         </p>
          <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/gcem/subscription" data-icon="octicon-eye" data-show-count="true" data-count-aria-label="# watchers on GitHub" aria-label="Watch kthohr/gcem on GitHub">Watch</a> 
          <a class="github-button" href="https://github.com/kthohr/gcem" data-icon="octicon-star" data-show-count="true" aria-label="Star kthohr/gcem on GitHub">Star</a> 
-         <a class="github-button" href="https://github.com/kthohr/gcem/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/gcem on GitHub">Fork</a></p> 
+         <a class="github-button" href="https://github.com/kthohr/gcem/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/gcem on GitHub">Fork</a>
+         </p>
+         <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/gcem" target="_blank"><img src="https://travis-ci.org/kthohr/gcem.svg?branch=master" alt="GCEM Build"></a> 
+         <a href="https://codecov.io/github/kthohr/gcem?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/gcem/coverage.svg?branch=master" alt="Coverage Status"></a>
+         <a href="https://www.codacy.com/app/kthohr/gcem?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kthohr/gcem&amp;utm_campaign=Badge_Grade" target="_blank"><img src="https://api.codacy.com/project/badge/Grade/19bf49e64ca04c848f6a0a8030d1f131" alt="Code Quality"></a>
+         </p> 
     </div>
     <div class="col-md-2 hidden-xs hidden-sm">
         <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
@@ -122,7 +124,7 @@ pre {
 <ul>
     <li>basic C++ standard library functions:</li>
     <ul>
-        <li><code>abs</code>, <code>exp</code>, <code>log</code>, <code>max</code>, <code>min</code>, <code>pow</code>, <code>sqrt</code></li>
+        <li><code>abs</code>, <code>exp</code>, <code>log</code>, <code>max</code>, <code>min</code>, <code>pow</code>, <code>sqrt</code></li>, <code>gcd</code>, <code>lcm</code>, and more
     </ul>
     <li>trigonometric functions:</li>
     <ul>
@@ -151,11 +153,14 @@ pre {
 <h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
 
 <ul>
-    <li>GCE-Math is a <strong>header-only library</strong>. Simply <code>#include</code> the gcem header files with your project.</li>
-    <li>The source code is available on <a href="https://github.com/kthohr/gcem" target="_blank">GitHub</a>.</li>
+    <li>The source code is available on <a href="https://github.com/kthohr/gcem" target="_blank">GitHub</a>. Download the latest version with git:</li>
     <pre class="brush: bash;">
     git clone -b master --single-branch https://github.com/kthohr/gcem ./gcem</pre>
 </ul>
+
+<p>GCE-Math is a <strong>header-only library</strong>. Simply add the header files to your project using</p>
+<pre class="brush: cpp;">
+#include "gcem.hpp"</pre>
 
 <!--  -->
 

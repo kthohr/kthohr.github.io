@@ -114,14 +114,17 @@
     <div class="col-md-4">
         <br>
         <br>
+        <br>
         <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>OptimLib</u></strong></h3>
         <!-- <p style="text-align: center;"><a href="https://github.com/kthohr/optim" target="_blank"><i class="fa fa-github-square fa-2x" style="color:black"></i></a></p> -->
-        <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/optim" target="_blank"><img src="https://travis-ci.org/kthohr/optim.svg?branch=master" alt="optim Build"></a>
-        <a href="https://codecov.io/github/kthohr/optim?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/optim/coverage.svg?branch=master" alt="Coverage Status"></a>
-        </p>
         <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/optim/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch kthohr/optim on GitHub">Watch</a>
         <a class="github-button" href="https://github.com/kthohr/optim" data-icon="octicon-star" data-show-count="true" aria-label="Star kthohr/optim on GitHub">Star</a>
-        <a class="github-button" href="https://github.com/kthohr/optim/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/optim on GitHub">Fork</a></p>
+        <a class="github-button" href="https://github.com/kthohr/optim/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/optim on GitHub">Fork</a>
+        </p>
+        <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/optim" target="_blank"><img src="https://travis-ci.org/kthohr/optim.svg?branch=master" alt="optim Build"></a>
+        <a href="https://codecov.io/github/kthohr/optim?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/optim/coverage.svg?branch=master" alt="Coverage Status"></a>
+        <a href="https://www.codacy.com/app/kthohr/optim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kthohr/optim&amp;utm_campaign=Badge_Grade" target="_blank"><img src="https://api.codacy.com/project/badge/Grade/9fea40836c4c4d5fa3a29b5675b58f6e" alt="Code Quality"></a>
+        </p>
     </div>
     <div class="col-md-3 hidden-xs hidden-sm">
         <!-- <img class="img-responsive" src="pics/wsp_2.jpg" alt=""> -->
@@ -140,43 +143,72 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
 
-<p>OptimLib is a C++ library of numerical optimization methods for nonlinear functions.</p>
+<p>OptimLib is a lightweight C++ library of numerical optimization methods for nonlinear functions.</p>
 
 <hr>
 
 <p><strong>Features</strong></p>
 <ul>
-    <li>C++11 library of local and global optimization algorithms, as well as root finding techniques.</li>
+    <li>A C++11 library of local and global optimization algorithms, as well as root finding techniques.</li>
     <li>Derivative-free optimization using advanced, parallelized metaheuristics.</li>
     <li>Constrained optimization routines can handle simple box constraints, as well as systems of nonlinear constraints.</li>
     <li>Built on the <a href="http://arma.sourceforge.net" target="_blank">Armadillo C++ linear algebra library</a> for fast and efficient matrix-based computation.</li>
     <li><a href="https://en.wikipedia.org/wiki/OpenMP" target="_blank">OpenMP</a>-accelerated algorithms for parallel computation.</li>
     <li>Straightforward linking with parallelized BLAS libraries, such as <a href="https://github.com/xianyi/OpenBLAS" target="_blank">OpenBLAS</a>.</li>
-    <li>Available in header-only format or as a linkable library.</li>
+    <li>Available as a header-only library, or in shared library format.</li>
     <li>Released under a permissive, non-GPL license.</li>
-</ul>
-
-<p><strong>Algorithms</strong></p>
-<ul>
-    <li>Broyden's Method (for root finding)</li>
-    <li>Newton's method, BFGS, and L-BFGS</li>
-    <li>Gradient descent: basic, momentum, Adam, AdaMax, Nadam, NadaMax, and more</li>
-    <li>Nonlinear Conjugate Gradient</li>
-    <li>Nelder-Mead</li>
-    <li>Differential Evolution (DE)</li>
-    <li>Particle Swarm Optimization (PSO)</li>
+    <li>The source code is available on <a href="https://github.com/kthohr/optim" target="_blank">GitHub</a>.</li>
 </ul>
 
 <p><strong>Author</strong>: Keith O'Hara</p>
 
 <p><a href="https://raw.githubusercontent.com/kthohr/optim/master/LICENSE" target="_blank"><img src="https://img.shields.io/badge/Licence-Apache%202.0-blue.svg" alt="License"></a></p>
 
+<hr>
+
+<strong>Contents</strong>
+<ul>
+    <li><a href="#algorithms-general-syntax">Algorithms and General Syntax</a></li>
+    <li><a href="#installation-method-1-shared-library">Installation Method 1: Shared Library</a></li>
+    <li><a href="#installation-method-2-header-only-library">Installation Method 2: Header-only Library</a></li>
+    <li><a href="#r-compatibility">R Compatibility</a></li>
+    <li><a href="#examples">Examples</a></li>
+</ul>
+
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
+<h3 style="text-align: left;" id="algorithms-general-syntax"><strong style="font-size: 95%;">Algorithms and General Syntax</strong></h3>
+
+<p>Available Algorithms:</p>
 <ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/optim" target="_blank">GitHub</a>.</li>
+    <li><a href="optimlib_docs_broyden.html" target="_blank">Broyden's Method</a> (for root finding)</li>
+    <li>Newton's method, <a href="optimlib_docs_bfgs.html" target="_blank">BFGS</a>, and <a href="optimlib_docs_lbfgs.html" target="_blank">L-BFGS</a></li>
+    <li><a href="optimlib_docs_gd.html" target="_blank">Gradient descent</a>: basic, momentum, Adam, AdaMax, Nadam, NadaMax, and more</li>
+    <li><a href="optimlib_docs_cg.html" target="_blank">Nonlinear Conjugate Gradient</a></li>
+    <li><a href="optimlib_docs_nm.html" target="_blank">Nelder-Mead</a></li>
+    <li><a href="optimlib_docs_de.html" target="_blank">Differential Evolution</a> (DE)</li>
+    <li><a href="optimlib_docs_pso.html" target="_blank">Particle Swarm Optimization</a> (PSO)</li>
 </ul>
+
+<hr>
+
+<p>OptimLib functions have the following generic form:</p>
+<pre class="brush: cpp;">
+algorithm_name(&lt;initial and final values&gt;, &lt;objective function&gt;, &lt;objective function data&gt;);</pre>
+<p>The inputs, in order, are:</p>
+<ul>
+    <li>A writable vector of initial values to define the starting point of the algorithm. In the event of successful completion, the initial values will be overwritten by the solution vector.</li>
+    <li>The 'objective function' is the user-defined function to be minimized (or zeroed-out in the case of root finding methods).</li>
+    <li>The final input is optional: it is any object that contains additional parameters necessary to evaluate the objective function.</li>
+</ul>
+
+<p>For example, the BFGS algorithm is called using</p>
+<pre class="brush: cpp;">
+bool bfgs(arma::vec& init_out_vals, std::function&lt;double (const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)&gt; opt_objfn, void* opt_data);</pre>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="installation-method-1-shared-library"><strong style="font-size: 95%;">Installation Method 1: Shared Library</strong></h3>
 
 <p>The library can be installed on Unix-alike systems via the standard <code>./configure && make</code> method:</p>
 <pre class="brush: bash;">
@@ -204,8 +236,10 @@ make install</pre>
     <li><code>-c</code> a coverage build (used with Codecov)</li>
     <li><code>-d</code> a 'development' build</li>
     <li><code>-g</code> a debugging build (optimization flags set to <code>-O0 -g</code>)</li>
-    <li><code>-R</code> RcppArmadillo compatible build by setting the appropriate R library directories (R, Rcpp, and RcppArmadillo)
-    <br> &nbsp &nbsp &nbsp &nbsp example: <code>-R "/usr/local/R/lib/R/include /usr/local/R/lib/R/library/Rcpp/include /usr/local/R/lib/R/library/RcppArmadillo/include"</code></li>
+    <!-- <li><code>-R</code> RcppArmadillo compatible build by setting the appropriate R library directories (R, Rcpp, and RcppArmadillo) -->
+    <!-- <br> &nbsp &nbsp &nbsp &nbsp example: <code>-R "/usr/local/R/lib/R/include /usr/local/R/lib/R/library/Rcpp/include /usr/local/R/lib/R/library/RcppArmadillo/include"</code></li> -->
+    <strong>Special</strong>
+    <li><code>--header-only-version</code> generate a header-only version of OptimLib (see <a href="#installation-method-2-header-only-library">below</a>)</li>
 </ul>
 
 <hr>
@@ -219,24 +253,24 @@ set the following environment variable <strong>before</strong> running <code>con
 <pre class="brush: bash;">
 export ARMA_INCLUDE_PATH=/path/to/armadillo</pre>
 
-<p>Otherwise the build script will download the required files from the Armadillo GitLab repository.</p>
+<p>Otherwise the build script will proceed to download any required files from the Armadillo GitLab repository.</p>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h4 style="text-align: left;"><strong style="font-size: 95%;">Header-only Version</strong></h3>
+<h3 style="text-align: left;" id="installation-method-2-header-only-library"><strong style="font-size: 95%;">Installation Method 2: Header-only Library</strong></h3>
 
-<p>The library is also available in header-only format (i.e., without compiling a shared library). Simply run <code>configure</code> with the <code>--header-version</code> option:</p>
+<p>The library is also available in header-only format (i.e., without compiling a shared library). Simply run <code>configure</code> with the <code>--header-only-version</code> option:</p>
 
 <pre class="brush: bash;">
-./configure --header-version</pre>
+./configure --header-only-version</pre>
 
 <p>This will create a new directory <samp>header_only_version</samp> that contains a header-only copy of OptimLib.</p>
 
-<hr>
+<hr style="height:2px;border-width:0;background-color:black">
 
-<h4 style="text-align: left;"><strong style="font-size: 95%;">R Compatibility</strong></h3>
+<h3 style="text-align: left;" id="r-compatibility"><strong style="font-size: 95%;">R Compatibility</strong></h3>
 
-<p>To use OptimLib with your R package, first generate a header-only version of the library (see above). Then add the compiler definition <code>USE_RCPP_ARMADILLO</code> before you include the OptimLib files:</p>
+<p>To use OptimLib with an R package, first generate a header-only version of the library (see <a href="#installation-method-2-header-only-library">above</a>). Then add the compiler definition <code>USE_RCPP_ARMADILLO</code> before including the OptimLib files:</p>
 
 <pre class="brush: cpp;">
 #define USE_RCPP_ARMADILLO
@@ -245,6 +279,12 @@ export ARMA_INCLUDE_PATH=/path/to/armadillo</pre>
 <p>Or you can set this preprocessor directive during compilation:</p>
 <pre class="brush: bash;">
 g++ ... -DUSE_RCPP_ARMADILLO ...</pre>
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="examples"><strong style="font-size: 95%;">Examples</strong></h3>
+
+Examples can be found on the reference page for each algorithm. 
 
 <hr>
 

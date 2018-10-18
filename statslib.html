@@ -76,19 +76,22 @@ pre {
 <!--  -->
 
 <div class="row">
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
     <div class="col-md-2 hidden-xs hidden-sm">
         <img src="pics/stats_pnorm.png" class="img-responsive center-block">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <br>
         <h3 style="text-align: center;"><strong style="font-size: 130%;"><u>StatsLib</u></strong></h3>
-         <p style="text-align: center;"><a href="https://travis-ci.org/kthohr/stats" target="_blank"><img src="https://travis-ci.org/kthohr/stats.svg?branch=master" alt="StatsLib Build"></a> 
-         <a href="https://codecov.io/github/kthohr/stats?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/stats/coverage.svg?branch=master" alt="Coverage Status"></a>
-         </p> 
          <p style="text-align: center;"><a class="github-button" href="https://github.com/kthohr/stats/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch kthohr/stats on GitHub">Watch</a> 
          <a class="github-button" href="https://github.com/kthohr/stats" data-icon="octicon-star" data-show-count="true" aria-label="Star kthohr/stats on GitHub">Star</a> 
-         <a class="github-button" href="https://github.com/kthohr/stats/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/stats on GitHub">Fork</a></p> 
+         <a class="github-button" href="https://github.com/kthohr/stats/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork kthohr/stats on GitHub">Fork</a>
+         </p> 
+         <p style="text-align: center;"><a href="https://github.com/fffaraz/awesome-cpp#math" target="_blank"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Cpp"></a> 
+         <a href="https://travis-ci.org/kthohr/stats" target="_blank"><img src="https://travis-ci.org/kthohr/stats.svg?branch=master" alt="StatsLib Build"></a> 
+         <a href="https://codecov.io/github/kthohr/stats?branch=master" target="_blank"><img src="https://codecov.io/github/kthohr/stats/coverage.svg?branch=master" alt="Coverage Status"></a>
+         <a href="https://www.codacy.com/app/kthohr/stats?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kthohr/stats&amp;utm_campaign=Badge_Grade" target="_blank"><img src="https://api.codacy.com/project/badge/Grade/d6460e046dd5428aac53d28a1ce58401" alt="Code Quality"></a>
+         </p> 
     </div>
     <div class="col-md-2 hidden-xs hidden-sm">
         <img src="pics/stats_qlaplace.png" class="img-responsive center-block">
@@ -104,19 +107,16 @@ pre {
             <div class="col-md-8">
 
 <!-- <p>StatsLib is a templated C++ library for random variable generation and fast computation of statistical distribution functions.</p> -->
-<p>StatsLib is a templated C++ library of statistical distribution functions.</p>
+<p>StatsLib is a templated C++ library of statistical distribution functions, featuring unique compile-time computing capabilities and seamless integration with several popular linear algebra libraries.</p>
 
 <hr>
 
 <p><strong>Features</strong></p>
 <ul>
     <li>A header-only library of probability density functions, cumulative distribution functions, quantile functions, and random sampling methods.</li>
-    <li>Functions are written in C++11 <code>constexpr</code> format.</li>
-    <ul>
-        <li>Built on the <a href="gcem.html" target="_blank">GCE-Math library</a>, StatsLib can operate as a compile-time or run-time computation engine.</li>
-    </ul>
-    <li>A simple, <strong>R</strong>-like syntax.</li>
-    <li>Optional vector-matrix functionality with wrappers to support several popular linear algebra libraries, including:</li>
+    <li>Functions are written in a specialized C++11 <code>constexpr</code> format, enabling the library to operate as both a compile-time and run-time computation engine.</li>
+    <li>Designed with a simple <strong>R</strong>-like syntax.</li>
+    <li>Optional vector-matrix functionality with wrappers to support:</li>
     <ul>
         <li><a href="http://arma.sourceforge.net/" target="_blank">Armadillo</a></li>
         <li><a href="https://bitbucket.org/blaze-lib/blaze" target="_blank">Blaze</a></li>
@@ -132,11 +132,22 @@ pre {
 
 <p><a href="https://raw.githubusercontent.com/kthohr/stats/master/LICENSE" target="_blank"><img src="https://img.shields.io/badge/Licence-Apache%202.0-blue.svg" alt="License"></a></p>
 
+<hr>
+
+<strong>Contents</strong>
+<ul>
+    <li><a href="#distributions">Distributions</a></li>
+    <li><a href="#installation">Download and Installation</a></li>
+    <li><a href="#options">Options</a></li>
+    <li><a href="#syntax-and-examples">Syntax and Examples</a></li>
+    <li><a href="#compile-time-computation-capabilities">Compile-time Computation Capabilities</a></li>
+</ul>
+
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Available Distributions and Examples</strong></h3>
+<h3 style="text-align: left;" id="distributions"><strong style="font-size: 95%;">Distributions</strong></h3>
 
-<p>Functions to compute the cdf, pdf, and quantile, as well as random sampling, are available for the following distributions:</p>
+<p>Functions to compute the cdf, pdf, and quantile, as well as random sampling methods, are available for the following distributions:</p>
 <ul>
     <li><a href="statslib_docs_bern.html" target="_blank">Bernoulli</a></li>
     <li><a href="statslib_docs_beta.html" target="_blank">Beta</a></li>
@@ -163,9 +174,125 @@ In addition, pdf and randomization functions are available for several multivari
     <li><a href="statslib_docs_wish.html" target="_blank">Wishart</a></li>
 </ul>
 
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="installation"><strong style="font-size: 95%;">Download and Installation</strong></h3>
+<ul>
+    <li>The source code is available on <a href="https://github.com/kthohr/stats" target="_blank">GitHub</a>.Download the latest version with git:</li>
+    <pre class="brush: bash;">
+    git clone -b master --single-branch https://github.com/kthohr/stats ./stats</pre>
+</ul>
+
+<p>StatsLib is a <strong>header-only library</strong>. Simply add the header files to your project using</p>
+<pre class="brush: cpp;">
+#include "stats.hpp"</pre>
+
+<p>The only dependencies are a C++11-compatible compiler and the <a href="gcem.html" target="_blank">GCE-Math library</a> which comes pre-packaged with StatsLib.</p>
+
 <hr>
 
-<p>Examples:</p>
+<p>To build the test files:</p>
+<pre class="brush: bash;">
+# clone stats
+git clone -b master --single-branch https://github.com/kthohr/stats ./stats
+# compile tests
+cd ./stats/tests
+./setup
+cd dens
+./configure && make</pre>
+
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="options"><strong style="font-size: 95%;">Options</strong></h3>
+
+<p>The following options should be declared <strong>before</strong> including the StatsLib header files.</p>
+<ul>
+    <li>For inline-only functionality (i.e., no <code>constexpr</code> specifiers):</li>
+    <pre class="brush: c++;">
+    #define STATS_GO_INLINE</pre>
+    <li>OpenMP functionality is enabled by default if the <code>_OPENMP</code> macro is detected (e.g., by invoking <code>-fopenmp</code> with a GCC or Clang compiler). To explicitly enable OpenMP features use:</li>
+    <pre class="brush: c++;">
+    #define STATS_USE_OPENMP</pre>
+    <li>To disable OpenMP functionality:</li>
+    <pre class="brush: c++;">
+    #define STATS_DONT_USE_OPENMP</pre>
+    <li>To use StatsLib with Armadillo, Blaze or Eigen:</li>
+    <pre class="brush: c++;">
+    #define STATS_USE_ARMA
+    #define STATS_USE_BLAZE
+    #define STATS_USE_EIGEN</pre>
+</ul>
+
+<!--  -->
+
+<hr style="height:2px;border-width:0;background-color:black">
+
+<h3 style="text-align: left;" id="syntax-and-examples"><strong style="font-size: 95%;">Syntax and Examples</strong></h3>
+
+<p>Functions are called using an R-like syntax. Some general rules:</p>
+<ul>
+    <li><code>stats::d*</code> density functions. For example, the <a href="statslib_docs_norm.html#density" target="_blank">Normal (Gaussian) density</a> is called using</li>
+    <pre class="brush: c++;">
+    stats::dnorm(&lt;value&gt;,&lt;mean parameter&gt;,&lt;standard deviation&gt;);</pre>
+    <li><code>stats::p*</code> cumulative distribution functions. For example, the <a href="statslib_docs_gamma.html#probability" target="_blank">Gamma CDF</a> is called using</li>
+    <pre class="brush: c++;">
+    stats::pgamma(&lt;value&gt;,&lt;shape parameter&gt;,&lt;scale parameter&gt;);</pre>
+    <li><code>stats::q*</code> quantile functions. For example, the <a href="statslib_docs_beta.html#quantile" target="_blank">Beta quantile</a> is called using</li>
+    <pre class="brush: c++;">
+    stats::qbeta(&lt;value&gt;,&lt;a parameter&gt;,&lt;b parameter&gt;);</pre>
+    <li><code>stats::r*</code> random sampling. For example, to generate a single <a href="statslib_docs_logis.html#random" target="_blank">draw from the Logistic distribution</a>:</li>
+    <pre class="brush: c++;">
+    stats::rlogis(&lt;location parameter&gt;,&lt;scale parameter&gt;,&lt;seed value or random number engine&gt;);</pre>
+</ul>
+
+<hr>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Matrices</strong></h4>
+
+<p>All of these functions have matrix-based equivalents using Armadillo, Blaze, and Eigen dense matrices.</p>
+
+<ul>
+    <li>The pdf, cdf, and quantile functions can take matrix-valued arguments. For example,</li>
+    <pre class="brush: c++;">
+    // Using Armadillo:
+    arma::mat norm_pdf_vals = stats::dnorm(arma::ones(10,20),1.0,2.0);</pre>
+    <li>The randomization functions (<code>r*</code>) can output random matrices of arbitrary size. For example,
+    <pre class="brush: c++;">
+    // Armadillo:
+    arma::mat gamma_rvs = stats::rgamma&lt;arma::mat&gt;(100,50,3.0,2.0);
+    // Blaze:
+    blaze::DynamicMatrix&lt;double&gt; gamma_rvs = stats::rgamma&lt;blaze::DynamicMatrix&lt;double&gt;&gt;(100,50,3.0,2.0);
+    // Eigen:
+    Eigen::MatrixXd gamma_rvs = stats::rgamma&lt;Eigen::MatrixXd&gt;(100,50,3.0,2.0);</pre>
+    will generate a 100-by-50 matrix of iid draws from a Gamma(3,2) distribution.</li>
+    <li>All matrix-based operations are parallelizable with OpenMP. For GCC and Clang compilers, simply include the <code>-fopenmp</code> option during compilation.</li>
+</ul>
+
+<hr>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Seeding</strong></h4>
+
+<p>Random number seeding is available in two formats: seed values and random number engines.</p>
+
+<ul>
+    <li>Seed values are passed as unsigned integers. For example, to generate a draw from a normal distribution N(1,2) with seed value 1776:</li>
+    <pre class="brush: c++;">
+    stats::rnorm(1,2,1776);</pre>
+    <li>Random engines in StatsLib use the 64-bit Mersenne-Twister generator (std::mt19937_64) and are passed by reference. Example:</li>
+    <pre class="brush: c++;">
+    std::mt19937_64 engine(1776);
+    stats::rnorm(1,2,engine);</pre>
+</ul>
+
+<hr>
+
+<h4 style="text-align: left;"><strong style="font-size: 95%;">Examples</strong></h4>
+
+<p>More examples with code:</p>
 <pre class="brush: c++;">
     // evaluate the normal PDF at x = 1, mu = 0, sigma = 1
     double dval_1 = stats::dnorm(1.0,0.0,1.0)
@@ -192,114 +319,11 @@ In addition, pdf and randomization functions are available for several multivari
 
 <hr style="height:2px;border-width:0;background-color:black">
 
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Download and Installation</strong></h3>
-<ul>
-    <li>The source code is available on <a href="https://github.com/kthohr/stats" target="_blank">GitHub</a>.</li>
-    <li>StatsLib is a <strong>header-only library</strong>. Simply <code>#include</code> the StatsLib header files with your project.</li>
-</ul>
+<h3 style="text-align: left;" id="compile-time-computation-capabilities"><strong style="font-size: 95%;">Compile-time Computation Capabilities</strong></h3>
 
-<p>To build the test files:</p>
-<pre class="brush: bash;">
-# clone stats
-git clone -b master --single-branch https://github.com/kthohr/stats ./stats
-# compile tests
-cd ./stats/tests
-./setup
-cd dens
-./configure && make</pre>
+<p>StatsLib is designed to operate equally well as a compile-time computation engine. Compile-time computation allows the compiler to replace function calls (e.g., <code>dnorm(0,0,1)</code>) with static values in the source code. That is, functions are evaluated during the compilation process, rather than at run-time. This capability is made possible due to the templated <code>constexpr</code> design of the library and can be verified by inspecting the assembly code generated by the compiler.</p>
 
-<!--  -->
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Compile-time Options</strong></h3>
-
-<p>The following options should be declared <strong>before</strong> including the StatsLib header files.</p>
-<ul>
-    <li>For inline-only functionality (i.e., no <code>constexpr</code> specifiers):</li>
-    <pre class="brush: c++;">
-    #define STATS_GO_INLINE</pre>
-    <li>OpenMP functionality is enabled by default if the <code>_OPENMP</code> macro is detected (e.g., by invoking <code>-fopenmp</code> with a GCC or Clang compiler). To explicitly enable OpenMP features use:</li>
-    <pre class="brush: c++;">
-    #define STATS_USE_OPENMP</pre>
-    <li>To disable OpenMP functionality:</li>
-    <pre class="brush: c++;">
-    #define STATS_DONT_USE_OPENMP</pre>
-    <li>To use StatsLib with the Armadillo, Blaze or Eigen libraries:</li>
-    <pre class="brush: c++;">
-    #define STATS_USE_ARMA
-    #define STATS_USE_BLAZE
-    #define STATS_USE_EIGEN</pre>
-</ul>
-
-<!--  -->
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Syntax and Additional Examples</strong></h3>
-
-<p>Functions are called using an R-like syntax. Some general rules:</p>
-<ul>
-    <li><code>stats::d*</code> density functions. For example, the <a href="statslib_docs_norm.html#density" target="_blank">Normal (Gaussian) density</a> is called using</li>
-    <pre class="brush: c++;">
-    stats::dnorm(&lt;value&gt;,&lt;mean parameter&gt;,&lt;standard deviation&gt;);</pre>
-    <li><code>stats::p*</code> cumulative distribution functions. For example, the <a href="statslib_docs_gamma.html#probability" target="_blank">Gamma CDF</a> is called using</li>
-    <pre class="brush: c++;">
-    stats::pgamma(&lt;value&gt;,&lt;shape parameter&gt;,&lt;scale parameter&gt;);</pre>
-    <li><code>stats::q*</code> quantile functions. For example, the <a href="statslib_docs_beta.html#quantile" target="_blank">Beta quantile</a> is called using</li>
-    <pre class="brush: c++;">
-    stats::qbeta(&lt;value&gt;,&lt;a parameter&gt;,&lt;b parameter&gt;);</pre>
-    <li><code>stats::r*</code> random sampling. For example, to generate a single <a href="statslib_docs_logis.html#random" target="_blank">draw from the Logistic distribution</a>:</li>
-    <pre class="brush: c++;">
-    stats::rlogis(&lt;location parameter&gt;,&lt;scale parameter&gt;,&lt;seed value or random number engine&gt;);</pre>
-</ul>
-
-<hr>
-
-<h4 style="text-align: left;"><strong style="font-size: 95%;">Matrices</strong></h3>
-
-<p>All of these functions have matrix-based equivalents using Armadillo, Blaze, and Eigen dense matrices.</p>
-
-<ul>
-    <li>The pdf, cdf, and quantile functions can take matrix-valued arguments. For example,</li>
-    <pre class="brush: c++;">
-    // Using Armadillo:
-    arma::mat norm_pdf_vals = stats::dnorm(arma::ones(10,20),1.0,2.0);</pre>
-    <li>The randomization functions (<code>r*</code>) can output random matrices of arbitrary size. For example,
-    <pre class="brush: c++;">
-    // Armadillo:
-    arma::mat gamma_rvs = stats::rgamma&lt;arma::mat&gt;(100,50,3.0,2.0);
-    // Blaze:
-    blaze::DynamicMatrix&lt;double&gt; gamma_rvs = stats::rgamma&lt;blaze::DynamicMatrix&lt;double&gt;&gt;(100,50,3.0,2.0);
-    // Eigen:
-    Eigen::MatrixXd gamma_rvs = stats::rgamma&lt;Eigen::MatrixXd&gt;(100,50,3.0,2.0);</pre>
-    will generate a 100-by-50 matrix of iid draws from a Gamma(3,2) distribution.</li>
-    <li>All matrix-based operations are parallelizable with OpenMP. For GCC and Clang compilers, simply include the <code>-fopenmp</code> option during compilation.</li>
-</ul>
-
-<hr>
-
-<h4 style="text-align: left;"><strong style="font-size: 95%;">Seeding</strong></h3>
-
-<p>Random number seeding is available in two forms: seed values and random number engines.</p>
-
-<ul>
-    <li>Seed values are passed as unsigned integers. For example, to generate a draw from a normal distribution N(1,2) with seed value 1776:</li>
-    <pre class="brush: c++;">
-    stats::rnorm(1,2,1776);</pre>
-    <li>Random engines in StatsLib use the 64-bit Mersenne-Twister generator (std::mt19937_64) and are passed by reference. Example:</li>
-    <pre class="brush: c++;">
-    std::mt19937_64 engine(1776);
-    stats::rnorm(1,2,engine);</pre>
-</ul>
-
-<!--  -->
-
-<hr style="height:2px;border-width:0;background-color:black">
-
-<h3 style="text-align: left;"><strong style="font-size: 95%;">Compile-time Computation</strong></h3>
-
-In addition to being a standard run-time library, StatsLib can operate as a compile-time computation engine. Compile-time features are enabled using the <code>constexpr</code> specifier:
+<p>The compile-time features are enabled using the <code>constexpr</code> specifier. The example below computes the pdf, cdf, and quantile function of the Laplace distribution:</p>
 
 <pre class="brush: c++;">
 #include "stats.hpp"
@@ -315,7 +339,7 @@ int main()
 }
 </pre>
 
-Assembly code generated by Clang:
+<p>Assembly code generated by Clang without any optimization:</p>
 
 <pre class="brush: text;">
 LCPI0_0:
